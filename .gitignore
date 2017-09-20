@@ -1,0 +1,7 @@
+node_modules/
+
+app/static/dist/dev
+
+
+# logs
+yarn-error.log
