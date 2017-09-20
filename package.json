@@ -1,0 +1,22 @@
+{
+  "name": "casserole",
+  "version": "0.0.1",
+  "description": "casserole",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/unit test/int"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deployable/casserole.git"
+  },
+  "keywords": [
+    "casserole"
+  ],
+  "author": "Matt Hoyle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deployable/casserole/issues"
+  },
+  "homepage": "https://github.com/deployable/casserole#readme"
+}
