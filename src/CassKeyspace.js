@@ -1,6 +1,4 @@
-import debugr from 'debug'
 import has from 'lodash/has'
-import noop from 'lodash/noop'
 
 import Util from './Util'
 import CassCql from './CassCql'
@@ -18,8 +16,10 @@ import CassCql from './CassCql'
 class CassKeyspace extends CassCql {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:CassKeyspace')
-    if (!this.debug.enabled) this.debug = noop
+    this.debugInit('mh:casserole:CassKeyspace')
+
+    // Each class covers create/drop/alter for noun
+    this.noun = 'KEYSPACE'
 
     this.create_cql = 
       'CREATE KEYSPACE {{exists_clause}} {{name}} '+

@@ -1,7 +1,5 @@
-import debugr from 'debug'
 import map from 'lodash/map'
 import has from 'lodash/has'
-import noop from 'lodash/noop'
 import pickBy from 'lodash/pickBy'
 import isEmpty from 'lodash/isEmpty'
 
@@ -24,9 +22,11 @@ import CassCql from './CassCql'
 class CassTable extends CassCql {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:CassTable')
-    if (!this.debug.enabled) this.debug = noop
+    this.debugInit('mh:casserole:CassTable')
 
+    // Each class covers create/drop/alter for noun
+    this.noun = 'KEYSPACE'
+    
     // Types come from the driver
     this.types = dataTypes
 

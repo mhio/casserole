@@ -1,6 +1,4 @@
-import debug from 'debug'
 import map from 'lodash/map'
-import has from 'lodash/has'
 import { dataTypes } from 'cassandra-driver/lib/types'
 
 import { CassError } from './CassErrors'
@@ -25,7 +23,11 @@ import CassCql from './CassCql'
 class CassType extends CassCql {
 
   static classInit(){
-    this.debug = debug('mh:casserole:CassType')
+    this.debugInit('mh:casserole:CassType')
+
+    // Each class covers create/drop/alter for noun
+    this.noun = 'TYPE'
+
     this.types = dataTypes
 
     this.drop_cql = 'DROP TYPE {{exists_clause}} {{keyspace_prefix}}{{name}};'
