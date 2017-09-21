@@ -37,12 +37,10 @@ class CassTable extends CassCql {
       'PRIMARY KEY ({{primary_keys}}) )'+
       '{{options}};'
 
-    this.create_exists_str = 'IF NOT EXISTS'
-
-    this.create_options_str     = ' WITH {{table_options}}'
-    this.create_opt_order_str   = ' CLUSTERING ORDER BY ({{order_by}} {{order}}])'
-    this.create_opt_id_str      = ' ID = \'{{table_hash_tag}}\''
-    this.create_opt_compact_str = ' COMPACT STORAGE'
+    this.create_options_cql     = ' WITH {{table_options}}'
+    this.create_opt_order_cql   = ' CLUSTERING ORDER BY ({{order_by}} {{order}}])'
+    this.create_opt_id_cql      = ' ID = \'{{table_hash_tag}}\''
+    this.create_opt_compact_cql = ' COMPACT STORAGE'
         
   }
 
@@ -60,7 +58,7 @@ class CassTable extends CassCql {
     if (isEmpty(fields)) throw new CassError('CassTable create cql requires "fields"')
     if (isEmpty(primary_keys)) throw new CassError('CassTable create cql requires "primary_keys"')
     let exists_clause = (options.q_if_not_exists)
-      ? this.create_exists_str
+      ? this.create_exists_cql
       : ''
     let keyspace_prefix = (options.q_keyspace)
       ? `${options.q_keyspace}.`
@@ -69,10 +67,10 @@ class CassTable extends CassCql {
       ? options.q_order
       : 'ASC'
     let order_by = ( options.q_order_by )
-      ? Util.template(this.create_opt_order_str, options.q_order_by, order)
+      ? Util.template(this.create_opt_order_cql, options.q_order_by, order)
       : ''
     let id = ( options.q_id )
-      ? Util.template(this.create_opt_id_str, id)
+      ? Util.template(this.create_opt_id_cql, id)
       : ''
     let compact = ( options.q_compact )
       ? this.create_opt_compact_str
@@ -91,7 +89,11 @@ class CassTable extends CassCql {
     })
     let options_cql = ''
     if ( order_by || id || compact || query_options ) {
-      options_cql = ' WITH something'
+      if (order_by)       options_cql += order_by
+      if (id)             options_cql += id
+      if (compact)        options_cql += compact
+      if (query_options)  options_cql += this.valueToCqlMap(options_cql)
+      options_cql = Util.template(this.create_options_cql, options_cql)
     }
     return Util.template(this.create_str, exists_clause, keyspace_prefix, name, fields_list.join(', '), primary_keys.join(', '), options_cql)
   }

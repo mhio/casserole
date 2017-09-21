@@ -35,7 +35,8 @@ class CassKeyspace extends CassCql {
       'CREATE KEYSPACE {{exists_clause}} {{keyspace_name}} '+
       'WITH REPLICATION = {{replication_stategy}}'+
       '{{options}};'
-    this.durable_cql = ' AND DURABLE_WRITES = {{durable}}'
+    this.durable_cql =
+      ' AND DURABLE_WRITES = {{durable}}'
 
     this.drop_cql = 'DROP KEYSPACE {{exists_clause}} {{keyspace_name}}'
   }

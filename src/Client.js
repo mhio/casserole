@@ -84,7 +84,7 @@ class Client {
     return this.execute(query, [ 'someone' ])
   }
 
-  async execute(query, params, options){
+  async execute( query, params = [], options = {} ){
     this.debug('query', query, params, options)
     const result = await this.client.execute(query, params, options)
     this.debug('result', result)

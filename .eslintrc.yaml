@@ -25,7 +25,7 @@ rules:
   no-unused-vars: 2
   no-nested-ternary: 2
   
-  array-bracket-spacing: [ 1, "always" ]
+#  array-bracket-spacing: [ 1, "always", { "singleValue": false } ]
   block-spacing: [ 1, "always" ]
 
 parser: babel-eslint
