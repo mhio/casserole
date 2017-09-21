@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/unit test/int",
-    "test:watch": "nodemon -w src/ -w test/ --exec mocha --bail"
+    "test:watch": "nodemon -w src/ -w test/ --exec mocha --bail",
+    "docker:cass": "cd test/fixture/docker; docker-compose up -d",
+    "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f"
   },
   "repository": {
     "type": "git",

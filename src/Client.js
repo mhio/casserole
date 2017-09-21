@@ -4,6 +4,7 @@ import noop from 'lodash/noop'
 
 import Util from './Util'
 
+
 class Client {
 
   static classInit(){
@@ -14,6 +15,19 @@ class Client {
       contactPoints: [ '127.0.0.1' ],
       //keyspace: 'Excelsior'
     })
+    this.client.on('hostUp', host => {
+      this.debug('host', host)
+    })
+    this.client.on('hostDown', host => {
+      this.debug('host', host)
+    })
+    this.client.on('hostAdd', host => {
+      this.debug('host', host)
+    })
+    this.client.on('hostRemove', host => {
+      this.debug('host', host)
+    })
+
     this.keyspace = 'Excelsior'
     this.replication_factor = 1
     this.replication_stategy = 'SimpleStrategy'
