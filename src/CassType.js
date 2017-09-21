@@ -28,7 +28,9 @@ class CassType extends CassCql {
     // Each class covers create/drop/alter for noun
     this.noun = 'TYPE'
 
+    // Get types from the cassandra driver
     this.types = dataTypes
+
 
     this.drop_cql = 'DROP TYPE {{exists_clause}} {{keyspace_prefix}}{{name}};'
 

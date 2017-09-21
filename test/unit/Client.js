@@ -7,12 +7,20 @@ describe('unit::mh::casserole::Client', function(){
     expect(Client.debug).to.be.a('function')
   })
 
-  it('shuld have a keyspace', function () {
-    expect(Client.keyspace).to.be.a('string')
+  it('shuld have a default keyspace', function () {
+    expect(Client.default_keyspace).to.be.a('string')
+  })
+
+  it('shuld have a default replication stategy', function () {
+    expect(Client.default_replication_stategy).to.equal('SimpleStrategy')
+  })
+
+  it('shuld have a default replication factor', function () {
+    expect(Client.default_replication_factor).to.equal(1)
   })
 
   it('should have an execute function', function () { 
-    expect(Client.execute).to.be.a('function')
+    expect(Client.prototype.execute).to.be.a('function')
   })
   
 })

@@ -11,6 +11,16 @@ import CassCql from './CassCql'
          'dc1_name' : N [, ...] 
      }
      [AND DURABLE_WRITES =  true|false] ;
+
+  ALTER  KEYSPACE keyspace_name 
+   WITH REPLICATION = { 
+      'class' : 'SimpleStrategy', 'replication_factor' : N  
+     | 'class' : 'NetworkTopologyStrategy', 'dc1_name' : N [, ...] 
+   }
+   [AND DURABLE_WRITES =  true|false] ;
+
+  DROP KEYSPACE [IF EXISTS] keyspace_name
+
 */
 
 class CassKeyspace extends CassCql {
@@ -22,13 +32,15 @@ class CassKeyspace extends CassCql {
     this.noun = 'KEYSPACE'
 
     this.create_cql = 
-      'CREATE KEYSPACE {{exists_clause}} {{name}} '+
+      'CREATE KEYSPACE {{exists_clause}} {{keyspace_name}} '+
       'WITH REPLICATION = {{replication_stategy}}'+
       '{{options}};'
     this.durable_cql = ' AND DURABLE_WRITES = {{durable}}'
+
+    this.drop_cql = 'DROP KEYSPACE {{exists_clause}} {{keyspace_name}}'
   }
 
-  static toCqlCreate( name, replication_stategy, options = {} ){
+  static toCqlCreate( keyspace_name, replication_stategy, options = {} ){
     let exists_clause = (options.q_if_not_exists)
       ? this.create_exists_cql
       : ''
@@ -42,10 +54,16 @@ class CassKeyspace extends CassCql {
     return Util.template(
       this.create_cql,
       exists_clause,
-      name,
+      keyspace_name,
       replication_stategy_cql,
       options_cql
     )
+  }
+
+  static toCqlDrop( keyspace_name, options = {} ){
+    let exists_clause = this.drop_exists_cql
+    if (options.q_if_exists === false || options.q_exists_clause === false ) exists_clause = ''
+    return Util.template(this.drop_cql, exists_clause, keyspace_name)
   }
 
   constructor( name, options = {} ){

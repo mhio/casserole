@@ -26,7 +26,7 @@ class CassTable extends CassCql {
 
     // Each class covers create/drop/alter for noun
     this.noun = 'KEYSPACE'
-    
+
     // Types come from the driver
     this.types = dataTypes
 
@@ -56,6 +56,9 @@ class CassTable extends CassCql {
   }
 
   static toCqlCreate(name, fields, primary_keys, options = {}){
+    if (isEmpty(name)) throw new CassError('CassTable create cql requires "name"')
+    if (isEmpty(fields)) throw new CassError('CassTable create cql requires "fields"')
+    if (isEmpty(primary_keys)) throw new CassError('CassTable create cql requires "primary_keys"')
     let exists_clause = (options.q_if_not_exists)
       ? this.create_exists_str
       : ''

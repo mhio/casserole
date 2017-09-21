@@ -1,4 +1,4 @@
-export default class CassError extends Error {
+export class CassError extends Error {
 
   constructor( message, options = {} ){
     super(message)
@@ -45,3 +45,5 @@ export class CassExternalError extends CassError {
 export class AuthError extends CassError {
   static get status(){ return 403 }
 }
+
+export default CassError

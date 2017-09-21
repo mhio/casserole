@@ -20,6 +20,7 @@ export default class CassCql {
 
     // Generic CQL vars
     this.create_exists_cql = 'IF NOT EXISTS'
+    this.drop_exists_cql = 'IF EXISTS'
   }
 
   static debugInit(name){
@@ -28,27 +29,27 @@ export default class CassCql {
   }
 
   static toCqlDrop(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
   static toCqlAlter(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
   static toCqlCreate(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
   toCqlDrop(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
   toCqlAlter(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
   toCqlCreate(){
-    throw new Error('nope')
+    throw new Error('Not implemented in child class')
   }
 
 }
