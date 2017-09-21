@@ -1,31 +1,53 @@
-import debug from 'debug'
+import debugr from 'debug'
 import map from 'lodash/map'
 import has from 'lodash/has'
+import noop from 'lodash/noop'
+import pickBy from 'lodash/pickBy'
+import isEmpty from 'lodash/isEmpty'
+
 import { dataTypes } from 'cassandra-driver/lib/types'
 
-import Util from './Util'
 import { CassError } from './CassErrors'
+import Util from './Util'
+import CassCql from './CassCql'
 
 /*
-    CREATE TABLE users (
-    user_name varchar,
-    password varchar,
-    gender varchar,
-    session_token varchar,
-    state varchar,
-    birth_year bigint,
-    PRIMARY KEY (user_name));
+  CREATE TABLE [IF NOT EXISTS] [keyspace_name.]table_name ( 
+     column_definition [, ...]
+     PRIMARY KEY (column_name [, column_name ...])
+  [WITH table_options
+     | CLUSTERING ORDER BY (clustering_column_name order])
+     | ID = 'table_hash_tag'
+     | COMPACT STORAGE]
 */
 
-class CassTable {
+class CassTable extends CassCql {
 
   static classInit(){
-    this.debug = debug('mh:casserole:CassTable')
+    this.debug = debugr('mh:casserole:CassTable')
+    if (!this.debug.enabled) this.debug = noop
+
+    // Types come from the driver
     this.types = dataTypes
+
+    // Create templates
+    this.create_str =
+      'CREATE TABLE {{exists_clause}} {{keyspace_prefix}}{{table_name}} ( ' +
+      '{{column_definition}}, ' +
+      'PRIMARY KEY ({{primary_keys}}) )'+
+      '{{options}};'
+
+    this.create_exists_str = 'IF NOT EXISTS'
+
+    this.create_options_str     = ' WITH {{table_options}}'
+    this.create_opt_order_str   = ' CLUSTERING ORDER BY ({{order_by}} {{order}}])'
+    this.create_opt_id_str      = ' ID = \'{{table_hash_tag}}\''
+    this.create_opt_compact_str = ' COMPACT STORAGE'
+        
   }
 
   static toCqlDrop(name, exists){
-    const exists_clause = (exists === true) ? ' IF EXISTS' : ''
+    const exists_clause = (exists === true) ? 'IF EXISTS' : ''
     return Util.template('DROP TABLE {{name}}{{exists_clause}};', name, exists_clause)
   }
 
@@ -33,14 +55,46 @@ class CassTable {
     throw new Error('nope')
   }
 
-  static toCqlCreate(name, fields, primary_keys){
+  static toCqlCreate(name, fields, primary_keys, options = {}){
+    let exists_clause = (options.q_if_not_exists)
+      ? this.create_exists_str
+      : ''
+    let keyspace_prefix = (options.q_keyspace)
+      ? `${options.q_keyspace}.`
+      : ''
+    let order = ( options.q_order ) 
+      ? options.q_order
+      : 'ASC'
+    let order_by = ( options.q_order_by )
+      ? Util.template(this.create_opt_order_str, options.q_order_by, order)
+      : ''
+    let id = ( options.q_id )
+      ? Util.template(this.create_opt_id_str, id)
+      : ''
+    let compact = ( options.q_compact )
+      ? this.create_opt_compact_str
+      : ''
+  
+    // See if we have any generic map options
+    let query_options = pickBy(options, (val, key) =>{
+      if ( key.startsWith('q_') ) return false
+      return true
+    })
+    if (isEmpty(query_options)) query_options = false
+    this.debug('query_options', query_options)
+
     let fields_list = map(fields, field => {
       return `${field.name} ${field.type}`
     })
-    return Util.template('CREATE TABLE {{name}} ( {{fields}}, PRIMARY KEY ({{primary_keys}}) );', name, fields_list.join(', '), primary_keys.join(', '))
+    let options_cql = ''
+    if ( order_by || id || compact || query_options ) {
+      options_cql = ' WITH something'
+    }
+    return Util.template(this.create_str, exists_clause, keyspace_prefix, name, fields_list.join(', '), primary_keys.join(', '), options_cql)
   }
 
   constructor( name, options = {} ){
+    super()
     this.keyspace = name
     this.fields = {}
     this.primary_keys = []

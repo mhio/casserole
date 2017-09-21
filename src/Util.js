@@ -1,10 +1,14 @@
 import util from 'util'
+import debugr from 'debug'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
+import noop from 'lodash/noop'
 
 export default class Util {
 
   static initClass(){
+    this.debug = debugr('mh:casserole:util')
+    if (!this.debug.enabled) this.debug = noop
     this.format = util.format
   }
 
@@ -53,6 +57,7 @@ export default class Util {
   }
 
   static template(str, a){
+    this.debug('template ', arguments)
     if (Array.isArray(a)) return Util.templateArray(str, a)
     if (typeof a === 'object') return Util.templateObject(str, a)
     return Util.templateArgs.apply(Util, arguments)
@@ -114,7 +119,7 @@ export default class Util {
   }
 
   static valueToCqlMap(val){
-    if (typeof val === 'boolean') return `${val}`
+    if (typeof val === 'boolean') return `'${val}'`
     if (typeof val === 'number') return val
     if (typeof val === 'string' || val instanceof Date) return `'${val}'`
     if (typeof val === 'object') {

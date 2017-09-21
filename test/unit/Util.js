@@ -19,6 +19,14 @@ describe('unit::mh::casserole::Util', function(){
 
   describe('.valueToCqlMap', function () {
     
+    it('should turn an bool true into cql', function(){
+      expect( Util.valueToCqlMap(true) ).to.equal('\'true\'')
+    })
+
+    it('should turn an bool false into cql', function(){
+      expect( Util.valueToCqlMap(false) ).to.equal('\'false\'')
+    })
+
     it('should turn an integer into cql', function(){
       expect( Util.valueToCqlMap(o.a) ).to.equal(1)
     })
@@ -45,7 +53,7 @@ describe('unit::mh::casserole::Util', function(){
         `'f':{'nested':'test'},'g':'${now}'}`
       )
     })
-    
+
   })
 
   describe('.format', function () {

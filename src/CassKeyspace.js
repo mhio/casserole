@@ -1,7 +1,9 @@
-import debug from 'debug'
+import debugr from 'debug'
 import has from 'lodash/has'
+import noop from 'lodash/noop'
 
 import Util from './Util'
+import CassCql from './CassCql'
 
 /*
   CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
@@ -13,19 +15,41 @@ import Util from './Util'
      [AND DURABLE_WRITES =  true|false] ;
 */
 
-class CassKeyspace {
+class CassKeyspace extends CassCql {
 
   static classInit(){
-    this.debug = debug('mh:casserole:CassKeyspace')
+    this.debug = debugr('mh:casserole:CassKeyspace')
+    if (!this.debug.enabled) this.debug = noop
+
+    this.create_cql = 
+      'CREATE KEYSPACE {{exists_clause}} {{name}} '+
+      'WITH REPLICATION = {{replication_stategy}}'+
+      '{{options}};'
+    this.durable_cql = ' AND DURABLE_WRITES = {{durable}}'
   }
 
-  static toCqlCreate(name, replication_stategy, durable){
-    return `CREATE KEYSPACE IF NOT EXISTS ${name}`+
-            ` WITH REPLICATION = ${Util.valueToCqlMap(replication_stategy)}`+
-            ` AND DURABLE_WRITES = ${durable};`
+  static toCqlCreate( name, replication_stategy, options = {} ){
+    let exists_clause = (options.q_if_not_exists)
+      ? this.create_exists_cql
+      : ''
+    let durable = (has(options,'q_durable'))
+      ? Util.template(this.durable_cql, `${Boolean(options.q_durable)}`)
+      : Util.template(this.durable_cql, 'true')
+    this.debug('durable', options.q_durable, durable)
+    let options_cql = durable
+    let replication_stategy_cql = Util.valueToCqlMap(replication_stategy)
+
+    return Util.template(
+      this.create_cql,
+      exists_clause,
+      name,
+      replication_stategy_cql,
+      options_cql
+    )
   }
 
   constructor( name, options = {} ){
+    super()
     this.keyspace = name
     this.fields = {}
     this.replication = options.replication

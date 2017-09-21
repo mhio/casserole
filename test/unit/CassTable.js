@@ -14,13 +14,13 @@ describe('unit::mh::casserole::CassTable', function(){
 
   it('should dump CREATE cql from the class', function () {
     expect( CassTable.toCqlCreate('one', fields, [ 'a' ] ) ).to.equal(
-      'CREATE TABLE one ( a int, PRIMARY KEY (a) );'
+      'CREATE TABLE  one ( a int, PRIMARY KEY (a) );'
     )
   })
 
   it('should dump CREATE cql from the class', function () {
     expect( CassTable.toCqlCreate('one', fields, [ 'a','b' ] ) ).to.equal(
-      'CREATE TABLE one ( a int, PRIMARY KEY (a, b) );'
+      'CREATE TABLE  one ( a int, PRIMARY KEY (a, b) );'
     )
   })
 
