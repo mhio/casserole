@@ -4,7 +4,8 @@
   "description": "casserole",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/unit test/int"
+    "test": "mocha test/unit test/int",
+    "test:watch": "nodemon -w src/ -w test/ --exec mocha --bail"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,18 @@
   },
   "homepage": "https://github.com/deployable/casserole#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-async-to-module-method": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "benchmark": "^2.1.4",
     "chai": "^4.1.2",
+    "eslint": "^4.7.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.5.3"
   },
   "dependencies": {
-    "bluebird": "^3.5.0"
+    "bluebird": "^3.5.0",
+    "cassandra-driver": "^3.3.0"
   }
 }
