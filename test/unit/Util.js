@@ -70,6 +70,10 @@ describe('unit::mh::casserole::Util', function(){
 
   describe('.format2', function () {
 
+    it('should format2 a empty string', function () {
+      expect( Util.format2('') ).to.equal('')
+    })
+
     it('should format2 a string with one arg', function () {
       expect( Util.format2('te%sst', 'a') ).to.equal('teast')
     })
@@ -82,6 +86,10 @@ describe('unit::mh::casserole::Util', function(){
       expect( Util.format2('te%sst%s %s', 'a', 'b') ).to.equal('teastb %s')
     })
 
+    it('should format2 a string with two args', function () {
+      expect( Util.format2('te%sst%%s %j %s', 'a', 'b') ).to.equal('teast%s %j b')
+    })
+
     it('should fail format2 with not enough arguments', function () {
       let fn = ()=> Util.format2('te%sst%s', 'a', 'b', 'c') 
       expect( fn ).to.throw(/Not enough arguments/)
@@ -89,7 +97,7 @@ describe('unit::mh::casserole::Util', function(){
 
   })
 
-  describe('.templateArray', function () {
+  describe('.templateArgs', function () {
   
     it('should template a string with one arg', function () {
       expect( Util.templateArgs('te{{s}}st', 'a') ).to.equal('teast')
@@ -97,6 +105,10 @@ describe('unit::mh::casserole::Util', function(){
 
     it('should template a string with two args', function () {
       expect( Util.templateArgs('te{{s}}st{{s}}', 'a', 'b') ).to.equal('teastb')
+    })
+
+    it('should template a string with one args and one missing', function () {
+      expect( Util.templateArgs('te{{s}}st{{s}}', 'a') ).to.equal('teast{{s}}')
     })
 
   })
@@ -113,6 +125,11 @@ describe('unit::mh::casserole::Util', function(){
       expect( Util.templateArray('te{{s}}st{{s}}', a) ).to.equal('teastb')
     })
 
+    it('should template a string with a missing array entries', function () {
+      const a = [ 'a' ]
+      expect( Util.templateArray('te{{s}}st{{s}}', a) ).to.equal('teast{{s}}')
+    })
+
   })
 
   describe('.templateObject', function () {
@@ -127,6 +144,11 @@ describe('unit::mh::casserole::Util', function(){
       expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('teastb')
     })
 
+    it('should template a string with missing object entries', function () {
+      const o = { b:'b' }
+      expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('te{{a}}stb')
+    })
+
   })
 
   describe('.templateObjectDeep', function () {
@@ -139,6 +161,32 @@ describe('unit::mh::casserole::Util', function(){
     it('should template a string with multiple deep object entries', function () {
       const o =  { a: { s: 'a' }, b: { s: 'b'} }
       expect( Util.templateObjectDeep('te{{a.s}}st{{b.s}}', o) ).to.equal('teastb')
+    })
+
+    it('should template a string with a missing deep object entry', function () {
+      const o =  { a: { a: 'a' }, b: { s: 'b'} }
+      expect( Util.templateObjectDeep('te{{a.s}}st{{b.s}}', o) ).to.equal('te{{a.s}}stb')
+    })
+
+  })
+
+
+  describe('.template', function () {
+
+    it('should format a string with one arg', function () {
+      expect( Util.template('te{{s}}st', 'a') ).to.equal('teast')
+    })
+
+    it('should format a string with two args', function () {
+      expect( Util.template('te{{s}}st{{s}}', 'a', 'b') ).to.equal('teastb')
+    })
+
+    it('should format a string with two args', function () {
+      expect( Util.template('te{{s}}st{{s}}', [ 'a', 'b' ]) ).to.equal('teastb')
+    })
+
+    it('should format a string with two args', function () {
+      expect( Util.template('te{{a}}st{{b}}', {a:'a', b:'b'}) ).to.equal('teastb')
     })
 
   })

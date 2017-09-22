@@ -52,7 +52,7 @@ export default class Util {
     else if (lastPos < f.length)
       str += f.slice(lastPos)
 
-    if (a < arguments.length) throw new Error('Not enough arguments')
+    if (a < arguments.length) throw new Error('Not enough arguments applied')
     return str
   }
 
