@@ -4,11 +4,15 @@
   "description": "casserole",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/unit test/int",
-    "test:coverage": "nyc _mocha test/unit test/int && nyc check-coverage",
-    "test:watch": "nodemon -w src/ -w test/ --exec mocha --bail",
+    "test": "nyc _mocha test/unit test/int",
+    "test:unit": "nyc _mocha test/unit",
+    "test:int": "nyc _mocha test/int",
+    "test:watch": "nodemon -w src/ -w test/ -x nyc _mocha --bail -- test/unit test/int",
+    "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
+    "watch": "nodemon -w src/ -w test/ -x",
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
-    "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f"
+    "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f",
+    "docker:cass:down": "cd test/fixture/docker; docker-compose down"
   },
   "repository": {
     "type": "git",

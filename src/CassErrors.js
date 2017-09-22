@@ -1,5 +1,20 @@
 export class CassError extends Error {
 
+  static if(test, msg, opts = {}){
+    if (!test) return
+    let err = new this(msg, opts)
+
+    // Remove this function from the stack
+    // let message_lines =  (err.message.match(/\n/g)||[]).length + 1
+    // let lines = err.stack.split('\n')
+    // err.stack = lines.slice(0,message_lines).join('\n') + '\n' +
+    //             lines.slice(message_lines+1).join('\n')
+                
+    throw err
+  }
+
+
+
   constructor( message, options = {} ){
     super(message)
     this.name = this.constructor.name
@@ -24,26 +39,19 @@ export class CassError extends Error {
 
   }
 
-  // Keep `stack`
-  toJSON(){
-    let o = {}
-    Object.getOwnPropertyNames(this).forEach(key => o[key] = this[key], this)
-    return o
-  }
-
 }
 
-export class CassExternalError extends CassError {
+// export class CassExternalError extends CassError {
 
-  constructor( message, options = {} ){
-    super(message, options)
-    this.error = options.error
-  }
+//   constructor( message, options = {} ){
+//     super(message, options)
+//     this.error = options.error
+//   }
 
-}
+// }
 
-export class AuthError extends CassError {
-  static get status(){ return 403 }
-}
+// export class AuthError extends CassError {
+//   static get status(){ return 403 }
+// }
 
 export default CassError

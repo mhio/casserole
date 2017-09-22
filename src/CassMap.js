@@ -3,7 +3,7 @@ import noop from 'lodash/noop'
 import has from 'lodash/has'
 
 import Util from './Util'
-import CassError from './CassError'
+import CassError from './CassErrors'
 
 /*
   Base class for other CQL implementations to extend

@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import { dataTypes } from 'cassandra-driver/lib/types'
 
-import { CassError } from './CassErrors'
+import CassError from './CassErrors'
 import Util from './Util'
 import CassCql from './CassCql'
 
