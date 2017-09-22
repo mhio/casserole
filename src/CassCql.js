@@ -13,8 +13,6 @@ export default class CassCql {
     // Each class covers create/drop/alter for noun
     this.noun = '__NOUN__'
 
-    this.noop = noop
-
     this.template = Util.template
     this.valueToCqlMap = Util.valueToCqlMap
 
