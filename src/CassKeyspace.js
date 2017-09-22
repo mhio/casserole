@@ -4,6 +4,11 @@ import Util from './Util'
 import CassCql from './CassCql'
 
 /*
+
+  CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
+  options ::=  option ( AND option )*
+  option  ::=  identifier '=' ( identifier | constant | map_literal )
+
   CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
      WITH REPLICATION = { 
         'class' : 'SimpleStrategy', 'replication_factor' : N } 
@@ -50,7 +55,9 @@ class CassKeyspace extends CassCql {
       : Util.template(this.durable_cql, 'true')
     this.debug('durable', options.q_durable, durable)
     let options_cql = durable
-    let replication_stategy_cql = Util.valueToCqlMap(replication_stategy)
+    let replication_stategy_cql = (replication_stategy.toCqlMap)
+      ? replication_stategy_cql.toCqlMap()
+      : Util.valueToCqlMap(replication_stategy)
 
     return Util.template(
       this.create_cql,
