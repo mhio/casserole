@@ -1,7 +1,7 @@
 export class CassError extends Error {
 
   static if(test, msg, opts = {}){
-    if (!test) return
+    if (!test) return true
     let err = new this(msg, opts)
 
     // Remove this function from the stack
@@ -9,7 +9,7 @@ export class CassError extends Error {
     // let lines = err.stack.split('\n')
     // err.stack = lines.slice(0,message_lines).join('\n') + '\n' +
     //             lines.slice(message_lines+1).join('\n')
-                
+
     throw err
   }
 
