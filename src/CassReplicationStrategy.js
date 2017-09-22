@@ -20,9 +20,7 @@ export default class CassReplicationStrategy extends CassMap {
 
   // Create a Simple strategy
   static simple(replication_factor = 3){
-    if (!isInteger(replication_factor)) {
-      throw new CassError('SimpleStrategy needs an integer replication_factor')
-    }
+    CassError.if( !isInteger(replication_factor), 'SimpleStrategy needs an integer replication_factor')
     return new this('SimpleStrategy', { replication_factor: replication_factor })
   }
 
@@ -42,12 +40,10 @@ export default class CassReplicationStrategy extends CassMap {
     assign(this._data, data)
   }
 
+  // This is annoying as the user might expect `strat.dc = 1` to work the same way :/
   set class (value) { 
-    if (!this.constructor.replication_strategies.includes(value) ) {
-      throw new CassError(
-        `Replication Strategy class must be one of [${this.constructor.replication_strategies}]". Got ${value}`
-      )
-    }
+    CassError.if( !this.constructor.replication_strategies.includes(value), 
+      `Replication Strategy class must be one of [${this.constructor.replication_strategies}]". Got ${value}`)
     return this._data.class = value
   }
   get class (){
