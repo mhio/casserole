@@ -3,6 +3,7 @@ import noop from 'lodash/noop'
 import has from 'lodash/has'
 
 import Util from './Util'
+import Paramaters from './Paramaters'
 import CassError from './CassErrors'
 
 /*
@@ -22,9 +23,9 @@ export default class CassMap {
     if (!this.debug.enabled) this.debug = noop
   }
   
-  constructor(data, name){
-    this._name = name
+  constructor( data, options = {} ){
     this._data = data
+    this.name = options.name
   }
 
   toObject(){
@@ -41,11 +42,17 @@ export default class CassMap {
   }
 
   set name(name){
+    CassError.if( !Paramaters.fmt_identifier_all_re.test(name),
+      `Map name must be [${Paramaters.fmt_identifier_str}]`)
     return this._name = name
   }
 
   get name(){
     return this._name
+  }
+
+  get data(){
+    return this._data
   }
 
   get(field){

@@ -30,6 +30,14 @@ describe('unit::mh::casserole::CassMap', function(){
     expect( new CassMap() ).to.be.ok
   })
 
+  it('should create a new CassMap without data', function () {
+    expect( new CassMap({a:1},{name:'what'}) ).to.be.ok
+  })
+
+  it('should create a new CassMap without data', function () {
+    expect( ()=> cassmap.name = '0' ).to.throw(/must/)
+  })
+
   it('should return the data as object', function () {
     expect( cassmap.toObject() ).to.eql({ test: true, other: 'what' })
   })
