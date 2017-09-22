@@ -1,7 +1,5 @@
 node_modules/
-
-app/static/dist/dev
-
+.nyc_output/
 
 # logs
 yarn-error.log
