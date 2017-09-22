@@ -37,7 +37,7 @@ export default class CassMap {
   }
 
   toCql(){
-    if ( this.name === undefined ) throw new CassError(`Map must have a name to create cql`)
+    CassError.if( ( this.name === undefined ), 'Map must have a name to create cql')
     return `${this.name} = ${this.toCqlMap()}`
   }
 
@@ -64,7 +64,7 @@ export default class CassMap {
   }
 
   add(field, value){
-    if ( has(this._data, field) ) throw new CassError(`Map field ${field} already set`)
+    CassError.if( has(this._data, field), `Map field "${field}" already set`)
     return this._data[field] = value
   }
 
