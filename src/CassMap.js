@@ -48,14 +48,13 @@ export default class CassMap {
   }
 
   // Name is for the CQL paramater name outside the Map
+  get name(){
+    return this._name
+  }
   set name(name){
     CassError.if( !Paramaters.fmt_identifier_all_re.test(name),
       `Map name must be [${Paramaters.fmt_identifier_str}]`)
     return this._name = name
-  }
-
-  get name(){
-    return this._name
   }
 
   // Data is where the map is stored
