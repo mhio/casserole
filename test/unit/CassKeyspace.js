@@ -63,9 +63,16 @@ describe('unit::mh::casserole::CassKeyspace', function(){
   })
 
   it('should create a keyspace instance with durable set to false', function () {
-    let keyspace = new CassKeyspace('whatever', {durable: false}).toCqlCreate()
-    expect( keyspace ).to.equal(
+    let keyspace = new CassKeyspace('whatever', {durable: false})
+    expect( keyspace.toCqlCreate() ).to.equal(
       'CREATE KEYSPACE  whatever WITH REPLICATION = {\'class\':\'SimpleStrategy\',\'replication_factor\':3} AND DURABLE_WRITES = false;')
+  })
+
+  it('should create a keyspace with replication object', function () {
+    let keyspace = new CassKeyspace('whatever', { 
+      replication: { class: 'NetworkTopologyStrategy', 'dc1': 2 }
+    })
+    expect( keyspace.toCqlCreate() ).to.equal('CREATE KEYSPACE  whatever WITH REPLICATION = {\'class\':\'NetworkTopologyStrategy\',\'dc1\':2} AND DURABLE_WRITES = true;')
   })
 
 })

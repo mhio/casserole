@@ -95,7 +95,7 @@ export default class CassKeyspace extends CassCql {
   get replication(){ return this._replication }
   set replication( value ){
     if ( value instanceof CassReplicationStrategy ) return this._replication = value
-    this._replicaiton = new CassReplicationStrategy(value)
+    this._replication = new CassReplicationStrategy(value)
   }
 
   get durable(){ return this._durable }
