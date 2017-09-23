@@ -26,6 +26,30 @@ describe('unit::mh::casserole::CassKeyspace', function(){
     )
   })
 
+  it('should dump the drop sql without if exists', function () {
+    expect( CassKeyspace.toCqlDrop('one', {q_if_exists: false}) ).to.equal(
+      'DROP KEYSPACE  one;'
+    )
+  })
+
+  it('should dump the drop sql without exists_clause', function () {
+    expect( CassKeyspace.toCqlDrop('one', {q_exists_clause: false}) ).to.equal(
+      'DROP KEYSPACE  one;'
+    )
+  })
+
+  it('should dump the create sql with ifnotexists', function () {
+    expect( CassKeyspace.toCqlDrop('one', {q_if_exists: true}) ).to.equal(
+      'DROP KEYSPACE IF EXISTS one;'
+    )
+  })
+
+  it('should dump the create sql with ifnotexists', function () {
+    expect( CassKeyspace.toCqlDrop('one') ).to.equal(
+      'DROP KEYSPACE IF EXISTS one;'
+    )
+  })
+
   it('should create a keyspace instance', function () {
     expect( new CassKeyspace('whatever') ).to.be.ok    
   })
@@ -34,8 +58,14 @@ describe('unit::mh::casserole::CassKeyspace', function(){
     expect( ()=> new CassKeyspace() ).to.throw(CassError)
   })
 
-  it('should create a keyspace instance', function () {
+  it('should create a default keyspace instance', function () {
     expect( new CassKeyspace('whatever').toCqlCreate() ).to.equal('CREATE KEYSPACE  whatever WITH REPLICATION = {\'class\':\'SimpleStrategy\',\'replication_factor\':3} AND DURABLE_WRITES = true;')
+  })
+
+  it('should create a keyspace instance with durable set to false', function () {
+    let keyspace = new CassKeyspace('whatever', {durable: false}).toCqlCreate()
+    expect( keyspace ).to.equal(
+      'CREATE KEYSPACE  whatever WITH REPLICATION = {\'class\':\'SimpleStrategy\',\'replication_factor\':3} AND DURABLE_WRITES = false;')
   })
 
 })

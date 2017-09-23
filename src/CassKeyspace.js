@@ -45,7 +45,7 @@ export default class CassKeyspace extends CassCql {
     this.durable_cql =
       ' AND DURABLE_WRITES = {{durable}}'
 
-    this.drop_cql = 'DROP KEYSPACE {{exists_clause}} {{keyspace_name}}'
+    this.drop_cql = 'DROP KEYSPACE {{exists_clause}} {{keyspace_name}};'
   }
 
   static toCqlCreate( keyspace_name, replication_stategy, options = {} ){
@@ -80,9 +80,10 @@ export default class CassKeyspace extends CassCql {
 
   constructor( name, options = {} ){
     super()
+    this.debug = this.constructor.debug
     this.keyspace = name
     this.replication = options.replication || CassReplicationStrategy.simple()
-    this.durable = (has(options.durable)) ? Boolean(options.durable) : true
+    this.durable = (has(options,'durable')) ? options.durable : true
   }
 
   get keyspace(){ return this._keyspace }
@@ -91,8 +92,25 @@ export default class CassKeyspace extends CassCql {
     this._keyspace = value
   }
 
+  get replication(){ return this._replication }
+  set replication( value ){
+    if ( value instanceof CassReplicationStrategy ) return this._replication = value
+    this._replicaiton = new CassReplicationStrategy(value)
+  }
+
+  get durable(){ return this._durable }
+  set durable( value ){
+    this._durable = Boolean(value)
+  }
+
   toCqlCreate(){
-    return this.constructor.toCqlCreate(this.keyspace, this.replication, this.durable)
+    let o = { q_exists_clause: true, q_durable: this.durable }
+    this.debug(o)
+    return this.constructor.toCqlCreate(this.keyspace, this.replication, o)
+  }
+
+  toCqlDrop(){
+    return this.constructor.toCqlDrop(this.keyspace)
   }
 
 }
