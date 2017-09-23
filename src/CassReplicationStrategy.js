@@ -36,8 +36,13 @@ export default class CassReplicationStrategy extends CassMap {
   constructor( replication_class, data = {} ){
     super()
     this._data = {}
-    this.class = replication_class
-    assign(this._data, data)
+    if ( isPlainObject(replication_class) ){
+      this._data = replication_class
+      this.class = replication_class.class
+    } else {
+      this.class = replication_class  
+      assign(this._data, data)
+    }
   }
 
   // This is annoying as the user might expect `strat.dc = 1` to work the same way :/
