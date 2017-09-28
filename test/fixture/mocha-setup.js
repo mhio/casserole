@@ -6,6 +6,8 @@ global.expect = chai.expect
 //chai.use(require('chai-json-schema'))
 //chai.use(require('chai-as-promised'))
 
+require('source-map-support').install()
+
 require('bluebird').config({
   longStackTraces: true,
   warnings: true
