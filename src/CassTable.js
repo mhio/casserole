@@ -25,7 +25,7 @@ class CassTable extends CassCql {
     this.debugInit('mh:casserole:CassTable')
 
     // Each class covers create/drop/alter for noun
-    this.noun = 'KEYSPACE'
+    this.noun = 'TABLE'
 
     // Types come from the driver
     this.types = dataTypes
