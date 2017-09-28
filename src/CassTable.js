@@ -7,7 +7,7 @@ import { dataTypes } from 'cassandra-driver/lib/types'
 
 import CassError from './CassErrors'
 import Util from './Util'
-import CassCql from './CassCql'
+import CassEntity from './CassEntity'
 
 /*
   CREATE TABLE [IF NOT EXISTS] [keyspace_name.]table_name ( 
@@ -19,7 +19,7 @@ import CassCql from './CassCql'
      | COMPACT STORAGE]
 */
 
-class CassTable extends CassCql {
+class CassTable extends CassEntity {
 
   static classInit(){
     this.debugInit('mh:casserole:CassTable')

@@ -3,7 +3,7 @@ import { dataTypes } from 'cassandra-driver/lib/types'
 
 import { CassError } from './CassErrors'
 import Util from './Util'
-import CassCql from './CassCql'
+import CassEntity from './CassEntity'
 
 /*
   CREATE TYPE [IF NOT EXISTS] 
@@ -20,7 +20,7 @@ import CassCql from './CassCql'
   | RENAME field_name TO new_field_name[AND ...]]
 */
 
-class CassType extends CassCql {
+class CassType extends CassEntity {
 
   static classInit(){
     this.debugInit('mh:casserole:CassType')

@@ -1,7 +1,7 @@
 import has from 'lodash/has'
 
 import Util from './Util'
-import CassCql from './CassCql'
+import CassEntity from './CassEntity'
 import CassError from './CassErrors'
 import CassReplicationStrategy from './CassReplicationStrategy'
 
@@ -30,7 +30,7 @@ import CassReplicationStrategy from './CassReplicationStrategy'
 
 */
 
-export default class CassKeyspace extends CassCql {
+export default class CassKeyspace extends CassEntity {
 
   static classInit(){
     this.debugInit('mh:casserole:CassKeyspace')
