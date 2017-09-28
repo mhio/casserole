@@ -1,11 +1,16 @@
 import debugr from 'debug'
+import pluralize from 'pluralize'
 import cloneDeep from 'lodash/cloneDeep'
+import snakeCase from 'lodash/snakeCase'
 import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
+import map from 'lodash/map'
 
+import {CassError} from './CassErrors'
 import Paramaters from './Paramaters'
-import Client from './Client'
 import CassQuery from './CassQuery'
+import CassTable from './CassTable'
+import Client from './Client'
 
 
 export default class Model {
@@ -23,14 +28,41 @@ export default class Model {
     this.warning_fields = Paramaters.warning_fields
   }
 
+  // Name for the table
+  static get table_name(){ return this._table_name }
+  static set table_name(value){ this._table_name = value }
+
+  // CassTable
+  static get table(){ return this._table }
+  static set table(value){ this._table = value }
+
+  // Store a cassandera client
+  static get client(){ return this._client }
+  static set client(value){ this._client = value }
+
+  // Store the schema
+  static get schema(){ return this._schema }
+  static set schema(value){ this._schema = value }
+
+  // Hidden fields in the schema (should this be in Schema?)
+  static get hidden_fields(){ return this._hidden_fields }
+  static set hidden_fields(value){ this._hidden_fields = value }
+
   // Generate a new extended version of Model for a Schema
-  static generate(name, schema, options = {}){
+  static generate( name, schema, options = {} ){
     // Name the class via an object property
     const o = { [name]: class extends this {} }
     let NewModel = o[name]
     NewModel.applySchema(schema)
     NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
+    NewModel.table_name = snakeCase(pluralize(name))
+    NewModel.table = new CassTable(NewModel.table_name, {
+      fields: schema._config,
+      primary_keys: schema.primary_keys
+    })
     if (!NewModel.debug.enabled) NewModel.debug = noop
+    if (!typeof options.client === Client) throw new CassError('A Client instance must be attached')
+    NewModel.client = options.client
     return NewModel
   }
 
@@ -53,8 +85,15 @@ export default class Model {
     })
   }
 
+  static async sync( options ){
+    let cql = this.table.toCqlCreate({ q_exists_clause: true })
+    return this.client.execute(cql)
+  }
+
   static async find( query, options = {} ){
-    return CassQuery.select(this.constructor.table, this.constructor.columns, query, options)
+    const cql = CassQuery.select(this.table, this.columns, query, options).toString()
+    const values = await this.client.execute(cql, options)
+    return map(values, result => new this(result, {new: false}))
   }
 
   static async findOne( query, options = {} ){
@@ -68,31 +107,40 @@ export default class Model {
     return new this(data).execSave(options)
   }
 
-  static async update( values, query, options = {} ){
-    const query_cql = CassQuery.update(this.table, values, query)
-    return Client.execute(query_cql, options)
+  static async update( query, values, options = {} ){
+    const query_cql = CassQuery.update(this.table, values, query).toString()
+    return this.client.execute(query_cql, options)
   }
 
   static async delete( query, options = {} ){
-    const query_cql = CassQuery.delete(this.table, query)
-    return Client.execute(query_cql, options)
+    const query_cql = CassQuery.delete(this.table, query).toString()
+    return this.client.execute(query_cql, options)
   }
 
-  constructor(data){
+  constructor(data, options){
     this._row_data = {}
+    this._new = true
+    if (options){
+      this._new = Boolean(options.new)
+    }
     forEach(data, (value, name)=> this._row_data[name] = value)
   }
 
   async execSave(options){
     let primary_key = this.constructor.primary_key
-    let query = CassQuery.update(this.constructor.table, { [primary_key]: this[primary_key] }, this._row_data)
-    return Client.execute(query, options)
+    this.constructor.debug('this',this)
+    let query = (this._new)
+      ? CassQuery.insert(this.constructor.table_name, this._row_data)
+      : CassQuery.update(this.constructor.table_name, { [primary_key]: this[primary_key] }, this._row_data)
+    const res = await this.constructor.client.execute(query.toString(), query.paramaters, options)
+    this._new = false
+    return res
   }
 
   async execRemove(options){
     let primary_key = this.constructor.primary_key
-    let query = CassQuery.delete(this.constructor.table, { [primary_key]: this[primary_key] })
-    return Client.execute(query, options)
+    let query = CassQuery.delete(this.constructor.table_name, { [primary_key]: this[primary_key] })
+    return this.constructor.client.execute(query.toString(), query.paramaters, options)
   }
 
   isModified(){

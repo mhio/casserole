@@ -1,4 +1,4 @@
-import debug from 'debug'
+import debugr from 'debug'
 import cassandra from 'cassandra-driver'
 import noop from 'lodash/noop'
 
@@ -9,7 +9,7 @@ import CassKeyspace from './CassKeyspace'
 class Client {
 
   static classInit(){
-    this.debug = debug('mh:casserole')
+    this.debug = debugr('mh:casserole:Client')
     if (!this.debug.enabled) this.debug = noop
 
 
@@ -18,6 +18,11 @@ class Client {
     this.default_replication_stategy = 'SimpleStrategy'
   }
 
+  /**
+  * Client options
+  * @typedef {Object} ClientOptions
+  * @property {String} keyspace The keyspace for all the operations within the {@link Client} instance.
+  **/
   constructor( keyspace, options = {} ){
     this.debug = this.constructor.debug
     
@@ -55,7 +60,8 @@ class Client {
     })
   }
 
-  connect(){
+  async connect(){
+    await this.client.connect()
     return this.keyspaceCreate()
   }
 
@@ -64,14 +70,16 @@ class Client {
     return this.execute(query)
   }
 
-  keyspaceCreate(){
+  async keyspaceCreate(){
     let query = CassKeyspace.toCqlCreate(this.keyspace, {
       class: this.replication_stategy,
       replication_factor: this.replication_factor
     }, {
       q_if_not_exists: true
     })
-    return this.execute(query)
+    let res = await this.execute(query)
+    await this.execute('USE '+this.keyspace)
+    return res
   }
 
   tableCreate(table){

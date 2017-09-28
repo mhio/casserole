@@ -1,5 +1,6 @@
 import debugr from 'debug'
 import map from 'lodash/map'
+import noop from 'lodash/noop'
 import forEach from 'lodash/forEach'
 
 import Paramaters from './Paramaters'
@@ -13,6 +14,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   static classInit(){
     this.debug = debugr('mh:casserole:Query_3_3')
+    if (!this.debug.enabled) this.debug = noop
 
     // Cassandra driver Types
     this.types = Paramaters.types
@@ -36,6 +38,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   //static read( table, query, options = {} ){
   static select( table, columns, where, options = {} ){
+    this.debug('select', table, columns, where)
     options.table = table
     options.columns = columns
     options.where = where
@@ -45,6 +48,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   //static create( table, values, options = {} ){
   static insert( table, values, options = {} ){
+    this.debug('insert', table, values, options)
     options.table = table
     options.values = values
     options.cassandra_options = options
@@ -52,6 +56,7 @@ export default class CassQuery_3_3 extends CassCql {
   }
 
   static update( table, where, setvalues, options = {} ){
+    this.debug('select', table, where, setvalues, options)
     options.table = table
     options.where = where
     options.set = setvalues
@@ -60,6 +65,7 @@ export default class CassQuery_3_3 extends CassCql {
   }
 
   static delete( table, where, options = {} ){
+    this.debug('select', table, where, options)
     options.table = table
     options.where = where
     options.cassandra_options = options
@@ -142,7 +148,7 @@ export default class CassQuery_3_3 extends CassCql {
     forEach(values, (value, name) => {
       cols.push(name)
       vals.push('?')
-      this.debug(value)
+      this.debug('value', name, value)
       this._paramaters.push(value)
     })
     this.query += ' ( ' + cols.join(', ') + ' ) VALUES ( ' + vals.join(', ') + ' )'
@@ -155,6 +161,7 @@ export default class CassQuery_3_3 extends CassCql {
     this.query += ' SET '
     this.query += map(values, (value, name) => {
       this._paramaters.push(value)
+      this.debug('set', name, value)
       return `${name} = ?`
     }).join(', ')
     return this

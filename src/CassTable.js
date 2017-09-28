@@ -1,9 +1,11 @@
 import map from 'lodash/map'
 import has from 'lodash/has'
 import pickBy from 'lodash/pickBy'
+import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 
 import { dataTypes } from 'cassandra-driver/lib/types'
+import { types } from 'cassandra-driver'
 
 import CassError from './CassErrors'
 import Util from './Util'
@@ -29,6 +31,7 @@ class CassTable extends CassEntity {
 
     // Types come from the driver
     this.types = dataTypes
+    this.types = types
 
     // Create templates
     this.create_str =
@@ -54,10 +57,10 @@ class CassTable extends CassEntity {
   }
 
   static toCqlCreate(name, fields, primary_keys, options = {}){
-    if (isEmpty(name)) throw new CassError('CassTable create cql requires "name"')
-    if (isEmpty(fields)) throw new CassError('CassTable create cql requires "fields"')
-    if (isEmpty(primary_keys)) throw new CassError('CassTable create cql requires "primary_keys"')
-    let exists_clause = (options.q_if_not_exists)
+    if (isEmpty(name)) throw new CassError('CassTable To generate create cql requires a table "name"')
+    if (isEmpty(fields)) throw new CassError('CassTable To generate create cql requires "fields"')
+    if (isEmpty(primary_keys)) throw new CassError('CassTable To generate create cql requires "primary_keys"')
+    let exists_clause = (options.q_if_not_exists || options.q_exists_clause)
       ? this.create_exists_cql
       : ''
     let keyspace_prefix = (options.q_keyspace)
@@ -100,28 +103,32 @@ class CassTable extends CassEntity {
 
   constructor( name, options = {} ){
     super()
-    this.keyspace = name
+    this.debug = this.constructor.debug
+    this.debug('new', name, options)
+    this.table_name = name
     this.fields = {}
-    this.primary_keys = []
+    if (options.fields) forEach(options.fields, (field, name) => this.addField(name, field.type))
+    this.primary_keys = options.primary_keys || []
     this.replication = options.replication
     if (has(options.durable)) this.durable = Boolean(options.durable)
   }
 
   addField(field, type){
-    if ( !dataTypes[type] ) throw new CassError(`No cassandra type "${type} available`)
+    if ( !dataTypes[type] ) throw new CassError(`No cassandra type "${type}" available`)
+    this.debug('adding field "%s" of type "%s" to table "%s"', field, type, this.table_name)
     this.fields[field] = { name: field, type: type }
   }
 
-  toCqlCreate(){
-    return this.constructor.toCreateCql(this.keyspace, this.fields, this.primary_keys)
+  toCqlCreate(options){
+    return this.constructor.toCqlCreate(this.table_name, this.fields, this.primary_keys, options)
   }
 
   toCqlAlter(){
     throw new Error('nope')
   }
 
-  toCqlDrop(){
-    return this.constructor.toCreateCql(this.keyspace, this.fields, this.primary_keys)
+  toCqlDrop(options){
+    return this.constructor.toCqlDrop(this.table_name, this.fields, this.primary_keys, options)
   }
 
 }
