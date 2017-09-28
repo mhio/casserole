@@ -91,9 +91,9 @@ export default class Model {
   }
 
   static async find( query, options = {} ){
-    const cql = CassQuery.select(this.table, this.columns, query, options).toString()
-    const values = await this.client.execute(cql, options)
-    return map(values, result => new this(result, {new: false}))
+    const select = CassQuery.select(this.table_name, this.columns, query, options)
+    const result = await this.client.execute(select.toString(), select.paramaters, options)
+    return map(result.rows, row => new this(row, {new: false}))
   }
 
   static async findOne( query, options = {} ){
@@ -108,13 +108,13 @@ export default class Model {
   }
 
   static async update( query, values, options = {} ){
-    const query_cql = CassQuery.update(this.table, values, query).toString()
-    return this.client.execute(query_cql, options)
+    const update = CassQuery.update(this.table_name, values, query)
+    return this.client.execute(update.toCql(), update.paramaters(), options)
   }
 
   static async delete( query, options = {} ){
-    const query_cql = CassQuery.delete(this.table, query).toString()
-    return this.client.execute(query_cql, options)
+    const del = CassQuery.delete(this.table_name, query)
+    return this.client.execute(del.toCql(), del.paramaters, options)
   }
 
   constructor(data, options){
