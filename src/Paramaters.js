@@ -1,11 +1,13 @@
 import debugr from 'debug'
-
+import { dataTypes } from 'cassandra-driver/lib/types'
 
 export default class Paramaters {
 
   static classInit(){
     this.debug = debugr('mh:casserole:Paramaters')
 
+    this.types = dataTypes
+    
     // JS name that would collide with the Paramaters instance fields
     this.reserved_fields = { 
       'prototype': true,
@@ -28,8 +30,8 @@ export default class Paramaters {
     }
 
     this.warning_fields = { 
-      save: 'The `.save()` method will be unavailable. Use `.execSave()`',
-      remove: 'The `.remove()` method will be unavailable. Use `.execRemove()`',
+      save: 'The `.save()` method will be unavailable on this Model. Use `.execSave()`',
+      remove: 'The `.remove()` method will be unavailable on this Model. Use `.execRemove()`',
     }
 
     this.fmt_identifier_str = '[a-zA-Z][a-zA-Z0-9_]*'

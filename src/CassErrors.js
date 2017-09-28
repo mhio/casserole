@@ -41,14 +41,7 @@ export class CassError extends Error {
 
 }
 
-// export class CassExternalError extends CassError {
-
-//   constructor( message, options = {} ){
-//     super(message, options)
-//     this.error = options.error
-//   }
-
-// }
+export class QueryError extends CassError {}
 
 // export class AuthError extends CassError {
 //   static get status(){ return 403 }
