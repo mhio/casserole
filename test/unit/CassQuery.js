@@ -1,7 +1,7 @@
 /* global expect */
-import Query from '../../src/Query'
+import Query from '../../src/CassQuery'
 
-describe('unit::mh::casserole::Query', function(){
+describe('unit::mh::casserole::CassQuery', function(){
 
   describe('#INSERT', function () {
 
