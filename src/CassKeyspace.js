@@ -58,7 +58,7 @@ export default class CassKeyspace extends CassCql {
       : Util.template(this.durable_cql, 'true')
     let options_cql = durable
 
-    CassError.if( !replication_stategy, 'No replication strategy' )
+    if( !replication_stategy ) throw new CassError('No replication strategy')
     let replication_stategy_cql = (replication_stategy.toCqlMap)
       ? replication_stategy.toCqlMap()
       : Util.valueToCqlMap(replication_stategy)
