@@ -5,7 +5,7 @@ import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 
 import { dataTypes } from 'cassandra-driver/lib/types'
-import { types } from 'cassandra-driver'
+//import { types } from 'cassandra-driver'
 
 import CassError from './CassErrors'
 import Util from './Util'
@@ -31,7 +31,7 @@ class CassTable extends CassEntity {
 
     // Types come from the driver
     this.types = dataTypes
-    this.types = types
+    //this.types = types
 
     // Create templates
     this.create_str =
