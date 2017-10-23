@@ -1,7 +1,7 @@
 # Casserole
 -----------
 
-Cassandra in JS. Build models and queries from JS objects.
+Cassandra JS Object Mapper. Build models and queries from JS objects. (WIP)
 
 
 ## About
