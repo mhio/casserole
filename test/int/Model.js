@@ -1,6 +1,5 @@
 /* global expect, chai */
-import debugr from 'debug'
-const debug = debugr('mh:test:int:casserole:Model')
+const debug = require('debug')('mh:test:int:casserole:Model')
 chai.should()
 
 import Client from '../../src/Client'
