@@ -130,6 +130,7 @@ export default class Util {
     })
   }
 
+  // Turn a JS object into a CQL map string. 
   static objectToCqlMap(obj){
     let str = []
     forEach(obj, function(val, key){
@@ -138,6 +139,7 @@ export default class Util {
     return `{${str.join(',')}}`
   }
 
+  // Turn a JS array into a CQL map string. 
   static arrayToCqlMap(obj){
     let str = []
     for (let i = 0, len = obj.length; i < len; i++) {
@@ -149,6 +151,8 @@ export default class Util {
     return `[${str.join(',')}]`
   }
 
+  // Turn a JS value into a CQL map string. 
+  // Everything is not quite JSON
   static valueToCqlMap(val){
     if (typeof val === 'boolean') return `'${val}'`
     if (typeof val === 'number') return val
