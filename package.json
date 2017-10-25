@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc _mocha test/unit test/int",
-    "test:unit": "nyc _mocha test/unit",
-    "test:int": "nyc _mocha test/int",
+    "test:unit": "mocha test/unit",
+    "test:int": "mocha test/int",
     "test:watch": "nodemon -w src/ -w test/ -x nyc _mocha --bail -- test/unit test/int",
     "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
     "watch": "nodemon -w src/ -w test/ -x",
