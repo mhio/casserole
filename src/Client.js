@@ -2,7 +2,6 @@ import debugr from 'debug'
 import cassandra from 'cassandra-driver'
 import noop from 'lodash/noop'
 
-import Util from './Util'
 import CassKeyspace from './CassKeyspace'
 
 
@@ -16,6 +15,9 @@ class Client {
     this.default_keyspace = 'default'
     this.default_replication_factor = 1
     this.default_replication_stategy = 'SimpleStrategy'
+
+    // Match cassdrivers function name
+    this.prototype.shutdown = this.prototype.disconnect
   }
 
   /**
@@ -97,6 +99,15 @@ class Client {
     const result = await this.client.execute(query, params, options)
     this.debug('result', result)
     return result
+  }
+
+  // async
+  disconnect(){
+    return this.client.shutdown()
+  }
+
+  getState(){
+    return this.client.getState()
   }
 
 }

@@ -11,9 +11,12 @@ describe('int::mh::casserole::Model', function(){
 
   let client, schema, TestModel, testmodel
 
-  before(async function () {
+  before('connect', async function(){
     client = new Client('casserole_int_test')
     await client.connect()
+  })
+
+  before('setup', async function(){
     schema = new Schema({
       field1: { type: 'ascii'},
       field2: { type: 'uuid', primary: true },
@@ -25,6 +28,11 @@ describe('int::mh::casserole::Model', function(){
       field2: '12341234-1234-1234-1234-123423141234'
     })
     expect( testmodel.field1 ).to.equal('test')
+  })
+
+  after('disconnect', function(){
+    debug('state', client.getState())
+    return client.disconnect()
   })
 
   it('should save a new TestModel', function(){

@@ -155,7 +155,7 @@ export default class Util {
   // Everything is not quite JSON
   static valueToCqlMap(val){
     if (typeof val === 'boolean') return `'${val}'`
-    if (typeof val === 'number') return val
+    if (typeof val === 'number') return `${val}`
     if (typeof val === 'string' || val instanceof Date) return `'${val}'`
     if (typeof val === 'object') {
       if (Array.isArray(val)) return Util.arrayToCqlMap(val)

@@ -2,13 +2,20 @@
 import Client from '../../src/Client'
 import some from 'lodash/some'
 
+const debug = require('debug')('mh:test:int:casserole:Client')
+
 
 describe('int::mh::casserole::Client', function(){
 
   let client
 
-  before(function () {
+  before('connect', function(){
     client = new Client('casserole_int_test')
+  })
+
+  after('disconnect', function(){
+    debug('state', client.getState())
+    return client.disconnect()
   })
 
   it('should connect and init keyspace', function(){

@@ -3,7 +3,8 @@ import Util from '../../src/Util'
 
 describe('unit::mh::casserole::Util', function(){
 
-  let now_ts = Date.now()
+  //let now_ts = Date.now()
+  let now_ts = 1508915692132
   let now = new Date()
   let o = {
     a: 1,
@@ -28,15 +29,15 @@ describe('unit::mh::casserole::Util', function(){
     })
 
     it('should turn an integer into cql', function(){
-      expect( Util.valueToCqlMap(o.a) ).to.equal(1)
+      expect( Util.valueToCqlMap(o.a) ).to.equal('1')
     })
 
     it('should turn a number into cql', function(){
-      expect( Util.valueToCqlMap(o.b) ).to.equal(2.1)
+      expect( Util.valueToCqlMap(o.b) ).to.equal('2.1')
     })
 
     it('should turn a ts into cql', function(){
-      expect( Util.valueToCqlMap(o.c) ).to.equal(now_ts)
+      expect( Util.valueToCqlMap(o.c) ).to.equal('1508915692132')
     })
 
     it('should turn a string into cql', function(){
