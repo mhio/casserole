@@ -88,11 +88,6 @@ class Client {
     const query = table.toCreateCql()
     return  this.execute(query)
   }
-  
-  test(){
-    const query = 'SELECT name, email FROM users WHERE key = ?'
-    return this.execute(query, [ 'someone' ])
-  }
 
   async execute( query, params = [], options = {} ){
     this.debug('query', query, params, options)
