@@ -181,11 +181,11 @@ describe('unit::mh::casserole::Util', function(){
       expect( Util.template('te{{s}}st{{s}}', 'a', 'b') ).to.equal('teastb')
     })
 
-    it('should format a string with two args', function () {
+    it('should format a string with array', function () {
       expect( Util.template('te{{s}}st{{s}}', [ 'a', 'b' ]) ).to.equal('teastb')
     })
 
-    it('should format a string with two args', function () {
+    it('should format a string with object', function () {
       expect( Util.template('te{{a}}st{{b}}', {a:'a', b:'b'}) ).to.equal('teastb')
     })
 

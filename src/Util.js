@@ -4,6 +4,7 @@ import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import noop from 'lodash/noop'
 
+
 export default class Util {
 
   static initClass(){
@@ -81,6 +82,7 @@ export default class Util {
     return str
   }
 
+  // Generic entry function to each type of template function
   static template(str, a){
     this.debug('template ', arguments)
     if (Array.isArray(a)) return Util.templateArray(str, a)
@@ -88,9 +90,10 @@ export default class Util {
     return Util.templateArgs.apply(Util, arguments)
   }
 
-  static templateArgs(str){
+  // Template arguments, in order
+  static templateArgs(str /*, arguments... */){
     let current = 1
-    return str.replace(/{{([\w.]+)}}/g, (found)=> {
+    return str.replace(/{{([\w.]+)}}/g, found => {
       const str = arguments[current]
       current++
       if ( str === undefined ) return found
@@ -98,9 +101,10 @@ export default class Util {
     })
   }
 
+  // Template an array of args, in order
   static templateArray(str, vars){
     let current = 0
-    return str.replace(/{{([\w.]+)}}/g, (found)=> {
+    return str.replace(/{{([\w.]+)}}/g, found => {
       const str = vars[current]
       current++
       if ( str === undefined ) return found
@@ -108,6 +112,7 @@ export default class Util {
     })
   }
 
+  // Plain strings only `{{whatever}}` `{{what_ever}}`
   static templateObject(str, params){
     return str.replace(/{{(\w+)}}/g, (found, name)=> {
       let str = params[name]
@@ -116,8 +121,9 @@ export default class Util {
     })
   }
 
+  // Support `one.two` and `one[1]` lodash get syntax to fetch nested atrribs
   static templateObjectDeep(str, params_deep){
-    return str.replace(/{{([\w.]+)}}/g, (found, name)=> {
+    return str.replace(/{{([\w.[\]]+)}}/g, (found, name)=> {
       let str = get(params_deep, name)
       if ( str === undefined ) return found
       return str
