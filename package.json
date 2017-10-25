@@ -4,7 +4,7 @@
   "description": "casserole",
   "main": "index.js",
   "scripts": {
-    "test": "nyc _mocha test/unit test/int",
+    "test": "nyc --check-coverage _mocha test/unit test/int",
     "test:unit": "mocha test/unit",
     "test:int": "mocha test/int",
     "test:watch": "nodemon -w src/ -w test/ -x nyc _mocha --bail -- test/unit test/int",
@@ -44,5 +44,12 @@
     "bluebird": "^3.5.0",
     "cassandra-driver": "^3.3.0",
     "pluralize": "^7.0.0"
+  },
+  "nyc": {
+    "per-file": true,
+    "lines": 80,
+    "statements": 80,
+    "functions": 80,
+    "branches": 80
   }
 }
