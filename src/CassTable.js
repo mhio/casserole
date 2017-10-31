@@ -11,6 +11,7 @@ import CassError from './CassErrors'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
+
 /*
   CREATE TABLE [IF NOT EXISTS] [keyspace_name.]table_name ( 
      column_definition [, ...]

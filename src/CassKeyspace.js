@@ -5,6 +5,9 @@ import CassEntity from './CassEntity'
 import CassError from './CassErrors'
 import CassReplicationStrategy from './CassReplicationStrategy'
 
+import preval from 'preval.macro'
+const one = preval`module.exports = 1 + 2 - 1 - 1`
+
 /*
 
   CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options

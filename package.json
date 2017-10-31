@@ -28,7 +28,9 @@
   },
   "homepage": "https://github.com/deployable/casserole#readme",
   "devDependencies": {
+    "ast-pretty-print": "^2.0.1",
     "babel-cli": "^6.26.0",
+    "babel-macros": "^1.1.1",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
@@ -38,6 +40,7 @@
     "eslint": "^4.7.1",
     "mocha": "^4.0.1",
     "nyc": "^11.2.1",
+    "preval.macro": "^1.0.1",
     "source-map-support": "^0.5.0"
   },
   "dependencies": {
