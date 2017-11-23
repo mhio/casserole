@@ -52,14 +52,16 @@ class CassTable extends CassEntity {
     return Util.template('DROP TABLE {{name}}{{exists_clause}};', name, exists_clause)
   }
 
-  static toCqlAlter(name, changes){
+  static toCqlAlter(name, changes){ // eslint no-unused-vars: false
     throw new Error('nope')
   }
 
   static toCqlCreate(name, fields, primary_keys, options = {}){
+    
     if (isEmpty(name)) throw new CassError('CassTable To generate create cql requires a table "name"')
     if (isEmpty(fields)) throw new CassError('CassTable To generate create cql requires "fields"')
     if (isEmpty(primary_keys)) throw new CassError('CassTable To generate create cql requires "primary_keys"')
+    
     let exists_clause = (options.q_if_not_exists || options.q_exists_clause)
       ? this.create_exists_cql
       : ''
@@ -90,6 +92,7 @@ class CassTable extends CassEntity {
     let fields_list = map(fields, field => {
       return `${field.name} ${field.type}`
     })
+
     let options_cql = ''
     if ( order_by || id || compact || query_options ) {
       if (order_by)       options_cql += order_by
@@ -98,7 +101,16 @@ class CassTable extends CassEntity {
       if (query_options)  options_cql += this.valueToCqlMap(options_cql)
       options_cql = Util.template(this.create_options_cql, options_cql)
     }
-    return Util.template(this.create_str, exists_clause, keyspace_prefix, name, fields_list.join(', '), primary_keys.join(', '), options_cql)
+
+    return Util.template(
+      this.create_str,
+      exists_clause,
+      keyspace_prefix,
+      name,
+      fields_list.join(', '),
+      primary_keys.join(', '),
+      options_cql
+    )
   }
 
   constructor( name, options = {} ){
