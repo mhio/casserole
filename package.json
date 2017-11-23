@@ -12,7 +12,8 @@
     "watch": "nodemon -w src/ -w test/ -x",
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
     "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f",
-    "docker:cass:down": "cd test/fixture/docker; docker-compose down"
+    "docker:cass:down": "cd test/fixture/docker; docker-compose down",
+    "build:js": "babel -d lib/ src/"
   },
   "repository": {
     "type": "git",
