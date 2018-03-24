@@ -1,7 +1,7 @@
 {
   "name": "casserole",
-  "version": "0.1.0",
-  "description": "Cassandra Model Manager",
+  "version": "0.1.0-0",
+  "description": "Cassandra JS Object Mapper. Build models and queries from JS objects. (WIP)",
   "main": "index.js",
   "scripts": {
     "test": "nyc --check-coverage _mocha test/unit test/int",
@@ -14,14 +14,19 @@
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
     "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f",
     "docker:cass:down": "cd test/fixture/docker; docker-compose down",
-    "build:js": "babel -d lib/ src/"
+    "build:js": "babel -d lib/ src/",
+    "release:test": "set -uex; yarn test; npm version prerelease; npm publish --access public --tag testing",
+    "release:patch": "set -uex; git pull; rm -rf node_modules; yarn; yarn run test:coverage; yarn run test:lint; yarn run build:doc; npm version patch; git push; npm publish --access public; git push --tags"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deployable/casserole.git"
+    "url": "git+https://github.com/mhio/casserole.git"
   },
   "keywords": [
-    "casserole"
+    "casserole",
+    "cassandra",
+    "orm",
+    "model"
   ],
   "author": "Matt Hoyle",
   "license": "UNLICENSED",
