@@ -17,7 +17,7 @@ describe('int::mh::casserole::Client', function(){
     this.timeout(4000) // docker :/
     return client.keyspaceDrop()
   })
-  
+
   after('disconnect', function(){
     debug('state', client.getState())
     return client.disconnect()
@@ -56,12 +56,20 @@ describe('int::mh::casserole::Client', function(){
     })
   })
 
-  it('should insert data into test_modules', function(){
+  it('should create a table: atable', function(){
     return client.createTable('atable', {one: {name: 'one', type: 'text'}}, ['one']).then(res => expect(res).to.be.ok)
   })
 
-  it('should insert data into test_modules', function(){
+  it('should insert data into atable', function(){
     return client.insert('atable', {one: 'true'}).then(res => expect(res).to.be.ok)
+  })
+
+  it('should select inserted data from atable', function(){
+    return client.select('atable', ['one'], {one: 'true'}).then(res => {
+      //expect(res.rows).to.eql([[]])
+      debug('rows', res.rows[0])
+      expect(res.rows[0]).to.have.property('one').and.equal('true')
+    })
   })
 
   it('should drop the keyspace', function () {

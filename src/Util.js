@@ -83,14 +83,19 @@ export default class Util {
   }
 
   // Generic entry function to each type of template function
-  static template(str, a){
-    this.debug('template ', arguments)
-    if (Array.isArray(a)) return Util.templateArray(str, a)
-    if (typeof a === 'object') return Util.templateObject(str, a)
-    return Util.templateArgs.apply(Util, arguments)
+  static template(str, ...args){
+    this.debug('template ', args)
+    if (Array.isArray(args[0])) return Util.templateArray(str, args[0])
+    if (typeof args[0] === 'object') return Util.templateObject(str, args[0])
+    return Util.templateArgs(str, ...args)
   }
 
-  // Template arguments, in order
+  /**
+   * Template a string with function arguments, in order
+   * @params {string} str - Template string
+   * @params {string}
+   * @returns {string} - Templated string 
+   */
   static templateArgs(str /*, arguments... */){
     let current = 1
     return str.replace(/{{([\w.]+)}}/g, found => {
@@ -101,7 +106,12 @@ export default class Util {
     })
   }
 
-  // Template an array of args, in order
+  /**
+   * Template a string with an array of params
+   * @params {string} str - Template string
+   * @params {array} params - 
+   * @returns {string} - Templated string 
+   */
   static templateArray(str, vars){
     let current = 0
     return str.replace(/{{([\w.]+)}}/g, found => {
@@ -112,7 +122,13 @@ export default class Util {
     })
   }
 
-  // Plain strings only `{{whatever}}` `{{what_ever}}`
+  /**
+   * Template a string with an object of named args
+   * Plain string param names  only `{{whatever}}` or `{{what_ever}}`
+   * @params {string} str - Template string
+   * @params {object} params - Key/Value paris matching template params
+   * @returns {string} - Templated string 
+   */
   static templateObject(str, params){
     return str.replace(/{{(\w+)}}/g, (found, name)=> {
       let str = params[name]
@@ -121,7 +137,13 @@ export default class Util {
     })
   }
 
-  // Support `one.two` and `one[1]` lodash get syntax to fetch nested atrribs
+  /**
+   * Template string withe deep objects. 
+   * @description Support `one.two` and `one[1]` lodash `get` syntax to fetch nested properties. 
+   * @params {string} str - Template string
+   * @params {object} params_deep - Object matching template params
+   * @returns {string} - Templated string 
+   */
   static templateObjectDeep(str, params_deep){
     return str.replace(/{{([\w.[\]]+)}}/g, (found, name)=> {
       let str = get(params_deep, name)

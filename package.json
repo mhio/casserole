@@ -4,10 +4,10 @@
   "description": "Cassandra JS Object Mapper. Build models and queries from JS objects. (WIP)",
   "main": "lib/index.js",
   "scripts": {
-    "test": "nyc --check-coverage _mocha test/unit test/int",
+    "test": "mocha test/unit test/int",
     "test:unit": "mocha test/unit",
     "test:int": "mocha test/int",
-    "test:watch": "nodemon -w src/ -w test/ -x nyc _mocha --bail -- test/unit test/int",
+    "test:watch": "nodemon -w src/ -w test/ -x mocha --bail -- test/unit test/int",
     "test:lint": "eslint src/ test/",
     "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
     "watch": "nodemon -w src/ -w test/ -x",
