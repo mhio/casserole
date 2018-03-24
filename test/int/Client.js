@@ -72,50 +72,48 @@ describe('int::mh::casserole::Client', function(){
           type: 'text',
         },
       }
-      return client.createTable('atable', columns, ['one']).then(res => expect(res).to.be.ok)
+      return client.createTable('atable', columns, ['one']).then(res => expect( res ).to.be.ok)
     })
 
     it('should insert data into atable', function(){
-      return client.insert('atable', {one: 'true'}).then(res => expect(res).to.be.ok)
+      return client.insert('atable', {one: 'true'}).then(res => expect( res ).to.be.ok)
     })
 
     it('should insert data into atable', function(){
-      return client.insert('atable', {one: 'test', two: 'true'}).then(res => expect(res).to.be.ok)
+      return client.insert('atable', {one: 'test', two: 'true'}).then(res => expect( res ).to.be.ok)
     })
 
     it('should select inserted data from atable', function(){
       return client.select('atable', ['one'], {one: 'true'}).then(res => {
-        //expect(res.rows).to.eql([[]])
-        expect(res.rows).to.be.ok
+        expect( res.rows ).to.be.ok
         debug('rows', res.rows[0])
-        expect(res.rows[0]).to.have.property('one').and.equal('true')
+        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'true' )
       })
     })
 
     it('should select inserted data from atable', function(){
       return client.select('atable', ['one'], {one: 'true'}).then(res => {
-        //expect(res.rows).to.eql([[]])
-        expect(res.rows).to.be.ok
+        expect( res.rows ).to.be.ok
         debug('rows', res.rows[0])
-        expect(res.rows[0]).to.have.property('one').and.equal('true')
+        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'true' )
       })
     })
 
     it('should delete inserted data from atable', function(){
       return client.delete('atable', {one: 'true'}).then(res => {
-        expect(res.rows).to.equal(undefined)
+        expect( res.rows ).to.equal(undefined)
       })
     })
 
     it('should not select the deleted data from atable', function(){
       return client.select('atable', ['one'], {one: 'true'}).then(res => {
-        expect(res.rows).to.have.length(0)
+        expect( res.rows ).to.have.length(0)
       })
     })
 
     it('should not select the deleted data from atable', function(){
       return client.select('atable', ['one']).then(res => {
-        expect(res.rows).to.have.length(1)
+        expect( res.rows ).to.have.length(1)
       })
     })
 
