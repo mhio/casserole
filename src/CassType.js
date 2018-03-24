@@ -23,7 +23,7 @@ import CassEntity from './CassEntity'
 class CassType extends CassEntity {
 
   static classInit(){
-    this.debugInit('mh:casserole:CassType')
+    this.debugInit('mhio:casserole:CassType')
 
     // Each class covers create/drop/alter for noun
     this.noun = 'TYPE'

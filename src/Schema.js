@@ -10,7 +10,7 @@ import CassError from './CassErrors'
 export default class Schema {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:Schema')
+    this.debug = debugr('mhio:casserole:Schema')
 
     // JS name that would collide with the Schema instance fields
     this.reserved_fields = Paramaters.reserved_fields

@@ -16,7 +16,7 @@ import Client from './Client'
 export default class Model {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:Model')
+    this.debug = debugr('mhio:casserole:Model')
     // The main schema for the Model
     this.schema = {}
 

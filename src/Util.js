@@ -8,7 +8,7 @@ import noop from 'lodash/noop'
 export default class Util {
 
   static initClass(){
-    this.debug = debugr('mh:casserole:util')
+    this.debug = debugr('mhio:casserole:util')
     if (!this.debug.enabled) this.debug = noop
     this.format = util.format
   }

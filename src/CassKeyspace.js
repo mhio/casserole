@@ -33,7 +33,7 @@ import CassReplicationStrategy from './CassReplicationStrategy'
 export default class CassKeyspace extends CassEntity {
 
   static classInit(){
-    this.debugInit('mh:casserole:CassKeyspace')
+    this.debugInit('mhio:casserole:CassKeyspace')
 
     // Each class covers create/drop/alter for noun
     this.noun = 'KEYSPACE'

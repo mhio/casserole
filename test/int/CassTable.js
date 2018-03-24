@@ -2,7 +2,7 @@
 import Client from '../../src/Client'
 import CassTable from '../../src/CassTable'
 
-const debug = require('debug')('mh:test:int:casserole:CassTable')
+const debug = require('debug')('mhio:test:int:casserole:CassTable')
 
 
 describe('int::mh::casserole::CassTable', function(){

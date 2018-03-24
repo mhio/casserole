@@ -2,7 +2,7 @@
 import Client from '../../src/Client'
 import some from 'lodash/some'
 
-const debug = require('debug')('mh:test:int:casserole:Client')
+const debug = require('debug')('mhio:test:int:casserole:Client')
 
 
 describe('int::mh::casserole::Client', function(){
@@ -14,8 +14,11 @@ describe('int::mh::casserole::Client', function(){
   })
 
   after('client', function(){
-    this.timeout(4000) // docker :/
-    return client.keyspaceDrop()
+    this.timeout(5000) // docker :/
+    return client.keyspaceDrop().then(res => {
+      expect( res ).to.be.ok
+      expect( res.columns ).to.be.null
+    })
   })
 
   after('disconnect', function(){
@@ -56,28 +59,66 @@ describe('int::mh::casserole::Client', function(){
     })
   })
 
-  it('should create a table: atable', function(){
-    return client.createTable('atable', {one: {name: 'one', type: 'text'}}, ['one']).then(res => expect(res).to.be.ok)
-  })
-
-  it('should insert data into atable', function(){
-    return client.insert('atable', {one: 'true'}).then(res => expect(res).to.be.ok)
-  })
-
-  it('should select inserted data from atable', function(){
-    return client.select('atable', ['one'], {one: 'true'}).then(res => {
-      //expect(res.rows).to.eql([[]])
-      debug('rows', res.rows[0])
-      expect(res.rows[0]).to.have.property('one').and.equal('true')
+  describe('crud', function(){
+    
+    it('should create a table: atable', function(){
+      let columns = {
+        one: {
+          name: 'one',
+          type: 'text'
+        },
+        two: {
+          name: 'two',
+          type: 'text',
+        },
+      }
+      return client.createTable('atable', columns, ['one']).then(res => expect(res).to.be.ok)
     })
-  })
 
-  it('should drop the keyspace', function () {
-    this.timeout(5000) // docker :/
-    return client.keyspaceDrop().then(res => {
-      expect( res ).to.be.ok
-      expect( res.columns ).to.be.null
+    it('should insert data into atable', function(){
+      return client.insert('atable', {one: 'true'}).then(res => expect(res).to.be.ok)
     })
+
+    it('should insert data into atable', function(){
+      return client.insert('atable', {one: 'test', two: 'true'}).then(res => expect(res).to.be.ok)
+    })
+
+    it('should select inserted data from atable', function(){
+      return client.select('atable', ['one'], {one: 'true'}).then(res => {
+        //expect(res.rows).to.eql([[]])
+        expect(res.rows).to.be.ok
+        debug('rows', res.rows[0])
+        expect(res.rows[0]).to.have.property('one').and.equal('true')
+      })
+    })
+
+    it('should select inserted data from atable', function(){
+      return client.select('atable', ['one'], {one: 'true'}).then(res => {
+        //expect(res.rows).to.eql([[]])
+        expect(res.rows).to.be.ok
+        debug('rows', res.rows[0])
+        expect(res.rows[0]).to.have.property('one').and.equal('true')
+      })
+    })
+
+    it('should delete inserted data from atable', function(){
+      return client.delete('atable', {one: 'true'}).then(res => {
+        expect(res.rows).to.equal(undefined)
+      })
+    })
+
+    it('should not select the deleted data from atable', function(){
+      return client.select('atable', ['one'], {one: 'true'}).then(res => {
+        expect(res.rows).to.have.length(0)
+      })
+    })
+
+    it('should not select the deleted data from atable', function(){
+      return client.select('atable', ['one']).then(res => {
+        expect(res.rows).to.have.length(1)
+      })
+    })
+
   })
 
 })

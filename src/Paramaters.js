@@ -4,7 +4,7 @@ import { dataTypes } from 'cassandra-driver/lib/types'
 export default class Paramaters {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:Paramaters')
+    this.debug = debugr('mhio:casserole:Paramaters')
 
     this.types = dataTypes
     

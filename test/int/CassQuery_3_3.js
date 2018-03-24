@@ -2,7 +2,7 @@
 import Client from '../../src/Client'
 import CassQuery_3_3 from '../../src/CassQuery_3_3'
 
-const debug = require('debug')('mh:test:int:casserole:CassQuery_3_3')
+const debug = require('debug')('mhio:test:int:casserole:CassQuery_3_3')
 
 
 describe('int::mh::casserole::CassQuery_3_3', function(){

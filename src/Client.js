@@ -10,7 +10,7 @@ import CassTable from './CassTable'
 class Client {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:Client')
+    this.debug = debugr('mhio:casserole:Client')
     if (!this.debug.enabled) this.debug = noop
 
 

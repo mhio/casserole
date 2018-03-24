@@ -2,7 +2,7 @@
 import debugr from 'debug'
 import Schema from '../../src/Schema'
 import Model from '../../src/Model'
-const debug = debugr('mh:test:unit:casserole:Model')
+const debug = debugr('mhio:test:unit:casserole:Model')
 
 describe('unit::mh::casserole::Model', function(){
 

@@ -13,7 +13,7 @@ import {QueryError} from './CassErrors'
 export default class CassQuery_3_3 extends CassCql {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:CassQuery_3_3')
+    this.debug = debugr('mhio:casserole:CassQuery_3_3')
     if (!this.debug.enabled) this.debug = noop
 
     // Cassandra driver Types

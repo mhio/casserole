@@ -14,7 +14,7 @@ import CassMap from './CassMap'
 export default class CassReplicationStrategy extends CassMap {
 
   static classInit(){
-    this.debugInit('mh:casserole:CassReplicationStrategy')
+    this.debugInit('mhio:casserole:CassReplicationStrategy')
     this.replication_strategies = [ 'SimpleStrategy', 'NetworkTopologyStrategy' ]
   }
 
