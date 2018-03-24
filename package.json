@@ -2,7 +2,7 @@
   "name": "casserole",
   "version": "0.1.0-0",
   "description": "Cassandra JS Object Mapper. Build models and queries from JS objects. (WIP)",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "nyc --check-coverage _mocha test/unit test/int",
     "test:unit": "mocha test/unit",
