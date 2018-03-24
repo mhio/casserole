@@ -3,6 +3,7 @@
     [ "env", { "targets": { "node": "6" } } ],
   ],
   "sourceMaps": "inline",
+  "retainLines": true,
   plugins: [[
     "transform-async-to-module-method",
     {
