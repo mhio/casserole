@@ -1,13 +1,14 @@
 {
   "name": "casserole",
-  "version": "0.0.1",
-  "description": "casserole",
+  "version": "0.1.0",
+  "description": "Cassandra Model Manager",
   "main": "index.js",
   "scripts": {
     "test": "nyc --check-coverage _mocha test/unit test/int",
     "test:unit": "mocha test/unit",
     "test:int": "mocha test/int",
     "test:watch": "nodemon -w src/ -w test/ -x nyc _mocha --bail -- test/unit test/int",
+    "test:lint": "eslint src/ test/",
     "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
     "watch": "nodemon -w src/ -w test/ -x",
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
@@ -23,11 +24,11 @@
     "casserole"
   ],
   "author": "Matt Hoyle",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/deployable/casserole/issues"
+    "url": "https://github.com/mhio/casserole/issues"
   },
-  "homepage": "https://github.com/deployable/casserole#readme",
+  "homepage": "https://github.com/mhio/casserole#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
