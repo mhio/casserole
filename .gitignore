@@ -3,6 +3,7 @@ node_modules/
 # coverage
 .nyc_output/
 coverage/
+test/output
 
 # logs
 yarn-error.log
