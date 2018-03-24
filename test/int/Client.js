@@ -13,6 +13,11 @@ describe('int::mh::casserole::Client', function(){
     client = new Client('casserole_int_test')
   })
 
+  after('client', function(){
+    this.timeout(4000) // docker :/
+    return client.keyspaceDrop()
+  })
+  
   after('disconnect', function(){
     debug('state', client.getState())
     return client.disconnect()
@@ -49,6 +54,14 @@ describe('int::mh::casserole::Client', function(){
       expect( row.replication.class ).to.match(/SimpleStrategy/)
       expect( row.replication.replication_factor ).to.equal('1')
     })
+  })
+
+  it('should insert data into test_modules', function(){
+    return client.createTable('atable', {one: {name: 'one', type: 'text'}}, ['one']).then(res => expect(res).to.be.ok)
+  })
+
+  it('should insert data into test_modules', function(){
+    return client.insert('atable', {one: 'true'}).then(res => expect(res).to.be.ok)
   })
 
   it('should drop the keyspace', function () {

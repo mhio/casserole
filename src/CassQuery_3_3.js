@@ -13,7 +13,7 @@ import {QueryError} from './CassErrors'
 export default class CassQuery_3_3 extends CassCql {
 
   static classInit(){
-    this.debug = debugr('mh:casserole:Query_3_3')
+    this.debug = debugr('mh:casserole:CassQuery_3_3')
     if (!this.debug.enabled) this.debug = noop
 
     // Cassandra driver Types
@@ -104,33 +104,61 @@ export default class CassQuery_3_3 extends CassCql {
 
 
   // ### Types
-
+  /**
+   * Select query
+   * @description
+   * @params {string} table - Table to select from 
+   * @params {string|array} columns - Column(s) to return
+   * @params {string|object} where - Where clause
+   * @returns {CassQuery}
+   */
   select( table, columns, where ){
     this._table = table
     this._columns = columns || '*'
-    this.query = `SELECT ${this._columns} FROM ${table}`
+    this.query = `SELECT ${this.generateColumns()} FROM "${table}"`
     if (where) return this.where(where)
     return this
   }
 
+  /**
+   * Insert query
+   * @description
+   * @params {string} table - Table to select from 
+   * @params {object} values - Column/Value pairs to insert
+   * @returns {CassQuery}
+   */
   insert( table, values ){
     this._table = table
-    this.query = `INSERT INTO ${table}`
+    this.query = `INSERT INTO "${table}"`
     if (values) return this.values(values)
     return this
   }
 
+  /**
+   * Update query
+   * @description
+   * @params {string} table - Table to select from 
+   * @params {object} set - Column/Value pairs to set
+   * @params {string|object} where - Where clause
+   * @returns {CassQuery}
+   */
   update( table, set, where ){
     this._table = table
-    this.query = `UPDATE ${table}`
+    this.query = `UPDATE "${table}"`
     if (set) this.set(set)
     if (where) this.whereObject(where)
     return this
   }
 
+  /**
+   * Delete query
+   * @params {string} table - Table to select from 
+   * @params {string|object} where - Where clause
+   * @returns {CassQuery}
+   */
   delete( table, where ){
     this._table = table
-    this.query = `DELETE FROM ${table}`
+    this.query = `DELETE FROM "${table}"`
     if (where) return this.whereObject(where)
     return this
   }
@@ -138,6 +166,12 @@ export default class CassQuery_3_3 extends CassCql {
 
   get paramaters(){
     return this._paramaters
+  }
+
+  generateColumns(){
+    if ( this._columns === '*' ) return '*'
+    if ( this._columns.join ) return `"${this._columns.join('", "')}"`
+    return this._columns
   }
 
   // Insert values
@@ -151,7 +185,7 @@ export default class CassQuery_3_3 extends CassCql {
       this.debug('value', name, value)
       this._paramaters.push(value)
     })
-    this.query += ' ( ' + cols.join(', ') + ' ) VALUES ( ' + vals.join(', ') + ' )'
+    this.query += ` ( "${cols.join('", "')}" ) VALUES ( ${vals.join(', ')} )`
     return this
   }
 
@@ -162,14 +196,14 @@ export default class CassQuery_3_3 extends CassCql {
     this.query += map(values, (value, name) => {
       this._paramaters.push(value)
       this.debug('set', name, value)
-      return `${name} = ?`
+      return `"${name}" = ?`
     }).join(', ')
     return this
   }
 
   from(table){
     this._table = table
-    this.query = ` FROM ${table}`
+    this.query = ` FROM "${table}"`
     return this
   }
 
@@ -182,7 +216,7 @@ export default class CassQuery_3_3 extends CassCql {
     this.query += map(clause, (value, name) => {
       this.debug('where %s:%s', name, value, this._paramaters)
       this._paramaters.push(value)
-      return `${name} = ?`
+      return `"${name}" = ?`
     }).join(' AND ')
     return this
   }
@@ -200,7 +234,7 @@ export default class CassQuery_3_3 extends CassCql {
   or(field){
     QueryError.if( !this._where_started , 'No WHERE clause started' )
     QueryError.if( !this._expecting_constraint , 'Expecting constraint' )
-    this.query += ` OR ${field}`
+    this.query += ` OR "${field}"`
     this.expectConstraint()
     return this
   }
@@ -208,7 +242,7 @@ export default class CassQuery_3_3 extends CassCql {
   and(field){
     QueryError.if( !this._where_started , 'No WHERE clause started' )
     QueryError.if( !this._expecting_constraint , 'Expecting constraint' )
-    this.query += ` AND ${field}`
+    this.query += ` AND "${field}"`
     this.expectConstraint()
     return this
   }

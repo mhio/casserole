@@ -3,6 +3,8 @@ import cassandra from 'cassandra-driver'
 import noop from 'lodash/noop'
 
 import CassKeyspace from './CassKeyspace'
+import CassQuery_3_3 from './CassQuery_3_3'
+import CassTable from './CassTable'
 
 
 class Client {
@@ -84,9 +86,9 @@ class Client {
     return res
   }
 
-  tableCreate(table){
-    const query = table.toCreateCql()
-    return  this.execute(query)
+  createTable(name, fields, primary_keys, options = {}){
+    const query = CassTable.toCqlCreate(name, fields, primary_keys, options)
+    return this.execute(query)
   }
 
   async execute( query, params = [], options = {} ){
@@ -94,6 +96,26 @@ class Client {
     const result = await this.client.execute(query, params, options)
     this.debug('result', result)
     return result
+  }
+
+  async insert( table, values, options ){
+    let query = CassQuery_3_3.insert(table, values)
+    return this.client.execute(query.toString(), query.paramaters, options)
+  }
+
+  async select( table, columns, where, options ){
+    let query = CassQuery_3_3.select(table, columns, where)
+    return this.client.execute(query.toString(), query.paramaters, options)
+  }
+
+  async update( table, values, where, options ){
+    let query = CassQuery_3_3.update(table, values, where)
+    return this.client.execute(query.toString(), query.paramaters, options)
+  }
+
+  async delete( table, where, options ){
+    let query = CassQuery_3_3.delete(table, where)
+    return this.client.execute(query.toString(), query.paramaters, options)
   }
 
   // async

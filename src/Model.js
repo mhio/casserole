@@ -8,7 +8,7 @@ import map from 'lodash/map'
 
 import {CassError} from './CassErrors'
 import Paramaters from './Paramaters'
-import CassQuery from './CassQuery'
+import CassQuery from './CassQuery_3_3'
 import CassTable from './CassTable'
 import Client from './Client'
 
