@@ -29,10 +29,6 @@ export default class CassQuery_3_3 extends CassCql {
     this.prototype.find = this.prototype.select
   }
 
-  // Generate a new extended version of Model for a Schema
-  static generate(query){
-  }
-
   // static equals(o){
   //   return toPairs(o).map(pair => pair.join(' = "')+'"').join(' AND ')
   // }
@@ -201,11 +197,11 @@ export default class CassQuery_3_3 extends CassCql {
     return this
   }
 
-  from(table){
-    this._table = table
-    this.query = ` FROM "${table}"`
-    return this
-  }
+  // from(table){
+  //   this._table = table
+  //   this.query = ` FROM "${table}"`
+  //   return this
+  // }
 
   // ### Clauses
 
@@ -231,12 +227,6 @@ export default class CassQuery_3_3 extends CassCql {
     QueryError.if( this._where_started , 'WHERE clause already started' )
     if ( typeof param === 'string' ) return this.whereString(param)
     return this.whereObject(param)
-  }
-
-  field(field_name){
-    QueryError.if( !this._where_started , 'No WHERE clause started' )
-    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
-    this.query += ` "${field_name}"`
   }
 
   or(field){

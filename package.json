@@ -57,9 +57,9 @@
   },
   "nyc": {
     "per-file": true,
-    "lines": 88,
+    "lines": 90,
     "statements": 90,
-    "functions": 72,
-    "branches": 72
+    "functions": 80,
+    "branches": 76
   }
 }
