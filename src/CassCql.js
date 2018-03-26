@@ -25,9 +25,10 @@ export default class CassCql {
   }
 
   static withOptions(object){
-    return reduce(object, (str, val, key) => {
-      return `${str} ${key} = ${this.valueToCqlMap(val)}`
-    }, '')
+    return reduce(object, (res, val, key) => {
+      res.push(`${key} = ${this.valueToCqlMap(val)}`)
+      return res
+    }, []).join(' AND ')
   }
 
 }
