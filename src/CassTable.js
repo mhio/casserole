@@ -97,7 +97,7 @@ class CassTable extends CassEntity {
 
     let compact = ''
     if ( options.compact ){
-      compact = this.create_opt_compact_str
+      compact = ' COMPACT STORAGE'
       delete options.compact
     }
   

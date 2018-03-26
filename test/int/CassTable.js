@@ -93,6 +93,11 @@ describe('int::mh::casserole::CassTable', function(){
     })
   })
 
+  it('should fail to alter for the moment', function(){
+    let fn = ()=> CassTable.toCqlAlter('casserole_int_test.whatever')
+    expect( fn ).to.throw(/nope/)
+  })
+
   it('should drop the table', function(){
     let query = CassTable.toCqlDrop('casserole_int_test.whatever')
     return client.execute(query).then(res => {
@@ -100,7 +105,5 @@ describe('int::mh::casserole::CassTable', function(){
       expect( res.columns ).to.be.null
     })
   })
-
-
 
 })

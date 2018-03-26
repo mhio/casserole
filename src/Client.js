@@ -50,15 +50,19 @@ class Client {
       contactPoints: this.hosts, //array of hosts to connect to 
       //keyspace: this.keyspace || this.constructor.default_keyspace
     })
+    /* istanbul ignore next */
     this.client.on('hostUp', host => {
-      this.debug('hostUp', host)
+      this.debug('hostUp', host) 
     })
+    /* istanbul ignore next */
     this.client.on('hostDown', host => {
       this.debug('hostDown', host)
     })
+    /* istanbul ignore next */
     this.client.on('hostAdd', host => {
       this.debug('hostAdd', host)
     })
+    /* istanbul ignore next */
     this.client.on('hostRemove', host => {
       this.debug('hostRemove', host)
     })
