@@ -23,6 +23,7 @@ const template = Util.template
      | COMPACT STORAGE]
 */
 
+
 class CassTable extends CassEntity {
 
   static classInit(){
@@ -95,13 +96,11 @@ class CassTable extends CassEntity {
     })
 
     let options_cql = ''
-    if ( order_by || id || compact || query_options ) {
-      if (order_by)       options_cql += order_by
-      if (id)             options_cql += id
-      if (compact)        options_cql += compact
-      if (query_options)  options_cql += this.valueToCqlMap(options_cql)
-      options_cql = template(this.create_options_cql, options_cql)
-    }
+    if (order_by)       options_cql += order_by
+    if (id)             options_cql += id
+    if (compact)        options_cql += compact
+    if (query_options)  options_cql += this.withOptions(query_options)
+    if ( options_cql !== '' ) options_cql = template(this.create_options_cql, options_cql)
 
     return template(
       this.create_str,

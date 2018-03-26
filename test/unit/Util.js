@@ -16,6 +16,7 @@ describe('unit::mh::casserole::Util', function(){
       nested: 'test',
     },
     g: now,
+    h: true,
   }
 
   describe('.valueToCqlMap', function () {
@@ -51,7 +52,7 @@ describe('unit::mh::casserole::Util', function(){
     it('should turn object into cql', function(){
       expect( Util.valueToCqlMap(o) ).to.equal(
         `{'a':1,'b':2.1,'c':${now_ts},'d':'string','e':[1,2,3],`+
-        `'f':{'nested':'test'},'g':'${now}'}`
+        `'f':{'nested':'test'},'g':'${now}','h':'true'}`
       )
     })
 

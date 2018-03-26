@@ -84,6 +84,18 @@ describe('int::mh::casserole::CassTable', function(){
     })
   })
 
+  it('should create a table with generic options', function(){
+    let options = { compaction: { 
+      'class' : 'SizeTieredCompactionStrategy',
+      'bucket_low' : 0.4,
+    }}
+    let query = CassTable.toCqlCreate('opt_generic', standard_fields, standard_keys, options)
+    return client.execute(query).then(res => {
+      expect( res ).to.be.ok
+      expect( res.columns ).to.be.null
+    })
+  })
+
   it('should drop the table', function(){
     let query = CassTable.toCqlDrop('casserole_int_test.whatever')
     return client.execute(query).then(res => {

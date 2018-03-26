@@ -176,14 +176,18 @@ export default class Util {
   }
 
   // Turn a JS value into a CQL map string. 
-  // Everything is not quite JSON
+  // Everything is not quite JSON :/
   static valueToCqlMap(val){
-    if (typeof val === 'boolean') return `'${val}'`
-    if (typeof val === 'number') return `${val}`
-    if (typeof val === 'string' || val instanceof Date) return `'${val}'`
-    if (typeof val === 'object') {
-      if (Array.isArray(val)) return Util.arrayToCqlMap(val)
-      return Util.objectToCqlMap(val)
+    switch ( typeof val ){
+      case 'boolean':
+      case 'string': return `'${val}'`
+
+      case 'number': return `${val}`
+      
+      case 'object':
+        if (val instanceof Date) return `'${val}'`
+        if (Array.isArray(val)) return Util.arrayToCqlMap(val)
+        return Util.objectToCqlMap(val)
     }
   }
 

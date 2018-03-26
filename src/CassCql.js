@@ -1,5 +1,6 @@
 import debugr from 'debug'
 import noop from 'lodash/noop'
+import reduce from 'lodash/reduce'
 import Util from './Util'
 
 /*
@@ -21,6 +22,12 @@ export default class CassCql {
   static debugInit(name){
     this.debug = debugr(name)
     if (!this.debug.enabled) this.debug = noop
+  }
+
+  static withOptions(object){
+    return reduce(object, (str, val, key) => {
+      return `${str} ${key} = ${this.valueToCqlMap(val)}`
+    }, '')
   }
 
 }
