@@ -29,7 +29,7 @@
     "model"
   ],
   "author": "Matt Hoyle",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mhio/casserole/issues"
   },
