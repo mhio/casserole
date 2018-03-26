@@ -20,6 +20,7 @@ export default class CassMap {
   // Setup a debug instance for the class, noop if needed
   static debugInit(name){
     this.debug = debugr(name)
+    /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
   }
   

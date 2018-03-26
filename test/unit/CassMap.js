@@ -8,8 +8,6 @@ describe('unit::mh::casserole::CassMap', function(){
     expect( CassMap.toCqlMap ).to.be.a('function')
   })
 
-  let field = { name: 'a', type: 'int'}
-  let fields = { a: field }
 
   let cassmap
 
@@ -51,12 +49,26 @@ describe('unit::mh::casserole::CassMap', function(){
   })
 
   it('should return the data as cql map', function () {
-    expect( cassmap.toCqlMap() ).to.eql("{'test':'true','other':'what'}")
+    expect( cassmap.toCqlMap() ).to.eql("{'test':'true','other':'what'}") // eslint-disable-line quotes
   })
 
   it('should return the data as cql map', function () {
     cassmap.name = 'whatever'
-    expect( cassmap.toCql() ).to.eql("whatever = {'test':'true','other':'what'}")
+    expect( cassmap.toCql() ).to.eql("whatever = {'test':'true','other':'what'}") // eslint-disable-line quotes
+  })
+
+  it('should add cql map data', function () {
+    expect( cassmap.add('b', 2) ).to.equal(2)
+    expect( cassmap.get('b') ).to.equal(2)
+  })
+
+  it('should fail to add existing cql map data', function () {
+    let fn = ()=> cassmap.add('test', 2)
+    expect( fn ).to.throw(/Map field "test" already set/)
+  })
+
+  it('should delete cql map data', function () {
+    expect( cassmap.delete('a') ).to.be.true
   })
 
 })
