@@ -67,7 +67,7 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   it('should create a table with `ID` as an option', function(){
-    let options = { q_id: '5a5a5a5a-b41f-11e5-9f22-ba0be0483c18' }
+    let options = { id: '5a5a5a5a-b41f-11e5-9f22-ba0be0483c18' }
     let query = CassTable.toCqlCreate('opt_id', standard_fields, standard_keys, options)
     return client.execute(query).then(res => {
       expect( res ).to.be.ok

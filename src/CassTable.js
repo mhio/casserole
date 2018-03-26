@@ -45,7 +45,6 @@ class CassTable extends CassEntity {
 
     this.create_options_cql     = ' WITH {{table_options}}'
     this.create_opt_order_cql   = ' CLUSTERING ORDER BY ( "{{order_by}}" {{order}} )'
-    this.create_opt_id_cql      = ' ID = \'{{table_hash_tag}}\''
     this.create_opt_compact_cql = ' COMPACT STORAGE'
         
   }
@@ -76,9 +75,6 @@ class CassTable extends CassEntity {
     let order_by = ( options.q_order_by )
       ? template(this.create_opt_order_cql, options.q_order_by, order)
       : ''
-    let id = ( options.q_id )
-      ? template(this.create_opt_id_cql, options.q_id)
-      : ''
     let compact = ( options.q_compact )
       ? this.create_opt_compact_str
       : ''
@@ -97,7 +93,6 @@ class CassTable extends CassEntity {
 
     let options_cql = ''
     if (order_by)       options_cql += order_by
-    if (id)             options_cql += id
     if (compact)        options_cql += compact
     if (query_options)  options_cql += this.withOptions(query_options)
     if ( options_cql !== '' ) options_cql = template(this.create_options_cql, options_cql)
