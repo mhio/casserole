@@ -21,13 +21,17 @@ export default class CassCql {
 
   static debugInit(name){
     this.debug = debugr(name)
-    if (!this.debug.enabled) this.debug = noop
+    /* istanbul ignore else */
+    if (!this.debug.enabled) this.debug = noop 
   }
 
   // Create an options string, 
   // ```
   // whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`
   // ```
+
+  // ID = 'uppercase'
+  // CDC = TRUE
   static withOptions(object){
     return reduce(object, (res, val, key) => {
       res.push(`${key} = ${this.valueToCqlMap(val)}`)
