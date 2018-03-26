@@ -40,7 +40,7 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   it('should create a table with `keyspace` as an option', function(){
-    let options = { q_keyspace: 'casserole_int_test' }
+    let options = { keyspace: 'casserole_int_test' }
     let query = CassTable.toCqlCreate('opt_keyspace', standard_fields, standard_keys, options)
     return client.execute(query).then(res => {
       expect( res ).to.be.ok
@@ -49,7 +49,7 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   it('should create a table with `order` as an option', function(){
-    let options = { q_order: 'DESC' }
+    let options = { order: 'DESC' }
     let query = CassTable.toCqlCreate('opt_order', standard_fields, standard_keys, options)
     return client.execute(query).then(res => {
       expect( res ).to.be.ok
@@ -58,7 +58,7 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   xit('should create a table with `CLUSTER ORDER BY` as an option', function(){
-    let options = { q_order: 'DESC', q_order_by: 'two' }
+    let options = { order: 'DESC', order_by: 'two' }
     let query = CassTable.toCqlCreate('opt_order', standard_fields, standard_keys, options)
     return client.execute(query).then(res => {
       expect( res ).to.be.ok
@@ -76,7 +76,7 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   it('should create a table with `ID` as an option', function(){
-    let options = { q_compact: true }
+    let options = { compact: true }
     let query = CassTable.toCqlCreate('opt_compact', standard_fields, standard_keys, options)
     return client.execute(query).then(res => {
       expect( res ).to.be.ok

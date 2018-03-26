@@ -1,6 +1,6 @@
 import map from 'lodash/map'
 import has from 'lodash/has'
-import pickBy from 'lodash/pickBy'
+import clone from 'lodash/clone'
 import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 
@@ -63,27 +63,45 @@ class CassTable extends CassEntity {
     if (isEmpty(fields)) throw new CassError('CassTable Create cql requires "fields"')
     if (isEmpty(primary_keys)) throw new CassError('CassTable Create cql requires "primary_keys"')
     
-    let exists_clause = (options.q_if_not_exists || options.q_exists_clause)
-      ? this.create_exists_cql
-      : ''
-    let keyspace_prefix = (options.q_keyspace)
-      ? `${options.q_keyspace}.`
-      : ''
-    let order = ( options.q_order ) 
-      ? options.q_order
-      : 'ASC'
-    let order_by = ( options.q_order_by )
-      ? template(this.create_opt_order_cql, options.q_order_by, order)
-      : ''
-    let compact = ( options.q_compact )
-      ? this.create_opt_compact_str
-      : ''
+    let exists_clause = ''
+    if ( options.if_not_exists || options.exists ) {
+      exists_clause = this.create_exists_cql
+      delete options.if_not_exists
+      delete options.exists
+    }
+    
+    let keyspace_prefix = ''
+    if ( options.keyspace ){
+      keyspace_prefix = `${options.keyspace}.`
+      delete options.keyspace
+    }
+
+    let id = ''
+    if ( options.id ){
+      id = options.id
+      delete options.id
+    }
+
+    let order = 'ASC'
+    if ( options.order ) {
+      order = options.order
+      delete options.order
+    }
+    
+    let order_by = ''
+    if ( options.order_by ){
+      order_by = template(this.create_opt_order_cql, options.order_by, order)
+      delete options.order_by
+    }
+    
+    let compact = ''
+    if ( options.compact ){
+      compact = this.create_opt_compact_str
+      delete options.compact
+    }
   
     // See if we have any generic map options to append
-    let query_options = pickBy(options, (val, key) =>{
-      if ( key.startsWith('q_') ) return false
-      return true
-    })
+    let query_options = clone(options)
     if ( isEmpty(query_options) ) query_options = false
     this.debug('toCqlCreate query_options', query_options)
 
@@ -92,9 +110,9 @@ class CassTable extends CassEntity {
     })
 
     let options_cql = ''
-    if (order_by)       options_cql += order_by
-    if (compact)        options_cql += compact
-    if (query_options)  options_cql += this.withOptions(query_options)
+    if ( order_by )       options_cql += order_by
+    if ( compact )        options_cql += compact
+    if ( query_options )  options_cql += this.withOptions(query_options)
     if ( options_cql !== '' ) options_cql = template(this.create_options_cql, options_cql)
 
     return template(
@@ -117,7 +135,7 @@ class CassTable extends CassEntity {
     if (options.fields) forEach(options.fields, (field, name) => this.addField(name, field.type))
     this.primary_keys = options.primary_keys || []
     this.replication = options.replication
-    if (has(options.durable)) this.durable = Boolean(options.durable)
+    if (has(options,'durable')) this.durable = Boolean(options.durable)
   }
 
   addField(field, type){

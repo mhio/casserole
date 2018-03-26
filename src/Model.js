@@ -90,7 +90,7 @@ export default class Model {
   }
 
   static async sync( options ){
-    let cql = this.table.toCqlCreate({ q_exists_clause: true })
+    let cql = this.table.toCqlCreate({ if_not_exists: true })
     return this.client.execute(cql)
   }
 
