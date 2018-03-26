@@ -24,6 +24,21 @@ describe('unit::mh::casserole::CassTable', function(){
     )
   })
 
+  it('should throw on CREATE without name', function () {
+    let fn = ()=> CassTable.toCqlCreate()
+    expect( fn ).to.throw(/CassTable Create cql requires a table "name"/)
+  })
+
+  it('should throw on CREATE without fields', function () {
+    let fn = ()=> CassTable.toCqlCreate('one')
+    expect( fn ).to.throw(/CassTable Create cql requires "fields"/)
+  })
+
+  it('should throw on CREATE without primary keys', function () {
+    let fn = ()=> CassTable.toCqlCreate('one', fields)
+    expect( fn ).to.throw(/CassTable Create cql requires "primary_keys"/)
+  })
+
   it('should dump DROP cql from the class', function () {
     expect( CassTable.toCqlDrop('one', fields, 'a' ) ).to.equal(
       'DROP TABLE one;'

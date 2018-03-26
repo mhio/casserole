@@ -15,6 +15,7 @@ export default class CassQuery_3_3 extends CassCql {
   static classInit(){
     this.debug = debugr('mhio:casserole:CassQuery_3_3')
     if (!this.debug.enabled) this.debug = noop
+    this.prototype.debug = this.debug
 
     // Cassandra driver Types
     this.types = Paramaters.types
@@ -38,7 +39,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   //static read( table, query, options = {} ){
   static select( table, columns, where, options = {} ){
-    this.debug('select', table, columns, where)
+    this.debug('select from %s', table, columns, where)
     options.table = table
     options.columns = columns
     options.where = where
@@ -48,7 +49,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   //static create( table, values, options = {} ){
   static insert( table, values, options = {} ){
-    this.debug('insert', table, values, options)
+    this.debug('insert %s values', table, values, options)
     options.table = table
     options.values = values
     options.cassandra_options = options
@@ -56,7 +57,7 @@ export default class CassQuery_3_3 extends CassCql {
   }
 
   static update( table, where, setvalues, options = {} ){
-    this.debug('select', table, where, setvalues, options)
+    this.debug('update %s where ', table, where, setvalues, options)
     options.table = table
     options.where = where
     options.set = setvalues
@@ -65,7 +66,7 @@ export default class CassQuery_3_3 extends CassCql {
   }
 
   static delete( table, where, options = {} ){
-    this.debug('select', table, where, options)
+    this.debug('delete: from %s where', table, where, options)
     options.table = table
     options.where = where
     options.cassandra_options = options
@@ -75,7 +76,6 @@ export default class CassQuery_3_3 extends CassCql {
 
   constructor( type, options = {} ){
     super()
-    this.debug = this.constructor.debug
     this._paramaters = []
     switch(type){
       case 'select': this.select(options.table, options.columns); break
@@ -221,19 +221,27 @@ export default class CassQuery_3_3 extends CassCql {
     return this
   }
   whereString(field){
-    let prefix = (this._where_started) ? ' AND ' : ' WHERE '
-    this.query += ` ${prefix} ${field}`
+    let prefix = (this._where_started) ? 'AND' : 'WHERE'
+    this.query += ` ${prefix} "${field}"`
+    this._where_started = true
     this.expectConstraint()
     return this
   }
   where(param){
+    QueryError.if( this._where_started , 'WHERE clause already started' )
     if ( typeof param === 'string' ) return this.whereString(param)
     return this.whereObject(param)
   }
 
+  field(field_name){
+    QueryError.if( !this._where_started , 'No WHERE clause started' )
+    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
+    this.query += ` "${field_name}"`
+  }
+
   or(field){
     QueryError.if( !this._where_started , 'No WHERE clause started' )
-    QueryError.if( !this._expecting_constraint , 'Expecting constraint' )
+    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
     this.query += ` OR "${field}"`
     this.expectConstraint()
     return this
@@ -241,7 +249,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   and(field){
     QueryError.if( !this._where_started , 'No WHERE clause started' )
-    QueryError.if( !this._expecting_constraint , 'Expecting constraint' )
+    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
     this.query += ` AND "${field}"`
     this.expectConstraint()
     return this
@@ -298,7 +306,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   token(val){
     this.gotConstraint()
-    this.query += ' token ?'
+    this.query += ` TOKEN(?)`
     this.paramaters.push(val)
     return this
   }

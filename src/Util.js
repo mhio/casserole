@@ -4,11 +4,13 @@ import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import noop from 'lodash/noop'
 
+const debug = debugr('mhio:casserole:util')
+
 
 export default class Util {
 
   static initClass(){
-    this.debug = debugr('mhio:casserole:util')
+    this.debug = debug
     if (!this.debug.enabled) this.debug = noop
     this.format = util.format
   }
@@ -84,7 +86,7 @@ export default class Util {
 
   // Generic entry function to each type of template function
   static template(str, ...args){
-    this.debug('template ', args)
+    debug('template ', args)
     if (Array.isArray(args[0])) return Util.templateArray(str, args[0])
     if (typeof args[0] === 'object') return Util.templateObject(str, args[0])
     return Util.templateArgs(str, ...args)

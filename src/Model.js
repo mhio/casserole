@@ -48,6 +48,10 @@ export default class Model {
   static get hidden_fields(){ return this._hidden_fields }
   static set hidden_fields(value){ this._hidden_fields = value }
 
+  // Hidden fields in the schema (should this be in Schema?)
+  static get primary_keys(){ return this.schema.primary_keys }
+  //static set primary_keys(value){ this._primary_keys = value }
+
   // Generate a new extended version of Model for a Schema
   static generate( name, schema, options = {} ){
     // Name the class via an object property
@@ -90,6 +94,7 @@ export default class Model {
     return this.client.execute(cql)
   }
 
+  static select( ...args ){ return this.find(...args) }
   static async find( query, options = {} ){
     const select = CassQuery.select(this.table_name, this.columns, query, options)
     const result = await this.client.execute(select.toString(), select.paramaters, options)
@@ -103,13 +108,14 @@ export default class Model {
     return results[0]
   }
 
+  static insert( ...args ){ return this.create(...args) }
   static async create( data, options = {} ){
     return new this(data).execSave(options)
   }
 
   static async update( query, values, options = {} ){
-    const update = CassQuery.update(this.table_name, values, query)
-    return this.client.execute(update.toCql(), update.paramaters(), options)
+    const update = CassQuery.update(this.table_name, query, values)
+    return this.client.execute(update.toCql(), update.paramaters, options)
   }
 
   static async delete( query, options = {} ){
@@ -126,30 +132,36 @@ export default class Model {
     forEach(data, (value, name)=> this._row_data[name] = value)
   }
 
+  buildPrimaryKeyWhere(){
+    return this.constructor.primary_keys.reduce((res, key) => {
+      res[key] = this._row_data[key]
+      return res
+    }, {})
+  }
   async execSave(options){
-    let primary_key = this.constructor.primary_key
     this.constructor.debug('this',this)
+    let selector = this.buildPrimaryKeyWhere()
     let query = (this._new)
       ? CassQuery.insert(this.constructor.table_name, this._row_data)
-      : CassQuery.update(this.constructor.table_name, { [primary_key]: this[primary_key] }, this._row_data)
+      : CassQuery.update(this.constructor.table_name, selector, this._row_data)
     const res = await this.constructor.client.execute(query.toString(), query.paramaters, options)
     this._new = false
     return res
   }
 
   async execRemove(options){
-    let primary_key = this.constructor.primary_key
-    let query = CassQuery.delete(this.constructor.table_name, { [primary_key]: this[primary_key] })
+    let selector = this.buildPrimaryKeyWhere()
+    let query = CassQuery.delete(this.constructor.table_name, selector)
     return this.constructor.client.execute(query.toString(), query.paramaters, options)
   }
 
-  isModified(){
-    return true
-  }
+  // isModified(){
+  //   return true
+  // }
 
-  getSchema(){
-    return this._schema
-  }
+  // getSchema(){
+  //   return this._schema
+  // }
 
   toJSON(){
     const o = cloneDeep(this._row_data)

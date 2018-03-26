@@ -11,6 +11,8 @@ import CassError from './CassErrors'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
+const template = Util.template
+
 /*
   CREATE TABLE [IF NOT EXISTS] [keyspace_name.]table_name ( 
      column_definition [, ...]
@@ -41,7 +43,7 @@ class CassTable extends CassEntity {
       '{{options}};'
 
     this.create_options_cql     = ' WITH {{table_options}}'
-    this.create_opt_order_cql   = ' CLUSTERING ORDER BY ({{order_by}} {{order}}])'
+    this.create_opt_order_cql   = ' CLUSTERING ORDER BY ( "{{order_by}}" {{order}} )'
     this.create_opt_id_cql      = ' ID = \'{{table_hash_tag}}\''
     this.create_opt_compact_cql = ' COMPACT STORAGE'
         
@@ -49,18 +51,17 @@ class CassTable extends CassEntity {
 
   static toCqlDrop(name, exists){
     const exists_clause = (exists === true) ? 'IF EXISTS' : ''
-    return Util.template('DROP TABLE {{name}}{{exists_clause}};', name, exists_clause)
+    return template('DROP TABLE {{name}}{{exists_clause}};', name, exists_clause)
   }
 
-  static toCqlAlter(name, changes){ // eslint no-unused-vars: false
+  static toCqlAlter(name, changes){ // eslint-disable-line no-unused-vars
     throw new Error('nope')
   }
 
   static toCqlCreate(name, fields, primary_keys, options = {}){
-    
-    if (isEmpty(name)) throw new CassError('CassTable To generate create cql requires a table "name"')
-    if (isEmpty(fields)) throw new CassError('CassTable To generate create cql requires "fields"')
-    if (isEmpty(primary_keys)) throw new CassError('CassTable To generate create cql requires "primary_keys"')
+    if (isEmpty(name)) throw new CassError('CassTable Create cql requires a table "name"')
+    if (isEmpty(fields)) throw new CassError('CassTable Create cql requires "fields"')
+    if (isEmpty(primary_keys)) throw new CassError('CassTable Create cql requires "primary_keys"')
     
     let exists_clause = (options.q_if_not_exists || options.q_exists_clause)
       ? this.create_exists_cql
@@ -72,22 +73,22 @@ class CassTable extends CassEntity {
       ? options.q_order
       : 'ASC'
     let order_by = ( options.q_order_by )
-      ? Util.template(this.create_opt_order_cql, options.q_order_by, order)
+      ? template(this.create_opt_order_cql, options.q_order_by, order)
       : ''
     let id = ( options.q_id )
-      ? Util.template(this.create_opt_id_cql, id)
+      ? template(this.create_opt_id_cql, options.q_id)
       : ''
     let compact = ( options.q_compact )
       ? this.create_opt_compact_str
       : ''
   
-    // See if we have any generic map options
+    // See if we have any generic map options to append
     let query_options = pickBy(options, (val, key) =>{
       if ( key.startsWith('q_') ) return false
       return true
     })
-    if (isEmpty(query_options)) query_options = false
-    this.debug('query_options', query_options)
+    if ( isEmpty(query_options) ) query_options = false
+    this.debug('toCqlCreate query_options', query_options)
 
     let fields_list = map(fields, field => {
       return `${field.name} ${field.type}`
@@ -99,10 +100,10 @@ class CassTable extends CassEntity {
       if (id)             options_cql += id
       if (compact)        options_cql += compact
       if (query_options)  options_cql += this.valueToCqlMap(options_cql)
-      options_cql = Util.template(this.create_options_cql, options_cql)
+      options_cql = template(this.create_options_cql, options_cql)
     }
 
-    return Util.template(
+    return template(
       this.create_str,
       exists_clause,
       keyspace_prefix,

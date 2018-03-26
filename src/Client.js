@@ -92,7 +92,7 @@ class Client {
   }
 
   async execute( query, params = [], options = {} ){
-    this.debug('query', query, params, options)
+    this.debug('execute query [%s] with', query, params, options)
     const result = await this.client.execute(query, params, options)
     this.debug('result rows:%s cols:"%s"', result.rowLength, result.columns, result.info.queriedHost)
     return result
