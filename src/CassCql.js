@@ -24,6 +24,10 @@ export default class CassCql {
     if (!this.debug.enabled) this.debug = noop
   }
 
+  // Create an options string, 
+  // ```
+  // whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`
+  // ```
   static withOptions(object){
     return reduce(object, (res, val, key) => {
       res.push(`${key} = ${this.valueToCqlMap(val)}`)
