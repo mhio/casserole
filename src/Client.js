@@ -51,16 +51,16 @@ class Client {
       //keyspace: this.keyspace || this.constructor.default_keyspace
     })
     this.client.on('hostUp', host => {
-      this.debug('host', host)
+      this.debug('hostUp', host)
     })
     this.client.on('hostDown', host => {
-      this.debug('host', host)
+      this.debug('hostDown', host)
     })
     this.client.on('hostAdd', host => {
-      this.debug('host', host)
+      this.debug('hostAdd', host)
     })
     this.client.on('hostRemove', host => {
-      this.debug('host', host)
+      this.debug('hostRemove', host)
     })
   }
 

@@ -78,16 +78,16 @@ export default class CassQuery_3_3 extends CassCql {
     super()
     this._paramaters = []
     switch(type){
-      case 'select': this.select(options.table, options.columns); break
-      case 'insert': this.insert(options.table); break
-      case 'update': this.update(options.table); break
-      case 'delete': this.delete(options.table); break
+      case 'select': this.select(options.table, options.columns, options.where); break
+      case 'insert': this.insert(options.table, options.values); break
+      case 'update': this.update(options.table, options.set, options.where); break
+      case 'delete': this.delete(options.table, options.where); break
       default: throw new QueryError('Nope')
     }
     //this._values = options.values || null
-    if ( options.values ) this.values(options.values)
-    if ( options.set ) this.set(options.set)
-    if ( options.where ) this.whereObject(options.where)
+    //if ( options.values ) this.values(options.values)
+    //if ( options.set ) this.set(options.set)
+    //if ( options.where ) this.whereObject(options.where)
   }
 
 
@@ -306,7 +306,7 @@ export default class CassQuery_3_3 extends CassCql {
 
   token(val){
     this.gotConstraint()
-    this.query += ` TOKEN(?)`
+    this.query += ' TOKEN(?)'
     this.paramaters.push(val)
     return this
   }

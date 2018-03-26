@@ -11,12 +11,16 @@ import Paramaters from './Paramaters'
 import CassQuery from './CassQuery_3_3'
 import CassTable from './CassTable'
 import Client from './Client'
+import Schema from './Schema'
 
 
 export default class Model {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Model')
+    /* istanbul ignore else */
+    if (!this.debug.enabled) this.debug = noop
+
     // The main schema for the Model
     this.schema = {}
 
@@ -57,15 +61,23 @@ export default class Model {
     // Name the class via an object property
     const o = { [name]: class extends this {} }
     let NewModel = o[name]
-    NewModel.applySchema(schema)
+    if ( schema instanceof Schema ) {
+      NewModel.applySchema(schema)  
+    }
+    else {
+      let sch = new Schema(schema)
+      NewModel.applySchema(sch)
+    }
+    
     NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
     NewModel.table_name = snakeCase(pluralize(name))
     NewModel.table = new CassTable(NewModel.table_name, {
       fields: schema._config,
       primary_keys: schema.primary_keys
     })
-    if (!NewModel.debug.enabled) NewModel.debug = noop
-    if (!typeof options.client === Client) throw new CassError('A Client instance must be attached')
+    /* istanbul ignore else */
+    if ( !NewModel.debug.enabled ) NewModel.debug = noop
+    if ( options.client && options.client instanceof Client === false ) throw new CassError('A Client instance must be attached')
     NewModel.client = options.client
     return NewModel
   }
@@ -73,16 +85,16 @@ export default class Model {
   // Apply a Schema setup to this Model
   static applySchema(schema){
     this.schema = schema
-    const debug = this.debug
+    const debugl = this.debug
     schema.forEach((column, name) =>{
       Object.defineProperty(this.prototype, name, {
         enumerable: true,
         get: function() { 
-          debug('get %s', name)
+          debugl('get %s', name)
           return this._row_data[name]
         },
         set: function(value) {
-          debug('set %s', name, value)
+          debugl('set %s', name, value)
           this._row_data[name] = value
         }
       })

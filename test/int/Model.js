@@ -79,6 +79,13 @@ describe('int::mh::casserole::Model', function(){
     expect(res[0].field2.toString()).to.eql('33334444-1234-1234-1234-123423141234')
   })
 
+  it('should findOne on the Model', async function(){
+    let res = await TestModel.findOne({ field2: '33334444-1234-1234-1234-123423141234' })
+    expect(res.field1).to.eql('mytest2')
+    expect(res.field2.toString()).to.eql('33334444-1234-1234-1234-123423141234')
+  })
+
+
   it('should update on the Model', async function(){
     let res = await TestModel.update({ field2: '33334444-1234-1234-1234-123423141234' }, { field1: 'updated!' })
     expect(res).to.be.ok

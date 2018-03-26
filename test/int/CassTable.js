@@ -48,13 +48,10 @@ describe('int::mh::casserole::CassTable', function(){
     })
   })
 
-  it('should create a table with `order` as an option', function(){
+  it('should fail to create a table with only `order` as an option', function(){
     let options = { order: 'DESC' }
-    let query = CassTable.toCqlCreate('opt_order', standard_fields, standard_keys, options)
-    return client.execute(query).then(res => {
-      expect( res ).to.be.ok
-      expect( res.columns ).to.be.null
-    })
+    let fn = ()=> CassTable.toCqlCreate('opt_order', standard_fields, standard_keys, options)
+    return expect( fn ).to.throw(/CLUSTER ORDER requires an ORDER BY field/)
   })
 
   xit('should create a table with `CLUSTER ORDER BY` as an option', function(){

@@ -78,12 +78,13 @@ class CassTable extends CassEntity {
 
     let id = ''
     if ( options.id ){
-      id = options.id
+      id = ` ID = '${options.id}'`
       delete options.id
     }
-
+    
     let order = 'ASC'
     if ( options.order ) {
+      if ( ! options.order_by ) throw new CassError('CLUSTER ORDER requires an ORDER BY field')
       order = options.order
       delete options.order
     }
@@ -93,7 +94,7 @@ class CassTable extends CassEntity {
       order_by = template(this.create_opt_order_cql, options.order_by, order)
       delete options.order_by
     }
-    
+
     let compact = ''
     if ( options.compact ){
       compact = this.create_opt_compact_str
@@ -110,6 +111,7 @@ class CassTable extends CassEntity {
     })
 
     let options_cql = ''
+    if ( id )             options_cql += id
     if ( order_by )       options_cql += order_by
     if ( compact )        options_cql += compact
     if ( query_options )  options_cql += this.withOptions(query_options)

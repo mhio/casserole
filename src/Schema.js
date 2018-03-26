@@ -36,7 +36,7 @@ export default class Schema {
       if (typeof field === 'string') {
         field_type = field.toLowerCase()
       } else {
-        if (!field.type) throw new CassError(`Type must be defined for field "${name}"`)
+        if (!field.type) throw new CassError(`Schema type must be defined for field "${name}"`)
         field_type = field.type.toLowerCase()
       }
       if ( field_type === 'string' ) field_type = 'text'

@@ -46,7 +46,7 @@ describe('unit::mh::casserole::Schema', function(){
 
   it('should not allow blank types', function(){
     let fn = ()=> new Schema({ anint: {} })
-    expect( fn ).to.throw(/Type must be defined for field/)
+    expect( fn ).to.throw(/Schema type must be defined for field/)
   })
 
   it('should not allow a bad type string', function(){

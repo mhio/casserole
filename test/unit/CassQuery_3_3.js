@@ -58,6 +58,12 @@ describe('unit::mh::casserole::CassQuery_3_3', function(){
       expect( q.paramaters ).to.eql([ 1, 2 ])
     })
 
+    it('should create a select query with where option', function(){
+      let q = Query.select('atable', ['whate'], { one: 1, two: 2 })
+      expect( q.toString() ).to.equal('SELECT "whate" FROM "atable" WHERE "one" = ? AND "two" = ?')
+      expect( q.paramaters ).to.eql([ 1, 2 ])
+    })
+
     it('should create a select query with and wheres', function(){
       let q = Query.select('atable', ['whate'])
       q.where('one').equals(1).or('two').equals(2)
