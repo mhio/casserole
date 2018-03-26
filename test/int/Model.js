@@ -28,6 +28,7 @@ describe('int::mh::casserole::Model', function(){
       field2: '12341234-1234-1234-1234-123423141234'
     })
     expect( testmodel.field1 ).to.equal('test')
+    expect( testmodel.field2 ).to.equal('12341234-1234-1234-1234-123423141234')
   })
 
   after('disconnect', function(){
