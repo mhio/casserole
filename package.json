@@ -53,6 +53,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "cassandra-driver": "^3.3.0",
+    "lodash": "^4.17.5",
     "pluralize": "^7.0.0"
   },
   "nyc": {
