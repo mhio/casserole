@@ -6,7 +6,9 @@ import noop from 'lodash/noop'
 
 const debug = debugr('mhio:casserole:util')
 
-
+/**
+ * Utility class, templating and CQL maps
+ */
 export default class Util {
 
   static initClass(){

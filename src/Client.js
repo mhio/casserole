@@ -3,10 +3,12 @@ import cassandra from 'cassandra-driver'
 import noop from 'lodash/noop'
 
 import CassKeyspace from './CassKeyspace'
-import CassQuery_3_3 from './CassQuery_3_3'
 import CassTable from './CassTable'
 import Query from './CassQuery_3_3'
 
+/**
+ * Client for apps to interact with Cassandra
+ */
 class Client {
 
   static classInit(){
@@ -24,10 +26,10 @@ class Client {
   }
 
   /**
-  * Client options
-  * @typedef {Object} ClientOptions
-  * @property {String} keyspace The keyspace for all the operations within the {@link Client} instance.
-  **/
+   * Client options
+   * @typedef {Object} ClientOptions
+   * @property {String} keyspace The keyspace for all the operations within the {@link Client} instance.
+   */
   constructor( keyspace, options = {} ){
     this.keyspace = keyspace
 

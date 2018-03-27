@@ -4,7 +4,6 @@ import Paramaters from './Paramaters'
 /**
  * Base class for versioned Query implementations to extend
  */
-
 export default class CassQuery extends CassCql {
 
   static classInit(){

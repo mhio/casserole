@@ -23,7 +23,9 @@ const template = Util.template
      | COMPACT STORAGE]
 */
 
-
+/**
+ * Covers all operations to a table, like CREATE and ALTER
+ */
 class CassTable extends CassEntity {
 
   static classInit(){

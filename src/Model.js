@@ -13,7 +13,9 @@ import CassTable from './CassTable'
 import Client from './Client'
 import Schema from './Schema'
 
-
+/**
+ * Model for apps to work with
+ */
 export default class Model {
 
   static classInit(){

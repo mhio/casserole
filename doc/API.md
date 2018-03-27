@@ -1,3 +1,12 @@
+## Classes
+
+<dl>
+<dt><a href="#CassTable">CassTable</a></dt>
+<dd><p>Covers all operations to a table, like CREATE and ALTER</p></dd>
+<dt><a href="#Client">Client</a></dt>
+<dd><p>Client for apps to interact with Cassandra</p></dd>
+</dl>
+
 ## Functions
 
 <dl>
@@ -37,6 +46,60 @@
 <dt><a href="#ClientOptions">ClientOptions</a> : <code>Object</code></dt>
 <dd><p>Client options</p></dd>
 </dl>
+
+<a name="CassTable"></a>
+
+## CassTable
+<p>Covers all operations to a table, like CREATE and ALTER</p>
+
+**Kind**: global class  
+
+* * *
+
+<a name="Client"></a>
+
+## Client
+<p>Client for apps to interact with Cassandra</p>
+
+**Kind**: global class  
+
+* [Client](#Client)
+    * [.query()](#Client+query) ⇒ <code>ResultSet</code>
+    * [.execute()](#Client+execute) ⇒ <code>ResultSet</code>
+
+
+* * *
+
+<a name="Client+query"></a>
+
+### client.query() ⇒ <code>ResultSet</code>
+<p>Run a Query</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <ul>
+<li>Cassandra ResultSet</li>
+</ul>  
+**Params**: <code>Query</code> query - Query object  
+**Params**: <code>object</code> options - Cassandra Driver query options  
+
+* * *
+
+<a name="Client+execute"></a>
+
+### client.execute() ⇒ <code>ResultSet</code>
+<ul>
+<li>Execute a string query, and possible paramaters and Cassandra driver options.</li>
+</ul>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <ul>
+<li>Cassandra ResultSet</li>
+</ul>  
+**Params**: <code>string</code> query - Query string  
+**Params**: <code>array</code> params - Params for a plain string query  
+**Params**: <code>object</code> options - Cassandra Driver query options  
+
+* * *
 
 <a name="select"></a>
 
@@ -191,7 +254,7 @@
 
 | Name | Type | Description |
 | --- | --- | --- |
-| keyspace | <code>String</code> | <p>The keyspace for all the operations within the [Client](Client) instance.</p> |
+| keyspace | <code>String</code> | <p>The keyspace for all the operations within the [Client](#Client) instance.</p> |
 
 
 * * *

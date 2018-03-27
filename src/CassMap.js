@@ -6,10 +6,9 @@ import Util from './Util'
 import Paramaters from './Paramaters'
 import CassError from './CassErrors'
 
-/*
-  Base class for other CQL implementations to extend
-*/
-
+/**
+ * Base class for other CQL Map implementations to extend
+ */
 export default class CassMap {
 
   static classInit(){

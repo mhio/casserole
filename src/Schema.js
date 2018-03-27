@@ -6,7 +6,9 @@ import noop from 'lodash/noop'
 import Paramaters from './Paramaters'
 import CassError from './CassErrors'
 
-
+/**
+ * Schema for apps to build into Models
+ */
 export default class Schema {
 
   static classInit(){

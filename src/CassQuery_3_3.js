@@ -6,8 +6,9 @@ import forEach from 'lodash/forEach'
 import CassQuery from './CassQuery'
 import {QueryError} from './CassErrors'
 
-// # Query
-
+/**
+ * Creates CQL 3.3 compatible queries
+ */
 export default class CassQuery_3_3 extends CassQuery {
 
   static classInit(){
