@@ -7,6 +7,7 @@
     "test": "mocha test/unit test/int",
     "test:unit": "mocha test/unit",
     "test:int": "mocha test/int",
+    "test:built": "mocha test/built",
     "test:watch": "nodemon -w src/ -w test/ -x mocha --bail -- test/unit test/int",
     "test:lint": "eslint src/ test/",
     "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
