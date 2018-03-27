@@ -448,6 +448,9 @@ CDC = TRUE</p>
 <p>Model for apps to work with</p>
 
 **Kind**: global class  
+**Params**: <code>Object</code> data - Data to populate the Model with  
+**Params**: <code>Object</code> options - Metadata for the Model instance  
+**Params**: <code>Object</code> options.new - Is this new or existing data  
 
 * [Model](#Model)
     * [new Model()](#new_Model_new)

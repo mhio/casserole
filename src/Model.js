@@ -15,8 +15,11 @@ import Client from './Client'
 import Schema from './Schema'
 
 /**
- * Model for apps to work with
- */
+  * Model for apps to work with
+  * @params {Object} data - Data to populate the Model with
+  * @params {Object} options - Metadata for the Model instance
+  * @params {Object} options.new - Is this new or existing data
+  */
 class Model {
 
   static classInit(){
@@ -146,7 +149,7 @@ class Model {
   }
 
   /** 
-   * new Model 
+   * @description new Model 
    * @params {Object} data - Data to populate the Model with
    * @params {Object} options - Metadata for the Model instance
    * @params {Object} options.new - Is this new or existing data
