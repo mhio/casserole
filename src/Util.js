@@ -84,7 +84,7 @@ export default class Util {
     return str
   }
 
-  // Generic entry function to each type of template function
+  /** Generic entry function to each type of template function */
   static template(str, ...args){
     debug('template ', args)
     if (Array.isArray(args[0])) return Util.templateArray(str, args[0])
@@ -126,10 +126,10 @@ export default class Util {
 
   /**
    * Template a string with an object of named args
-   * Plain string param names  only `{{whatever}}` or `{{what_ever}}`
-   * @params {string} str - Template string
-   * @params {object} params - Key/Value paris matching template params
-   * @returns {string} - Templated string 
+   * @description Plain string param names  only `{{whatever}}` or `{{what_ever}}`
+   * @params {string} str     - Template string
+   * @params {object} params  - Key/Value paris matching template params
+   * @returns {string}        - Templated string 
    */
   static templateObject(str, params){
     return str.replace(/{{(\w+)}}/g, (found, name)=> {
@@ -142,9 +142,9 @@ export default class Util {
   /**
    * Template string withe deep objects. 
    * @description Support `one.two` and `one[1]` lodash `get` syntax to fetch nested properties. 
-   * @params {string} str - Template string
+   * @params {string} str         - Template string
    * @params {object} params_deep - Object matching template params
-   * @returns {string} - Templated string 
+   * @returns {string}            - Templated string 
    */
   static templateObjectDeep(str, params_deep){
     return str.replace(/{{([\w.[\]]+)}}/g, (found, name)=> {
@@ -154,7 +154,7 @@ export default class Util {
     })
   }
 
-  // Turn a JS object into a CQL map string. 
+  /** Turn a JS object into a CQL map string. */
   static objectToCqlMap(obj){
     let str = []
     forEach(obj, function(val, key){
@@ -163,7 +163,7 @@ export default class Util {
     return `{${str.join(',')}}`
   }
 
-  // Turn a JS array into a CQL map string. 
+  /** Turn a JS array into a CQL map string. */
   static arrayToCqlMap(obj){
     let str = []
     for (let i = 0, len = obj.length; i < len; i++) {
@@ -175,8 +175,10 @@ export default class Util {
     return `[${str.join(',')}]`
   }
 
-  // Turn a JS value into a CQL map string. 
-  // Everything is not quite JSON :/
+  /** 
+   * @summary Turn a JS value into a CQL map string
+   * @description CQL is all not quite JSON :/
+   */
   static valueToCqlMap(val){
     switch ( typeof val ){
       case 'boolean':
