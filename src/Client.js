@@ -156,7 +156,7 @@ class Client {
   * @param {String} table     - Name of the table to insert to
   * @param {Object} values    - field: value pairs to insert
   * @param {object} options   - Cassandra Driver query options
-  * @returns {ResultSet} - Cassandra ResultSet
+  * @returns {ResultSet}      Cassandra ResultSet
   */
   async insert( table, values, options ){
     let query = Query.insert(table, values)
@@ -171,7 +171,7 @@ class Client {
   * @param {Array|String} columns  - The columns to return in the ResultSet
   * @param {Object} where          - Where clause to use
   * @param {Object} options        - Cassandra query options
-  * @returns {ResultSet} - Cassandra ResultSet
+  * @returns {ResultSet}           Cassandra ResultSet
   */
   async select( table, columns, where, options ){
     let query = Query.select(table, columns, where)
@@ -182,11 +182,11 @@ class Client {
   * @summary Run an update query
   * @description Execute a...
   * @async
-  * @param {String} table          - Name of the table to insert to
-  * @param {Object} values         - `field: value` pairs to update
-  * @param {Object} where          - Where clause to use
-  * @param {Object} options        - Cassandra query options
-  * @returns {ResultSet} - Cassandra ResultSet
+  * @param {String} table         - Name of the table to insert to
+  * @param {Object} values        - `field: value` pairs to update
+  * @param {Object} where         - Where clause to use
+  * @param {Object} options       - Cassandra query options
+  * @returns {ResultSet}          Cassandra ResultSet
   */
   async update( table, values, where, options ){
     let query = Query.update(table, values, where)
@@ -197,10 +197,10 @@ class Client {
   * @summary Run an delete query
   * @description Execute a...
   * @async
-  * @param {String} table          - Name of the table to insert to
-  * @param {Object} where          - Where clause to use
-  * @param {Object} options        - Cassandra query options
-  * @returns {ResultSet} - Cassandra ResultSet
+  * @param {String} table         - Name of the table to insert to
+  * @param {Object} where         - Where clause to use
+  * @param {Object} options       - Cassandra query options
+  * @returns {ResultSet}          Cassandra ResultSet
   */
   async delete( table, where, options ){
     let query = Query.delete(table, where)

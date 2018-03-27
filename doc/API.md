@@ -774,9 +774,7 @@ CDC = TRUE</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Summary**: <p>Run an insert query</p>  
-**Returns**: <code>ResultSet</code> - <ul>
-<li>Cassandra ResultSet</li>
-</ul>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -794,9 +792,7 @@ CDC = TRUE</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Summary**: <p>Run an select query</p>  
-**Returns**: <code>ResultSet</code> - <ul>
-<li>Cassandra ResultSet</li>
-</ul>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -815,9 +811,7 @@ CDC = TRUE</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Summary**: <p>Run an update query</p>  
-**Returns**: <code>ResultSet</code> - <ul>
-<li>Cassandra ResultSet</li>
-</ul>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -836,9 +830,7 @@ CDC = TRUE</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Summary**: <p>Run an delete query</p>  
-**Returns**: <code>ResultSet</code> - <ul>
-<li>Cassandra ResultSet</li>
-</ul>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
