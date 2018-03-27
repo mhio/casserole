@@ -6,6 +6,7 @@ import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
 import map from 'lodash/map'
 import has from 'lodash/has'
+import omit from 'lodash/omit'
 
 import {CassException} from './CassExceptions'
 import Paramaters from './Paramaters'
@@ -155,6 +156,7 @@ class Model {
     this._row_data = {}
     this._new = true
     if (options){
+      /* istanbul ignore else */
       if ( has(options, 'new') ) this._new = Boolean(options.new)
     }
     forEach(data, (value, name)=> this._row_data[name] = value)
@@ -168,13 +170,16 @@ class Model {
     }, {})
   }
 
+  buildDataWithoutKeys(){
+    return omit(this._row_data, this.constructor.primary_keys)
+  }
+
   /** Save this instance to the database */
   async execSave(options){
     this.constructor.debug('this',this)
-    let selector = this.buildPrimaryKeyWhere()
     let query = (this._new)
       ? Query.insert(this.constructor.table_name, this._row_data)
-      : Query.update(this.constructor.table_name, selector, this._row_data)
+      : Query.update(this.constructor.table_name, this.buildDataWithoutKeys(), this.buildPrimaryKeyWhere())
     const res = await this.constructor.client.execute(query.toString(), query.paramaters, options)
     this._new = false
     return res

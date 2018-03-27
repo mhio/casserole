@@ -1,6 +1,5 @@
 /* global expect */
 import debugr from 'debug'
-import Schema from '../../src/Schema'
 import Model from '../../src/Model'
 const debug = debugr('mhio:test:unit:casserole:Model')
 
@@ -17,8 +16,7 @@ describe('unit::mh::casserole::Model', function(){
   })
 
   it('should create a new Model', function(){
-    let schema = new Schema(plain_schema)
-    let TestModel = Model.generate('TestModel', schema)
+    let TestModel = Model.generate('TestModel', plain_schema)
     expect( TestModel ).to.be.ok
     debug(TestModel)
     let testmodel = new TestModel({

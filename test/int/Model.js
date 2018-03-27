@@ -92,7 +92,6 @@ describe('int::mh::casserole::Model', function(){
     expect(res.field2.toString()).to.eql('33334444-1234-1234-1234-123423141234')
   })
 
-
   it('should update on the Model', async function(){
     let res = await TestModel.update(
       { field1: 'updated!' },
@@ -101,6 +100,23 @@ describe('int::mh::casserole::Model', function(){
     expect(res).to.be.ok
     res = await TestModel.find({ field2: '33334444-1234-1234-1234-123423141234' })
     expect(res[0].field1).to.eql('updated!')
+  })
+
+  it('should update on execSave', async function(){
+    let res = await TestModel.findOne(
+      { field2: '33334444-1234-1234-1234-123423141234'
+    })
+    expect(res).to.be.ok
+    expect(res.field1).to.equal('updated!')
+    res.field1 = 'updated on execSave'
+    let save = await res.execSave()
+    expect(save).to.be.ok
+    expect(save.rows).to.be.undefined
+    
+    let check = await TestModel.findOne(
+      { field2: '33334444-1234-1234-1234-123423141234'
+    })
+    expect(check.field1).to.eql('updated on execSave')
   })
 
   it('should delete on the Model', async function(){
