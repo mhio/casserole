@@ -1,5 +1,8 @@
 node_modules/
 
+# docco
+doc/html
+
 # coverage
 .nyc_output/
 coverage/

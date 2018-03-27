@@ -103,7 +103,10 @@ export default class CassQuery_3_3 extends CassQuery {
   // ### Types
   /**
    * Select query
-   * @description
+   * @description Build a select query 
+   * ```
+   * select(table_name, columns_array, where_fields)
+   * ```
    * @params {string} table - Table to select from 
    * @params {string|array} columns - Column(s) to return
    * @params {string|object} where - Where clause
@@ -119,7 +122,10 @@ export default class CassQuery_3_3 extends CassQuery {
 
   /**
    * Insert query
-   * @description
+   * @description Build an insert query 
+   * ```
+   * insert(table_name, fields_values)
+   * ```
    * @params {string} table - Table to select from 
    * @params {object} values - Column/Value pairs to insert
    * @returns {CassQuery}
@@ -133,7 +139,10 @@ export default class CassQuery_3_3 extends CassQuery {
 
   /**
    * Update query
-   * @description
+   * @description Build an update query 
+   * ```
+   * update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })
+   * ```
    * @params {string} table - Table to select from 
    * @params {object} set - Column/Value pairs to set
    * @params {string|object} where - Where clause
@@ -149,6 +158,10 @@ export default class CassQuery_3_3 extends CassQuery {
 
   /**
    * Delete query
+   * @description Build a delete query 
+   * ```
+   * delete(table_name, { id: 'equals_some_id' })
+   * ```
    * @params {string} table - Table to select from 
    * @params {string|object} where - Where clause
    * @returns {CassQuery}
