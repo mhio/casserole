@@ -49,6 +49,16 @@ describe('unit::mh::casserole::Schema', function(){
     expect( fn ).to.throw(/Schema "type" must be defined for field "anint"/)
   })
 
+  it('should not allow a bad config', function(){
+    let fn = ()=> new Schema(undefined)
+    expect( fn ).to.throw(/Schema needs to be created with a config/)
+  })
+
+  it('should not allow an empty config', function(){
+    let fn = ()=> new Schema({})
+    expect( fn ).to.throw(/Schema config must have field/)
+  })
+
   it('should not allow a bad type string', function(){
     let fn = ()=> new Schema({ anint: 'bad' })
     expect( fn ).to.throw(/No cassandra type "bad"/)

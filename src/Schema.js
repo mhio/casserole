@@ -38,7 +38,7 @@ export class Schema {
 
   set config(config){
     if (!config) throw new CassException('Schema config must be an object')
-    if (Object.keys(config).length === 0) throw new CassException('Schema must have fields')
+    if (Object.keys(config).length === 0) throw new CassException('Schema config must have field definitions')
 
     // Validate
     forEach(config, ( field_def, field_name )=>{

@@ -107,7 +107,7 @@ class CassQuery_3_3 extends CassQuery {
 
   // ### Helpers
   expectConstraint(){
-    if ( this._expecting_constraint ) throw new QueryException('Expected constraint')
+    if ( this._expecting_constraint ) throw new QueryException('Query expected a constraint next')
     this._expecting_constraint = true
   }
 
@@ -192,7 +192,6 @@ class CassQuery_3_3 extends CassQuery {
 
 
   generateColumns(){
-    if ( this._columns === '*' ) return '*'
     if ( this._columns.join ) return `"${this._columns.join('", "')}"`
     return this._columns
   }

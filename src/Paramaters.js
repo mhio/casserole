@@ -52,7 +52,9 @@ export class Paramaters {
     * @throws {CassException} - Unknown type
     */
   static checkType(type_name){
-    if (!type_name.toLowerCase) throw new CassException('Cassandra types can on be supplied as strings')
+    if ( ! type_name || ! type_name.toLowerCase ) {
+      throw new CassException('Cassandra types can on be supplied as strings')
+    }
     let lower_type_name = type_name.toLowerCase()
     switch ( lower_type_name ) {
       case 'string': return 'text'
