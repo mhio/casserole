@@ -1,4 +1,4 @@
-/* eslint no-console: false */
+/* eslint no-console: 0 */
 
 import Benchmark from 'benchmark'
 import assert from 'assert'

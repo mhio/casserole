@@ -23,7 +23,7 @@ describe('unit::mh::casserole::CassReplicationStrategy', function(){
 
     it('should create a Simple strategy with default of 3', function () {
       expect( CassReplicationStrategy.simple().toCqlMap() )
-      .to.equal("{'class':'SimpleStrategy','replication_factor':3}")
+      .to.equal("{'class':'SimpleStrategy','replication_factor':3}")  // eslint-disable-line quotes
     })
 
     it('should not create a Simple strategy with a bad replication factor', function () {

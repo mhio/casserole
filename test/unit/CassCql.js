@@ -16,6 +16,10 @@ describe('unit::mh::casserole::CassCql', function(){
       cql = new CassCql({test: true, other: 'what'})
     })
 
+    it('should create a CassCql', function(){
+      expect( cql ).to.be.ok
+    })
+
   })
   
 })

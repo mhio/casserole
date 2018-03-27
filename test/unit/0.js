@@ -1,3 +1,4 @@
+/* global expect */
 
 describe('unit::mh::casserole', function(){
 

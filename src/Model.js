@@ -107,7 +107,7 @@ class Model {
   }
 
   /** Sync a table definition to the cassandra server */
-  static async sync( options ){
+  static async sync(){
     let cql = this.table.toCqlCreate({ if_not_exists: true })
     return this.client.execute(cql)
   }

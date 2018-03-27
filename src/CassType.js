@@ -53,7 +53,7 @@ class CassType extends CassEntity {
     return Util.template('DROP TYPE {{exists_clause}} {{name}};', name, exists_clause)
   }
 
-  static toCqlAlter( name, changes, options = {} ){
+  static toCqlAlter( name, changes, options = {} ){ // eslint-disable-line no-unused-vars
     throw new Error('nope')
   }
 
