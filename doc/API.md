@@ -623,24 +623,33 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [Util](#Util)
-    * [.template()](#Util.template)
+    * [.template(str)](#Util.template) ⇒ <code>String</code>
     * [.templateArgs(str, ...params)](#Util.templateArgs) ⇒ <code>String</code>
     * [.templateArray(str, params)](#Util.templateArray) ⇒ <code>String</code>
     * [.templateObject(str, params)](#Util.templateObject) ⇒ <code>String</code>
     * [.templateObjectDeep(str, params_deep)](#Util.templateObjectDeep) ⇒ <code>String</code>
-    * [.objectToCqlMap()](#Util.objectToCqlMap)
-    * [.arrayToCqlMap()](#Util.arrayToCqlMap)
-    * [.valueToCqlMap()](#Util.valueToCqlMap)
+    * [.objectToCqlMap(obj)](#Util.objectToCqlMap) ⇒ <code>String</code>
+    * [.arrayToCqlMap(arr)](#Util.arrayToCqlMap) ⇒ <code>String</code>
+    * [.valueToCqlMap(value)](#Util.valueToCqlMap) ⇒ <code>String</code>
 
 
 * * *
 
 <a name="Util.template"></a>
 
-### Util.template()
+### Util.template(str) ⇒ <code>String</code>
 <p>Generic entry function to each type of template function</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
+**Returns**: <code>String</code> - <ul>
+<li>String with template params replaced</li>
+</ul>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | <p>Template string</p> |
+| ...args | <code>\*</code> | <p>Array or Object or arguments</p> |
+
 
 * * *
 
@@ -718,29 +727,43 @@ CDC = TRUE</p>
 
 <a name="Util.objectToCqlMap"></a>
 
-### Util.objectToCqlMap()
+### Util.objectToCqlMap(obj) ⇒ <code>String</code>
 <p>Turn a JS object into a CQL map string.</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>Object</code> | <p>Object to convert to a CQL Map</p> |
+
 
 * * *
 
 <a name="Util.arrayToCqlMap"></a>
 
-### Util.arrayToCqlMap()
+### Util.arrayToCqlMap(arr) ⇒ <code>String</code>
 <p>Turn a JS array into a CQL map string.</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | <p>Object to convert to a CQL Map</p> |
+
 
 * * *
 
 <a name="Util.valueToCqlMap"></a>
 
-### Util.valueToCqlMap()
+### Util.valueToCqlMap(value) ⇒ <code>String</code>
 <p>CQL is all not quite JSON :/</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
-**Summary**: <p>Turn a JS value into a CQL map string</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | <p>Value to convert to CQL Map</p> |
+
 
 * * *
 
