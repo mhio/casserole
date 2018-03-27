@@ -70,24 +70,32 @@ class CassQuery_3_3 extends CassQuery {
    * @param {Object} options
    * @param {Object} options.table    - Table to act upon
    * @param {Object} options.columns  - Columns to return, for select
-   * @param {Object} options.values   - Values to insert
-   * @param {Object} options.set      - Values to set ( maybe merge with values?)
-   * @param {Object} options.where    - Where clause to use
+   * @param {Object} options.values   - Values to update, insert
+   * @param {Object} options.set      - See values
+   * @param {Object} options.where    - Limit operation to these values
    */
   constructor( type, options = {} ){
     super()
     this._paramaters = []
     switch(type){
-      case 'select': this.select(options.table, options.columns, options.where); break
-      case 'insert': this.insert(options.table, options.values); break
-      case 'update': this.update(options.table, options.set||options.values, options.where); break
-      case 'delete': this.delete(options.table, options.where); break
+      case 'select':
+        this.select(options.table, options.columns, options.where)
+        break
+        
+      case 'insert':
+        this.insert(options.table, options.values)
+        break
+
+      case 'update':
+        this.update(options.table, options.set||options.values, options.where)
+        break
+
+      case 'delete':
+        this.delete(options.table, options.where)
+        break
+      
       default: throw new QueryError('A Query instance requires a type: select, insert, update or delete')
     }
-    //this._values = options.values || null
-    //if ( options.values ) this.values(options.values)
-    //if ( options.set ) this.set(options.set)
-    //if ( options.where ) this.whereObject(options.where)
   }
 
   get paramaters(){
