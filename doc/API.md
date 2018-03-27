@@ -4,11 +4,11 @@
 <dt><a href="#CassCql">CassCql</a></dt>
 <dd><p>Base class for other CQL implementations to extend</p></dd>
 <dt><a href="#CassEntity">CassEntity</a></dt>
-<dd><p>Base entity class for specific CQL entities to extend</p></dd>
-<dt><a href="#CassException">CassException</a></dt>
+<dd><p>Base class for CQL entities to extend</p></dd>
+<dt><a href="#CassException">CassException</a> ⇐ <code>Exception</code></dt>
 <dd><p>Extended Error classes for Casserole</p></dd>
 <dt><a href="#CassKeyspace">CassKeyspace</a></dt>
-<dd></dd>
+<dd><p>Manage a Cassandra Keyspace</p></dd>
 <dt><a href="#CassMap">CassMap</a></dt>
 <dd><p>Base class for other CQL Map implementations to extend</p></dd>
 <dt><a href="#CassQuery">CassQuery</a></dt>
@@ -61,7 +61,7 @@ CDC = TRUE</p>
 <a name="CassEntity"></a>
 
 ## CassEntity
-<p>Base entity class for specific CQL entities to extend</p>
+<p>Base class for CQL entities to extend</p>
 
 **Kind**: global class  
 
@@ -69,10 +69,11 @@ CDC = TRUE</p>
 
 <a name="CassException"></a>
 
-## CassException
+## CassException ⇐ <code>Exception</code>
 <p>Extended Error classes for Casserole</p>
 
 **Kind**: global class  
+**Extends**: <code>Exception</code>  
 
 * * *
 
@@ -92,35 +93,9 @@ CDC = TRUE</p>
 <a name="CassKeyspace"></a>
 
 ## CassKeyspace
+<p>Manage a Cassandra Keyspace</p>
+
 **Kind**: global class  
-**Summary**: <p>Manage a Cassandra Keyspace</p>  
-
-* * *
-
-<a name="new_CassKeyspace_new"></a>
-
-### new CassKeyspace()
-<pre class="prettyprint source"><code>    CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
-    options ::=  option ( AND option )*
-    option  ::=  identifier '=' ( identifier | constant | map_literal )
-
-    CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
-       WITH REPLICATION = { 
-          'class' : 'SimpleStrategy', 'replication_factor' : N } 
-         | 'class' : 'NetworkTopologyStrategy', 
-           'dc1_name' : N [, ...] 
-       }
-       [AND DURABLE_WRITES =  true|false] ;
-
-    ALTER  KEYSPACE keyspace_name 
-     WITH REPLICATION = { 
-        'class' : 'SimpleStrategy', 'replication_factor' : N  
-       | 'class' : 'NetworkTopologyStrategy', 'dc1_name' : N [, ...] 
-     }
-     [AND DURABLE_WRITES =  true|false] ;
-
-    DROP KEYSPACE [IF EXISTS] keyspace_name</code></pre>
-
 
 * * *
 
@@ -345,14 +320,25 @@ CDC = TRUE</p>
 
 ## CassReplicationStrategy
 **Kind**: global class  
+**Summary**: <p>Setup replication strategies</p>  
 
 * * *
 
 <a name="new_CassReplicationStrategy_new"></a>
 
-### new CassReplicationStrategy()
-<p>https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy
-    https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html</p>
+### new CassReplicationStrategy(replication_class, data)
+<ul>
+<li><a href="https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy">Architecture</a><ul>
+<li><a href="https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html">Alerting replication strategy</a></li>
+</ul>
+</li>
+</ul>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| replication_class | <code>String</code> | <p>The replication class name to create</p> |
+| data | <code>Object</code> | <p>The configuration data for the class</p> |
 
 
 * * *
@@ -396,19 +382,7 @@ CDC = TRUE</p>
 <a name="new_CassType_new"></a>
 
 ### new CassType()
-<p>Create, drop and alter custom Cassandra types.</p>
-<pre class="prettyprint source"><code>  CREATE TYPE [IF NOT EXISTS] 
-  keyspace_name.type_name(
-  field_name cql_datatype[,] 
-  [field_name cql_datatype] [,...]
-  )
-
-  DROP TYPE [IF EXISTS] keyspace_name.type_name
-
-  ALTER TYPE field_name 
-  [ALTER field_name TYPE new_cql_datatype
-  | ADD (field_name cql_datatype[,...])
-  | RENAME field_name TO new_field_name[AND ...]]</code></pre>
+<p>Create, Drop and Alter custom Cassandra types.</p>
 
 
 * * *

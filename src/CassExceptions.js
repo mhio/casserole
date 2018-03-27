@@ -1,6 +1,9 @@
 import {Exception} from '@mhio/exception'
 
-/** Extended Error classes for Casserole */
+/** 
+ * Extended Error classes for Casserole 
+ * @extends Exception
+ */
 export class CassException extends Exception {
 
   static if(test, msg, opts = {}){
