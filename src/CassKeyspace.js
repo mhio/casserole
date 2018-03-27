@@ -40,22 +40,22 @@ class CassKeyspace extends CassEntity {
     this.noun = 'KEYSPACE'
 
     this.create_cql = 
-      'CREATE KEYSPACE {{exists_clause}} {{keyspace_name}} '+
+      'CREATE KEYSPACE {{exists_clause}}"{{keyspace_name}}" '+
       'WITH REPLICATION = {{replication_stategy}}'+
       '{{options}};'
     this.durable_cql =
       ' AND DURABLE_WRITES = {{durable}}'
 
-    this.drop_cql = 'DROP KEYSPACE {{exists_clause}} {{keyspace_name}};'
+    this.drop_cql = 'DROP KEYSPACE {{exists_clause}}"{{keyspace_name}}";'
   }
 
   static toCqlCreate( keyspace_name, replication_stategy, options = {} ){
-    let exists_clause = (options.q_if_not_exists)
-      ? this.create_exists_cql
+    let exists_clause = (options.if_not_exists || options.exists)
+      ? this.create_exists_cql+' '
       : ''
 
-    let durable = (has(options,'q_durable'))
-      ? Util.template(this.durable_cql, `${Boolean(options.q_durable)}`)
+    let durable = (has(options,'durable'))
+      ? Util.template(this.durable_cql, `${Boolean(options.durable)}`)
       : Util.template(this.durable_cql, 'true')
     let options_cql = durable
 
@@ -74,8 +74,8 @@ class CassKeyspace extends CassEntity {
   }
 
   static toCqlDrop( keyspace_name, options = {} ){
-    let exists_clause = this.drop_exists_cql
-    if (options.q_if_exists === false || options.q_exists_clause === false ) exists_clause = ''
+    let exists_clause = this.drop_exists_cql + ' '
+    if (options.if_exists === false || options.exists === false ) exists_clause = ''
     return Util.template(this.drop_cql, exists_clause, keyspace_name)
   }
 
@@ -105,7 +105,7 @@ class CassKeyspace extends CassEntity {
   }
 
   toCqlCreate(){
-    let o = { q_exists_clause: true, q_durable: this.durable }
+    let o = { exists_clause: true, durable: this.durable }
     this.debug(o)
     return this.constructor.toCqlCreate(this.keyspace, this.replication, o)
   }

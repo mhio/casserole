@@ -81,6 +81,7 @@ class Model {
     if ( !NewModel.debug.enabled ) NewModel.debug = noop
     if ( options.client && options.client instanceof Client === false ) throw new CassException('A Client instance must be attached')
     NewModel.client = options.client
+    if (options.hidden_fields) NewModel.hidden_fields = options.hidden_fields
     return NewModel
   }
 

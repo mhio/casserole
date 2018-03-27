@@ -7,9 +7,9 @@ describe('unit::mh::casserole::CassReplicationStrategy', function(){
     expect( CassReplicationStrategy.debug ).to.be.a('function')
   })
 
-    it('should fail to create an empty strategy', function () {
-      expect( ()=> new CassReplicationStrategy() ).to.throw
-    })
+  it('should fail to create an empty strategy', function () {
+    expect( ()=> new CassReplicationStrategy() ).to.throw
+  })
 
   describe('#Simple', function () {
     
@@ -26,6 +26,20 @@ describe('unit::mh::casserole::CassReplicationStrategy', function(){
       .to.equal("{'class':'SimpleStrategy','replication_factor':3}")
     })
 
+    it('should not create a Simple strategy with a bad replication factor', function () {
+      expect( ()=> CassReplicationStrategy.simple('wat') ).to.throw(/integer/)
+    })
+
+    it('should get the class for a simple strategy', function () {
+      expect( CassReplicationStrategy.simple(1).class ).to.equal('SimpleStrategy')
+    })
+
+    it('should fail to se a bad class', function () {
+      let cr = CassReplicationStrategy.simple(1)
+      let fn = ()=> cr.class = 'wahtever'
+      expect( fn ).to.throw(/Replication Strategy class must be/)
+    })
+
   })
 
   describe('#NetworkTopology', function () {
@@ -34,8 +48,13 @@ describe('unit::mh::casserole::CassReplicationStrategy', function(){
       expect( CassReplicationStrategy.networkTopology({what: 1, other: 2}) ).to.be.ok
     })
 
-    it('should create a NetworkTopology strategy', function () {
+    it('should not create a NetworkTopology strategy with bad values', function () {
       expect( ()=> CassReplicationStrategy.networkTopology() ).to.throw(/needs/)
+    })
+
+    it('should get the class for a simple strategy', function () {
+      let cls = CassReplicationStrategy.networkTopology({what: 1, other: 2}).class
+      expect( cls ).to.equal('NetworkTopologyStrategy')
     })
 
   })

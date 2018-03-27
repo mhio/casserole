@@ -42,7 +42,7 @@ class CassMap {
    return this._data
   }
 
-  // Convert data to a CQL Map
+  /** Convert data to a CQL Map */
   toCqlMap(){
     return this.constructor.toCqlMap(this._data)
   }
@@ -51,7 +51,7 @@ class CassMap {
     return this.constructor.toCqlMap(this._data)
   }
 
-  // Convert to CQL with `name = {}`
+  /** Convert to CQL with `name = {}` */
   toCqlWith(){
     if ( this.name === undefined ) { 
       throw new CassException('Map must have a name to create cql')
@@ -59,38 +59,39 @@ class CassMap {
     return `${this.name} = ${this.toCqlMap()}`
   }
 
-  // Name is for the CQL paramater name outside the Map
+  /** Name is for the CQL paramater name outside the Map */
   get name(){
     return this._name
   }
   set name(name){
-    CassException.if( !Paramaters.fmt_identifier_all_re.test(name),
-      `Map name must be [${Paramaters.fmt_identifier_str}]`)
+    if( !Paramaters.fmt_identifier_all_re.test(name) ) {
+      throw new CassException(`Map name must be [${Paramaters.fmt_identifier_str}]`)
+    }
     return this._name = name
   }
 
-  // Data is where the map is stored
+  /** Data is where the map is stored */
   get data(){
     return this._data
   }
 
-  // Get map data
+  /** Get map data */
   get(field){
     return this._data[field]
   }
 
-  // Set map data
+  /** Set map data */
   set(field, value){
     return this._data[field] = value
   }
 
-  // Add new data
+  /** Add new data */
   add(field, value){
-    CassException.if( has(this._data, field), `Map field "${field}" already set`)
+    if ( has(this._data, field) ) throw new CassException(`Map field "${field}" already set`)
     return this._data[field] = value
   }
 
-  // Delete map data
+  /** Delete map data */
   delete(field){
     return delete this._data[field]
   }

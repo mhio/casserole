@@ -42,4 +42,14 @@ describe('unit::mh::casserole::Model', function(){
     expect( fn ).to.throw(/A Client instance must be attached/)
   })
 
+  it('should create a model with hidden fields', function(){
+    let TestModel = Model.generate('TestModel', plain_schema, {
+      hidden_fields: ['field1']
+    })
+    let data = new TestModel({ field1: 'test', field2: '45674567-4567-4567-4567-456745674567'})
+    expect( data.toJSON() ).to.eql({
+      field2: '45674567-4567-4567-4567-456745674567',
+    })
+  })
+
 })

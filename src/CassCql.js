@@ -22,6 +22,7 @@ class CassCql {
     this.debug = debugr(name)
     /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop 
+    this.prototype.debug = this.debug
   }
 
   /** 
@@ -35,9 +36,9 @@ class CassCql {
    */
   static withOptions(object){
     return reduce(object, (res, val, key) => {
-      res.push(`${key} = ${this.valueToCqlMap(val)}`)
+      res.push(` ${key} = ${this.valueToCqlMap(val)}`)
       return res
-    }, []).join(' AND ')
+    }, []).join(' AND')
   }
 
 }

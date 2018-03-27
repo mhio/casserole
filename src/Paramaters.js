@@ -7,6 +7,8 @@ export default class Paramaters {
     this.debug = debugr('mhio:casserole:Paramaters')
 
     this.types = dataTypes
+    this.types['string'] = this.types['text']
+    this.types['integer'] = this.types['int']
     
     // JS name that would collide with the Paramaters instance fields
     this.reserved_fields = { 

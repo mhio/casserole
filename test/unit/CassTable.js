@@ -4,9 +4,11 @@ import CassTable from '../../src/CassTable'
 describe('unit::mh::casserole::CassTable', function(){
 
   it('should have cassandra-drivers types attached', function(){
-    expect( CassTable.types ).to.be.an('object')
-    expect( CassTable.types.time ).to.equal(0x0012)
-    expect( CassTable.types.text ).to.equal(0x000a)
+    expect( CassTable.data_types ).to.be.an('object')
+    expect( CassTable.data_types.time ).to.equal(0x0012)
+    expect( CassTable.data_types.text ).to.equal(0x000a)
+    expect( CassTable.data_types.string ).to.equal(0x000a)
+    expect( CassTable.data_types.ascii ).to.equal(0x0001)
   })
 
   let field = { name: 'a', type: 'int'}
@@ -14,13 +16,21 @@ describe('unit::mh::casserole::CassTable', function(){
 
   it('should dump CREATE cql from the class', function () {
     expect( CassTable.toCqlCreate('one', fields, [ 'a' ] ) ).to.equal(
-      'CREATE TABLE  one ( a int, PRIMARY KEY (a) );'
+      'CREATE TABLE "one" ( "a" int, PRIMARY KEY (a) );'
     )
   })
 
   it('should dump CREATE cql from the class', function () {
     expect( CassTable.toCqlCreate('one', fields, [ 'a','b' ] ) ).to.equal(
-      'CREATE TABLE  one ( a int, PRIMARY KEY (a, b) );'
+      'CREATE TABLE "one" ( "a" int, PRIMARY KEY (a, b) );'
+    )
+  })
+
+  it('should dump CREATE cql with cluster order by', function () {
+    let options = { order_by: 'whatever', order: 'DESC'}
+    let query = CassTable.toCqlCreate('one', fields, [ 'a','b' ], options)
+    expect( query ).to.equal(
+      'CREATE TABLE "one" ( "a" int, PRIMARY KEY (a, b) ) WITH CLUSTERING ORDER BY ( "whatever" DESC );'
     )
   })
 
@@ -39,10 +49,47 @@ describe('unit::mh::casserole::CassTable', function(){
     expect( fn ).to.throw(/CassTable Create cql requires "primary_keys"/)
   })
 
-  it('should dump DROP cql from the class', function () {
-    expect( CassTable.toCqlDrop('one', fields, 'a' ) ).to.equal(
-      'DROP TABLE one;'
-    )
+  it('should dump DROP cql', function () {
+    expect( CassTable.toCqlDrop('one') ).to.equal( 'DROP TABLE "one";' )
+  })
+
+  describe('instance', function(){
+    
+    let table = null
+
+    beforeEach(function(){
+      table = new CassTable()
+    })
+
+    it('should create an instance', function(){
+      expect( table ).to.be.ok  
+    })
+
+    it('should add a field to the table', function(){
+      expect( table.addField('aname', 'ascii') ).to.be.ok
+    })
+
+    it('should add a field to the table with a Casserole type name', function(){
+      expect( table.addField('aname', 'string') ).to.be.ok
+    })
+
+    it('should fail a field to the table', function(){
+      expect( ()=> table.addField('aname', 'wakka') ).to.throw(/type/)
+    })
+
+    it('should throw when using alter for the moment', function(){
+      expect( ()=> table.toCqlAlter() ).to.throw(/nope/)
+    })
+
+    it('should create the drop CQL', function(){
+      table.table_name = 'adrop'
+      expect( table.toCqlDrop() ).to.equal('DROP TABLE "adrop";')
+    })
+
+    it('should create the drop CQL', function(){
+      table.table_name = 'adrop'
+      expect( table.toCqlDrop({ exists: true }) ).to.equal('DROP TABLE "adrop" IF EXISTS;')
+    })
   })
 
 })

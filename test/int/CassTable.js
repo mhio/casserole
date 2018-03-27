@@ -31,12 +31,12 @@ describe('int::mh::casserole::CassTable', function(){
   }
   let standard_keys = [ 'one' ]
 
-  it('should create a table', function(){
-    let query = CassTable.toCqlCreate('casserole_int_test.whatever', standard_fields, standard_keys)
-    return client.execute(query).then(res => {
-      expect( res ).to.be.ok
-      expect( res.columns ).to.be.null
-    })
+  it('should create a table in client default keyspace', async function(){
+    let query = CassTable.toCqlCreate('whatever', standard_fields, standard_keys)
+    let res = await client.execute(query)
+    expect( res ).to.be.ok
+    expect( res.columns ).to.be.null
+    expect( res.rows ).to.be.undefined
   })
 
   it('should create a table with `keyspace` as an option', function(){
@@ -94,12 +94,12 @@ describe('int::mh::casserole::CassTable', function(){
   })
 
   it('should fail to alter for the moment', function(){
-    let fn = ()=> CassTable.toCqlAlter('casserole_int_test.whatever')
+    let fn = ()=> CassTable.toCqlAlter('whatever')
     expect( fn ).to.throw(/nope/)
   })
 
   it('should drop the table', function(){
-    let query = CassTable.toCqlDrop('casserole_int_test.whatever')
+    let query = CassTable.toCqlDrop('whatever')
     return client.execute(query).then(res => {
       expect( res ).to.be.ok
       expect( res.columns ).to.be.null
