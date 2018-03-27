@@ -449,6 +449,88 @@ CDC = TRUE</p>
 
 **Kind**: global class  
 
+* [Model](#Model)
+    * [new Model()](#new_Model_new)
+    * [.applySchema()](#Model.applySchema)
+    * [.sync()](#Model.sync)
+    * [.select()](#Model.select)
+    * [.findOne()](#Model.findOne)
+    * [.insert()](#Model.insert)
+    * [.update()](#Model.update)
+    * [.delete()](#Model.delete)
+
+
+* * *
+
+<a name="new_Model_new"></a>
+
+### new Model()
+<p>new Model</p>
+
+
+* * *
+
+<a name="Model.applySchema"></a>
+
+### Model.applySchema()
+<p>Apply a Schema setup to this Model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.sync"></a>
+
+### Model.sync()
+<p>Sync a table definition to the cassandra server</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.select"></a>
+
+### Model.select()
+<p>Select from this Model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.findOne"></a>
+
+### Model.findOne()
+<p>Select one from this Model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.insert"></a>
+
+### Model.insert()
+<p>Insert a new Model instance into the database</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.update"></a>
+
+### Model.update()
+<p>Update an instance of this model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.delete"></a>
+
+### Model.delete()
+<p>Delete an instance of this model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
 * * *
 
 <a name="Schema"></a>

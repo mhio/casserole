@@ -5,6 +5,7 @@ import snakeCase from 'lodash/snakeCase'
 import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
 import map from 'lodash/map'
+import has from 'lodash/has'
 
 import {CassException} from './CassExceptions'
 import Paramaters from './Paramaters'
@@ -85,7 +86,7 @@ class Model {
     return NewModel
   }
 
-  // Apply a Schema setup to this Model
+  /** Apply a Schema setup to this Model */
   static applySchema(schema){
     this.schema = schema
     const debugl = this.debug
@@ -104,11 +105,13 @@ class Model {
     })
   }
 
+  /** Sync a table definition to the cassandra server */
   static async sync( options ){
     let cql = this.table.toCqlCreate({ if_not_exists: true })
     return this.client.execute(cql)
   }
 
+  /** Select from this Model */
   static select( ...args ){ return this.find(...args) }
   static async find( where, options = {} ){
     const select = Query.select(this.table_name, this.columns, where, options)
@@ -116,6 +119,7 @@ class Model {
     return map(result.rows, row => new this(row, {new: false}))
   }
 
+  /** Select one from this Model */
   static async findOne( where, options = {} ){
     options.limit = 1
     const results = await this.find(where, options)
@@ -123,26 +127,35 @@ class Model {
     return results[0]
   }
 
+  /** Insert a new Model instance into the database */
   static insert( ...args ){ return this.create(...args) }
   static async create( data, options = {} ){
     return new this(data).execSave(options)
   }
 
+  /** Update an instance of this model */
   static async update( values, where, options = {} ){
     const update = Query.update(this.table_name, values, where)
     return this.client.query(update, options)
   }
 
+  /** Delete an instance of this model */
   static async delete( where, options = {} ){
     const del = Query.delete(this.table_name, where)
     return this.client.query(del, options)
   }
 
+  /** 
+   * new Model 
+   * @params {Object} data - Data to populate the Model with
+   * @params {Object} options - Metadata for the Model instance
+   * @params {Object} options.new - Is this new or existing data
+   */
   constructor(data, options){
     this._row_data = {}
     this._new = true
     if (options){
-      this._new = Boolean(options.new)
+      if ( has(options, 'new') ) this._new = Boolean(options.new)
     }
     forEach(data, (value, name)=> this._row_data[name] = value)
   }
