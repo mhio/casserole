@@ -9,10 +9,24 @@ import CassException from './CassExceptions'
 /**
  * Base class for other CQL Map implementations to extend
  */
-class CassMap {
+export class CassMap {
 
-  static classInit(){
+  static _classInit(){
+
+    /** 
+    * Template string parsing and replacing
+    * @memberof CassMap
+    * @name template
+    * @type Function
+    */
     this.template = Util.template
+
+    /** 
+    * Map values to a CQL Map
+    * @memberof CassMap
+    * @name toCqlMap
+    * @type Function
+    */
     this.toCqlMap = Util.valueToCqlMap
   }
 
@@ -27,7 +41,7 @@ class CassMap {
    * new CassMap 
    * @param {Object}  data - JS Data to build the map from
    * @param {Object}  options
-   * @param {String}  options.name - Name for the map
+   * @param {String}  options.name - Name of the map data
    */
   constructor( data, options = {} ){
     this._data = data
@@ -42,7 +56,9 @@ class CassMap {
    return this._data
   }
 
-  /** Convert data to a CQL Map */
+  /** Convert data to a CQL Map 
+  * @returns {String} Data as a CQL Map
+  */
   toCqlMap(){
     return this.constructor.toCqlMap(this._data)
   }
@@ -51,7 +67,9 @@ class CassMap {
     return this.constructor.toCqlMap(this._data)
   }
 
-  /** Convert to CQL with `name = {}` */
+  /** Convert to CQL with `name = {}` 
+  * @returns {String} Name = data as a CQL Map
+  */
   toCqlWith(){
     if ( this.name === undefined ) { 
       throw new CassException('Map must have a name to create cql')
@@ -59,7 +77,9 @@ class CassMap {
     return `${this.name} = ${this.toCqlMap()}`
   }
 
-  /** Name is for the CQL paramater name outside the Map */
+  /** The name of the CQL Map, usually a paramater name before the Map data 
+  * @type String
+  */
   get name(){
     return this._name
   }
@@ -70,12 +90,18 @@ class CassMap {
     return this._name = name
   }
 
-  /** Data is where the map is stored */
+  /** Data is where the map is stored
+  * @type Object
+  */
   get data(){
     return this._data
   }
 
-  /** Get map data */
+  /** 
+  * Get map data for a field
+  * @param {String} Name of field to retrieve
+  * @returns Field definition
+  */
   get(field){
     return this._data[field]
   }
@@ -97,6 +123,6 @@ class CassMap {
   }
 
 }
-CassMap.classInit()
+CassMap._classInit()
 
 export default CassMap

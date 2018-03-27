@@ -111,22 +111,26 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [CassMap](#CassMap)
-    * [new CassMap(data, options)](#new_CassMap_new)
-    * [.name](#CassMap+name)
-    * [.data](#CassMap+data)
-    * [.toCqlMap()](#CassMap+toCqlMap)
-    * [.toCqlWith()](#CassMap+toCqlWith)
-    * [.get()](#CassMap+get)
-    * [.set()](#CassMap+set)
-    * [.add()](#CassMap+add)
-    * [.delete()](#CassMap+delete)
+    * [new exports.CassMap(data, options)](#new_CassMap_new)
+    * _instance_
+        * [.name](#CassMap+name) : <code>String</code>
+        * [.data](#CassMap+data) : <code>Object</code>
+        * [.toCqlMap()](#CassMap+toCqlMap) ⇒ <code>String</code>
+        * [.toCqlWith()](#CassMap+toCqlWith) ⇒ <code>String</code>
+        * [.get(Name)](#CassMap+get) ⇒
+        * [.set()](#CassMap+set)
+        * [.add()](#CassMap+add)
+        * [.delete()](#CassMap+delete)
+    * _static_
+        * [.template](#CassMap.template) : <code>function</code>
+        * [.toCqlMap](#CassMap.toCqlMap) : <code>function</code>
 
 
 * * *
 
 <a name="new_CassMap_new"></a>
 
-### new CassMap(data, options)
+### new exports.CassMap(data, options)
 <p>new CassMap</p>
 
 
@@ -134,15 +138,15 @@ CDC = TRUE</p>
 | --- | --- | --- |
 | data | <code>Object</code> | <p>JS Data to build the map from</p> |
 | options | <code>Object</code> |  |
-| options.name | <code>String</code> | <p>Name for the map</p> |
+| options.name | <code>String</code> | <p>Name of the map data</p> |
 
 
 * * *
 
 <a name="CassMap+name"></a>
 
-### cassMap.name
-<p>Name is for the CQL paramater name outside the Map</p>
+### cassMap.name : <code>String</code>
+<p>The name of the CQL Map, usually a paramater name before the Map data</p>
 
 **Kind**: instance property of [<code>CassMap</code>](#CassMap)  
 
@@ -150,7 +154,7 @@ CDC = TRUE</p>
 
 <a name="CassMap+data"></a>
 
-### cassMap.data
+### cassMap.data : <code>Object</code>
 <p>Data is where the map is stored</p>
 
 **Kind**: instance property of [<code>CassMap</code>](#CassMap)  
@@ -159,28 +163,36 @@ CDC = TRUE</p>
 
 <a name="CassMap+toCqlMap"></a>
 
-### cassMap.toCqlMap()
+### cassMap.toCqlMap() ⇒ <code>String</code>
 <p>Convert data to a CQL Map</p>
 
 **Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+**Returns**: <code>String</code> - <p>Data as a CQL Map</p>  
 
 * * *
 
 <a name="CassMap+toCqlWith"></a>
 
-### cassMap.toCqlWith()
+### cassMap.toCqlWith() ⇒ <code>String</code>
 <p>Convert to CQL with <code>name = {}</code></p>
 
 **Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+**Returns**: <code>String</code> - <p>Name = data as a CQL Map</p>  
 
 * * *
 
 <a name="CassMap+get"></a>
 
-### cassMap.get()
-<p>Get map data</p>
+### cassMap.get(Name) ⇒
+<p>Get map data for a field</p>
 
 **Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+**Returns**: <p>Field definition</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| Name | <code>String</code> | <p>of field to retrieve</p> |
+
 
 * * *
 
@@ -208,6 +220,24 @@ CDC = TRUE</p>
 <p>Delete map data</p>
 
 **Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap.template"></a>
+
+### CassMap.template : <code>function</code>
+<p>Template string parsing and replacing</p>
+
+**Kind**: static property of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap.toCqlMap"></a>
+
+### CassMap.toCqlMap : <code>function</code>
+<p>Map values to a CQL Map</p>
+
+**Kind**: static property of [<code>CassMap</code>](#CassMap)  
 
 * * *
 
@@ -398,11 +428,11 @@ CDC = TRUE</p>
 
 * [CassReplicationStrategy](#CassReplicationStrategy) ⇐ [<code>CassMap</code>](#CassMap)
     * [new CassReplicationStrategy(replication_class, data)](#new_CassReplicationStrategy_new)
-    * [.name](#CassMap+name)
-    * [.data](#CassMap+data)
-    * [.toCqlMap()](#CassMap+toCqlMap)
-    * [.toCqlWith()](#CassMap+toCqlWith)
-    * [.get()](#CassMap+get)
+    * [.name](#CassMap+name) : <code>String</code>
+    * [.data](#CassMap+data) : <code>Object</code>
+    * [.toCqlMap()](#CassMap+toCqlMap) ⇒ <code>String</code>
+    * [.toCqlWith()](#CassMap+toCqlWith) ⇒ <code>String</code>
+    * [.get(Name)](#CassMap+get) ⇒
     * [.set()](#CassMap+set)
     * [.add()](#CassMap+add)
     * [.delete()](#CassMap+delete)
@@ -431,8 +461,8 @@ CDC = TRUE</p>
 
 <a name="CassMap+name"></a>
 
-### cassReplicationStrategy.name
-<p>Name is for the CQL paramater name outside the Map</p>
+### cassReplicationStrategy.name : <code>String</code>
+<p>The name of the CQL Map, usually a paramater name before the Map data</p>
 
 **Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
 
@@ -440,7 +470,7 @@ CDC = TRUE</p>
 
 <a name="CassMap+data"></a>
 
-### cassReplicationStrategy.data
+### cassReplicationStrategy.data : <code>Object</code>
 <p>Data is where the map is stored</p>
 
 **Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
@@ -449,28 +479,36 @@ CDC = TRUE</p>
 
 <a name="CassMap+toCqlMap"></a>
 
-### cassReplicationStrategy.toCqlMap()
+### cassReplicationStrategy.toCqlMap() ⇒ <code>String</code>
 <p>Convert data to a CQL Map</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Returns**: <code>String</code> - <p>Data as a CQL Map</p>  
 
 * * *
 
 <a name="CassMap+toCqlWith"></a>
 
-### cassReplicationStrategy.toCqlWith()
+### cassReplicationStrategy.toCqlWith() ⇒ <code>String</code>
 <p>Convert to CQL with <code>name = {}</code></p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Returns**: <code>String</code> - <p>Name = data as a CQL Map</p>  
 
 * * *
 
 <a name="CassMap+get"></a>
 
-### cassReplicationStrategy.get()
-<p>Get map data</p>
+### cassReplicationStrategy.get(Name) ⇒
+<p>Get map data for a field</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Returns**: <p>Field definition</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| Name | <code>String</code> | <p>of field to retrieve</p> |
+
 
 * * *
 
@@ -632,8 +670,65 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [Client](#Client)
+    * [.connect()](#Client+connect)
+    * [.keyspaceDrop()](#Client+keyspaceDrop) ⇒ <code>ResultSet</code>
+    * [.keyspaceCreate()](#Client+keyspaceCreate) ⇒ <code>ResultSet</code>
+    * [.createTable(name, fields, primary_keys, fields)](#Client+createTable) ⇒ <code>ResultSet</code>
     * [.query(query, options)](#Client+query) ⇒ <code>ResultSet</code>
     * [.execute(query, params, options)](#Client+execute) ⇒ <code>ResultSet</code>
+    * [.insert(table, values, options)](#Client+insert) ⇒ <code>ResultSet</code>
+    * [.select(table, columns, where, options)](#Client+select) ⇒ <code>ResultSet</code>
+    * [.update(table, values, where, options)](#Client+update) ⇒ <code>ResultSet</code>
+    * [.delete(table, where, options)](#Client+delete) ⇒ <code>ResultSet</code>
+    * [.disconnect()](#Client+disconnect) ⇒
+    * [.getState()](#Client+getState) ⇒
+
+
+* * *
+
+<a name="Client+connect"></a>
+
+### client.connect()
+<p>Connect to the cassandra db</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+
+* * *
+
+<a name="Client+keyspaceDrop"></a>
+
+### client.keyspaceDrop() ⇒ <code>ResultSet</code>
+<p>Drop the default keyspace</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <p>Result of query</p>  
+
+* * *
+
+<a name="Client+keyspaceCreate"></a>
+
+### client.keyspaceCreate() ⇒ <code>ResultSet</code>
+<p>Create the default keyspace</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <p>Result of query</p>  
+
+* * *
+
+<a name="Client+createTable"></a>
+
+### client.createTable(name, fields, primary_keys, fields) ⇒ <code>ResultSet</code>
+<p>Create a table in the default keyspace</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <p>Result of query</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | <p>The tables name</p> |
+| fields | <code>Object</code> | <p>The field/column definition to create</p> |
+| primary_keys | <code>Array</code> | <p>The field/columns to use as primary keys</p> |
+| fields | <code>Object</code> | <p>The field/column definition to create</p> |
 
 
 * * *
@@ -644,9 +739,7 @@ CDC = TRUE</p>
 <p>Run a Query</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
-**Returns**: <code>ResultSet</code> - <ul>
-<li>Cassandra ResultSet</li>
-</ul>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -659,21 +752,118 @@ CDC = TRUE</p>
 <a name="Client+execute"></a>
 
 ### client.execute(query, params, options) ⇒ <code>ResultSet</code>
-<ul>
-<li>Execute a string query, and possible paramaters and Cassandra driver options.</li>
-</ul>
+<p>Execute a string query, and possible paramaters and Cassandra driver options.</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Execute a query string</p>  
+**Returns**: <code>ResultSet</code> - <p>Cassandra ResultSet</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| query | <code>string</code> | <p>Query string</p> |
+| params | <code>array</code> | <p>Paramaters for the <code>?</code> in plain string query</p> |
+| options | <code>object</code> | <p>Cassandra Driver query options</p> |
+
+
+* * *
+
+<a name="Client+insert"></a>
+
+### client.insert(table, values, options) ⇒ <code>ResultSet</code>
+<p>Execute a...</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Run an insert query</p>  
 **Returns**: <code>ResultSet</code> - <ul>
 <li>Cassandra ResultSet</li>
 </ul>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| query | <code>string</code> | <p>Query string</p> |
-| params | <code>array</code> | <p>Params for a plain string query</p> |
+| table | <code>String</code> | <p>Name of the table to insert to</p> |
+| values | <code>Object</code> | <p>field: value pairs to insert</p> |
 | options | <code>object</code> | <p>Cassandra Driver query options</p> |
 
+
+* * *
+
+<a name="Client+select"></a>
+
+### client.select(table, columns, where, options) ⇒ <code>ResultSet</code>
+<p>Execute a...</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Run an select query</p>  
+**Returns**: <code>ResultSet</code> - <ul>
+<li>Cassandra ResultSet</li>
+</ul>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>String</code> | <p>Name of the table to insert to</p> |
+| columns | <code>Array</code> \| <code>String</code> | <p>The columns to return in the ResultSet</p> |
+| where | <code>Object</code> | <p>Where clause to use</p> |
+| options | <code>Object</code> | <p>Cassandra query options</p> |
+
+
+* * *
+
+<a name="Client+update"></a>
+
+### client.update(table, values, where, options) ⇒ <code>ResultSet</code>
+<p>Execute a...</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Run an update query</p>  
+**Returns**: <code>ResultSet</code> - <ul>
+<li>Cassandra ResultSet</li>
+</ul>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>String</code> | <p>Name of the table to insert to</p> |
+| values | <code>Object</code> | <p><code>field: value</code> pairs to update</p> |
+| where | <code>Object</code> | <p>Where clause to use</p> |
+| options | <code>Object</code> | <p>Cassandra query options</p> |
+
+
+* * *
+
+<a name="Client+delete"></a>
+
+### client.delete(table, where, options) ⇒ <code>ResultSet</code>
+<p>Execute a...</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Run an delete query</p>  
+**Returns**: <code>ResultSet</code> - <ul>
+<li>Cassandra ResultSet</li>
+</ul>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>String</code> | <p>Name of the table to insert to</p> |
+| where | <code>Object</code> | <p>Where clause to use</p> |
+| options | <code>Object</code> | <p>Cassandra query options</p> |
+
+
+* * *
+
+<a name="Client+disconnect"></a>
+
+### client.disconnect() ⇒
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Disconnect</p>  
+**Returns**: <p>???</p>  
+
+* * *
+
+<a name="Client+getState"></a>
+
+### client.getState() ⇒
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Summary**: <p>Get the state of the Cassandra client connection</p>  
+**Returns**: <p>???</p>  
 
 * * *
 

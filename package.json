@@ -14,7 +14,7 @@
     "build": "set -uex; yarn run build:code; yarn run build:doc",
     "build:code": "babel -d lib/ src/",
     "build:doc": "set -uex; yarn run build:doc:html; yarn run build:doc:md",
-    "build:doc:html": "jsdoc -c .jsdoc.json -d doc/html src/",
+    "build:doc:html": "jsdoc -c .jsdoc.json -t node_modules/@mhio/jsdoc-template/template -d doc/html src/",
     "build:doc:md": "jsdoc2md -c ./.jsdoc.json --module-index-format table --separators --files src/* > doc/API.md",
     "watch": "nodemon -w src/ -w test/ -x",
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/mhio/casserole#readme",
   "devDependencies": {
+    "@mhio/jsdoc-template": "^0.1.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-preset-env": "^1.6.0",

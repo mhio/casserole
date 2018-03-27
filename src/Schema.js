@@ -74,10 +74,6 @@ export class Schema {
     this.config = config
   }
 
-
-
-
-
   /**
   * The schemas config object
   * @type Object
