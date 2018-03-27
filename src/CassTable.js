@@ -49,16 +49,16 @@ class CassTable extends CassEntity {
         
   }
 
-  static toCqlDrop(name, exists){
+  static toCqlDrop( name, exists ){
     const exists_clause = (exists === true) ? 'IF EXISTS' : ''
     return template('DROP TABLE {{name}}{{exists_clause}};', name, exists_clause)
   }
 
-  static toCqlAlter(name, changes){ // eslint-disable-line no-unused-vars
+  static toCqlAlter( name, changes ){ // eslint-disable-line no-unused-vars
     throw new Error('nope')
   }
 
-  static toCqlCreate(name, fields, primary_keys, options = {}){
+  static toCqlCreate( name, fields, primary_keys, options = {} ){
     if (isEmpty(name)) throw new CassError('CassTable Create cql requires a table "name"')
     if (isEmpty(fields)) throw new CassError('CassTable Create cql requires "fields"')
     if (isEmpty(primary_keys)) throw new CassError('CassTable Create cql requires "primary_keys"')
@@ -140,7 +140,7 @@ class CassTable extends CassEntity {
     if (has(options,'durable')) this.durable = Boolean(options.durable)
   }
 
-  addField(field, type){
+  addField( field, type ){
     if ( !dataTypes[type] ) throw new CassError(`No cassandra type "${type}" available`)
     this.debug('adding field "%s" of type "%s" to table "%s"', field, type, this.table_name)
     this.fields[field] = { name: field, type: type }

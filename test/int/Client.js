@@ -26,6 +26,7 @@ describe('int::mh::casserole::Client', function(){
     return client.disconnect()
   })
 
+
   it('should connect and init keyspace', function(){
     return client.connect().then(res => {
       expect( res ).to.be.ok
@@ -76,42 +77,50 @@ describe('int::mh::casserole::Client', function(){
     })
 
     it('should insert data into atable', function(){
-      return client.insert('atable', {one: 'true'}).then(res => expect( res ).to.be.ok)
+      return client.insert('atable', {one: 'first'}).then(res => expect( res ).to.be.ok)
     })
 
     it('should insert data into atable', function(){
-      return client.insert('atable', {one: 'test', two: 'true'}).then(res => expect( res ).to.be.ok)
+      return client.insert('atable', {one: 'second', two: 'true'}).then(res => expect( res ).to.be.ok)
     })
 
     it('should select inserted data from atable', function(){
-      return client.select('atable', ['one'], {one: 'true'}).then(res => {
+      return client.select('atable', ['one'], {one: 'first'}).then(res => {
+        debug('rows', res.rows)
         expect( res.rows ).to.be.ok
-        debug('rows', res.rows[0])
-        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'true' )
+        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'first' )
       })
     })
 
     it('should select inserted data from atable', function(){
-      return client.select('atable', ['one'], {one: 'true'}).then(res => {
+      return client.select('atable', ['one'], {one: 'second'}).then(res => {
+        debug('rows', res.rows)
         expect( res.rows ).to.be.ok
-        debug('rows', res.rows[0])
-        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'true' )
+        expect( res.rows[0] ).to.have.property( 'one' ).and.equal( 'second' )
       })
     })
 
-    it('should delete inserted data from atable', function(){
-      return client.delete('atable', {one: 'true'}).then(res => {
-        expect( res.rows ).to.equal(undefined)
-      })
+    it('should update inserted data in atable', async function(){
+      let res = await client.update('atable', { two: 'number two' }, {one: 'first'})
+      expect( res.rows ).to.be.undefined
+      expect( res.rowLength ).to.be.undefined
+      let sel = await client.select('atable', ['two'], {one: 'first'})
+      expect( sel.rows ).to.have.length(1)
+      expect( sel.rows[0] ).to.have.property( 'two' ).and.equal( 'number two' )
     })
 
-    it('should not select the deleted data from atable', function(){
-      return client.select('atable', ['one'], {one: 'true'}).then(res => {
-        expect( res.rows ).to.have.length(0)
-      })
+    it('should delete inserted data from atable', async function(){
+      let res = await client.delete('atable', {one: 'first'})
+      expect( res.rows ).to.be.undefined
+      expect( res.rowLength ).to.be.undefined
     })
 
-    it('should not select the deleted data from atable', function(){
+    it('should not select the deleted data from atable', async function(){
+      let res = await client.select('atable', ['one'], {one: 'first'})
+      expect( res.rows ).to.have.length(0)
+    })
+
+    it('should not select deleted atable after deletions', function(){
       return client.select('atable', ['one']).then(res => {
         expect( res.rows ).to.have.length(1)
       })

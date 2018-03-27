@@ -3,6 +3,40 @@ import Query from '../../src/CassQuery_3_3'
 
 describe('unit::mh::casserole::CassQuery_3_3', function(){
 
+  describe('instance', function(){
+    
+    it('should not create an instance witout type', function(){
+      let fn = ()=> new Query()
+      expect(fn).to.throw(/type/)
+    })
+
+    it('should create an instance for select', function(){
+      let query = new Query('select')
+      expect(query).to.be.an.instanceof(Query)
+    })
+
+    it('should create an instance for insert', function(){
+      let query = new Query('insert')
+      expect(query).to.be.an.instanceof(Query)
+    })
+
+    it('should create an instance for update', function(){
+      let query = new Query('update')
+      expect(query).to.be.an.instanceof(Query)
+    })
+
+    it('should create an instance for delete', function(){
+      let query = new Query('delete')
+      expect(query).to.be.an.instanceof(Query)
+    })
+
+    it('should set a table for a select query', function(){
+      let query = Query.select('atable')
+      expect(query.table).to.equal('atable')
+    })
+
+  })
+
   describe('#INSERT', function(){
 
     it('should create an insert query', function(){
@@ -130,8 +164,8 @@ describe('unit::mh::casserole::CassQuery_3_3', function(){
   describe('#UPDATE', function(){
 
     it('should create an update query', function(){
-      let q = Query.update('atable', {c:1}, {test: 'one', other: 'two'})
-      expect( q.toString() ).to.equal('UPDATE "atable" SET "test" = ?, "other" = ? WHERE "c" = ?')
+      let q = Query.update('atable', {test: 'one', other: 'two'}, {cid: 1})
+      expect( q.toString() ).to.equal('UPDATE "atable" SET "test" = ?, "other" = ? WHERE "cid" = ?')
       expect( q.paramaters ).to.eql([ 'one', 'two', 1 ])
     })
 

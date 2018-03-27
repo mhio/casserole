@@ -8,7 +8,7 @@ import map from 'lodash/map'
 
 import {CassError} from './CassErrors'
 import Paramaters from './Paramaters'
-import CassQuery from './CassQuery_3_3'
+import Query from './CassQuery_3_3'
 import CassTable from './CassTable'
 import Client from './Client'
 import Schema from './Schema'
@@ -107,15 +107,15 @@ export default class Model {
   }
 
   static select( ...args ){ return this.find(...args) }
-  static async find( query, options = {} ){
-    const select = CassQuery.select(this.table_name, this.columns, query, options)
-    const result = await this.client.execute(select.toString(), select.paramaters, options)
+  static async find( where, options = {} ){
+    const select = Query.select(this.table_name, this.columns, where, options)
+    const result = await this.client.query(select, options)
     return map(result.rows, row => new this(row, {new: false}))
   }
 
-  static async findOne( query, options = {} ){
+  static async findOne( where, options = {} ){
     options.limit = 1
-    const results = await this.find(query, options)
+    const results = await this.find(where, options)
     if (results.length !== 1) return null
     return results[0]
   }
@@ -125,14 +125,14 @@ export default class Model {
     return new this(data).execSave(options)
   }
 
-  static async update( query, values, options = {} ){
-    const update = CassQuery.update(this.table_name, query, values)
-    return this.client.execute(update.toCql(), update.paramaters, options)
+  static async update( values, where, options = {} ){
+    const update = Query.update(this.table_name, values, where)
+    return this.client.query(update, options)
   }
 
-  static async delete( query, options = {} ){
-    const del = CassQuery.delete(this.table_name, query)
-    return this.client.execute(del.toCql(), del.paramaters, options)
+  static async delete( where, options = {} ){
+    const del = Query.delete(this.table_name, where)
+    return this.client.query(del, options)
   }
 
   constructor(data, options){
@@ -154,8 +154,8 @@ export default class Model {
     this.constructor.debug('this',this)
     let selector = this.buildPrimaryKeyWhere()
     let query = (this._new)
-      ? CassQuery.insert(this.constructor.table_name, this._row_data)
-      : CassQuery.update(this.constructor.table_name, selector, this._row_data)
+      ? Query.insert(this.constructor.table_name, this._row_data)
+      : Query.update(this.constructor.table_name, selector, this._row_data)
     const res = await this.constructor.client.execute(query.toString(), query.paramaters, options)
     this._new = false
     return res
@@ -163,7 +163,7 @@ export default class Model {
 
   async execRemove(options){
     let selector = this.buildPrimaryKeyWhere()
-    let query = CassQuery.delete(this.constructor.table_name, selector)
+    let query = Query.delete(this.constructor.table_name, selector)
     return this.constructor.client.execute(query.toString(), query.paramaters, options)
   }
 

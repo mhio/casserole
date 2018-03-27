@@ -3,22 +3,18 @@ import map from 'lodash/map'
 import noop from 'lodash/noop'
 import forEach from 'lodash/forEach'
 
-import Paramaters from './Paramaters'
-import CassCql from './CassCql'
+import CassQuery from './CassQuery'
 import {QueryError} from './CassErrors'
 
 // # Query
 
-//export default class Query extends Cql {
-export default class CassQuery_3_3 extends CassCql {
+export default class CassQuery_3_3 extends CassQuery {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:CassQuery_3_3')
+    /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
     this.prototype.debug = this.debug
-
-    // Cassandra driver Types
-    this.types = Paramaters.types
 
     // Static aliases
     this.create = this.insert
@@ -26,12 +22,11 @@ export default class CassQuery_3_3 extends CassCql {
 
     // Instance aliases
     this.prototype.toCql = this.prototype.toString
+    this.prototype.create = this.prototype.insert
+    this.prototype.read = this.prototype.select
     this.prototype.find = this.prototype.select
-  }
 
-  // static equals(o){
-  //   return toPairs(o).map(pair => pair.join(' = "')+'"').join(' AND ')
-  // }
+  }
 
   //static read( table, query, options = {} ){
   static select( table, columns, where, options = {} ){
@@ -52,8 +47,8 @@ export default class CassQuery_3_3 extends CassCql {
     return new this('insert', options)
   }
 
-  static update( table, where, setvalues, options = {} ){
-    this.debug('update %s where ', table, where, setvalues, options)
+  static update( table, setvalues, where, options = {} ){
+    this.debug('update %s where ', table, setvalues, where, options)
     options.table = table
     options.where = where
     options.set = setvalues
@@ -78,7 +73,7 @@ export default class CassQuery_3_3 extends CassCql {
       case 'insert': this.insert(options.table, options.values); break
       case 'update': this.update(options.table, options.set, options.where); break
       case 'delete': this.delete(options.table, options.where); break
-      default: throw new QueryError('Nope')
+      default: throw new QueryError('A Query instance requires a type: select, insert, update or delete')
     }
     //this._values = options.values || null
     //if ( options.values ) this.values(options.values)
@@ -86,6 +81,12 @@ export default class CassQuery_3_3 extends CassCql {
     //if ( options.where ) this.whereObject(options.where)
   }
 
+  get paramaters(){
+    return this._paramaters
+  }
+  get table(){
+    return this._table
+  }
 
   // ### Helpers
   expectConstraint(){
@@ -159,10 +160,6 @@ export default class CassQuery_3_3 extends CassCql {
     return this
   }
 
-
-  get paramaters(){
-    return this._paramaters
-  }
 
   generateColumns(){
     if ( this._columns === '*' ) return '*'

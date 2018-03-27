@@ -5,14 +5,15 @@ import noop from 'lodash/noop'
 import CassKeyspace from './CassKeyspace'
 import CassQuery_3_3 from './CassQuery_3_3'
 import CassTable from './CassTable'
-
+import Query from './CassQuery_3_3'
 
 class Client {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Client')
+    /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
-
+    this.prototype.debug = this.debug
 
     this.default_keyspace = 'default'
     this.default_replication_factor = 1
@@ -28,8 +29,6 @@ class Client {
   * @property {String} keyspace The keyspace for all the operations within the {@link Client} instance.
   **/
   constructor( keyspace, options = {} ){
-    this.debug = this.constructor.debug
-    
     this.keyspace = keyspace
 
     // We need an array of hosts to connect to, defualt to localhost
@@ -73,7 +72,7 @@ class Client {
     return this.keyspaceCreate()
   }
 
-  keyspaceDrop(){
+  async keyspaceDrop(){
     let query = CassKeyspace.toCqlDrop(this.keyspace)
     return this.execute(query)
   }
@@ -83,7 +82,7 @@ class Client {
       class: this.replication_stategy,
       replication_factor: this.replication_factor
     }, {
-      q_if_not_exists: true
+      if_not_exists: true
     })
     let res = await this.execute(query)
     await this.execute('USE '+this.keyspace)
@@ -95,6 +94,27 @@ class Client {
     return this.execute(query)
   }
 
+  /**
+   * Run a Query
+   *  @params {Query} query - Query object
+   *  @params {object} options - Cassandra Driver query options
+   *  @returns {ResultSet} - Cassandra ResultSet
+   */
+  async query( query, options = {} ){
+    if ( query instanceof Query === false ) {
+      throw new Error('Client query requires a Query object')
+    }
+    return this.execute(query.query, query.paramaters, options)
+  }
+
+  /**
+   *  Execute a query string 
+   *  @description - Execute a string query, and possible paramaters and Cassandra driver options.
+   *  @params {string} query - Query string
+   *  @params {array} params - Params for a plain string query
+   *  @params {object} options - Cassandra Driver query options
+   *  @returns {ResultSet} - Cassandra ResultSet
+   */
   async execute( query, params = [], options = {} ){
     this.debug('execute query [%s] with', query, params, options)
     const result = await this.client.execute(query, params, options)
@@ -103,23 +123,23 @@ class Client {
   }
 
   async insert( table, values, options ){
-    let query = CassQuery_3_3.insert(table, values)
-    return this.client.execute(query.toString(), query.paramaters, options)
+    let query = Query.insert(table, values)
+    return this.query(query, options)
   }
 
   async select( table, columns, where, options ){
-    let query = CassQuery_3_3.select(table, columns, where)
-    return this.client.execute(query.toString(), query.paramaters, options)
+    let query = Query.select(table, columns, where)
+    return this.query(query, options)
   }
 
   async update( table, values, where, options ){
-    let query = CassQuery_3_3.update(table, values, where)
-    return this.client.execute(query.toString(), query.paramaters, options)
+    let query = Query.update(table, values, where)
+    return this.query(query, options)
   }
 
   async delete( table, where, options ){
-    let query = CassQuery_3_3.delete(table, where)
-    return this.client.execute(query.toString(), query.paramaters, options)
+    let query = Query.delete(table, where)
+    return this.query(query, options)
   }
 
   // async

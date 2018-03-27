@@ -23,4 +23,17 @@ describe('unit::mh::casserole::Client', function(){
     expect(Client.prototype.execute).to.be.a('function')
   })
   
+  it('should create a client with a default host', function () { 
+    expect(new Client().hosts).to.eql([ '127.0.0.1' ])
+  })
+
+  it('should create a client with different host', function () { 
+    expect(new Client('akeyspace', {hosts: ['10.1.1.1']}).hosts).to.eql([ '10.1.1.1' ])
+  })
+
+  it('should fail to run a non query', function () {
+    let client = new Client()
+    return client.query({}).should.be.rejectedWith(/Client query requires a Query object/)
+  })
+
 })

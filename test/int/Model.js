@@ -31,11 +31,18 @@ describe('int::mh::casserole::Model', function(){
     expect( testmodel.field2 ).to.equal('12341234-1234-1234-1234-123423141234')
   })
 
+  after('cleanup', function(){
+    this.timeout(4000) // docker :/
+    return client.keyspaceDrop()
+  })
+
   after('disconnect', function(){
     debug('state', client.getState())
     return client.disconnect()
   })
 
+
+  /** Tests */
 
   it('should save a new TestModel', function(){
     return testmodel.execSave()
@@ -87,7 +94,10 @@ describe('int::mh::casserole::Model', function(){
 
 
   it('should update on the Model', async function(){
-    let res = await TestModel.update({ field2: '33334444-1234-1234-1234-123423141234' }, { field1: 'updated!' })
+    let res = await TestModel.update(
+      { field1: 'updated!' },
+      { field2: '33334444-1234-1234-1234-123423141234'
+    })
     expect(res).to.be.ok
     res = await TestModel.find({ field2: '33334444-1234-1234-1234-123423141234' })
     expect(res[0].field1).to.eql('updated!')
