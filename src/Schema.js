@@ -9,7 +9,7 @@ import CassException from './CassExceptions'
 /**
  * Schema for apps to build into Models
  */
-class Schema {
+export class Schema {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Schema')
@@ -27,7 +27,8 @@ class Schema {
   }
 
   constructor(config){
-    CassException.if( !config, 'Schema needs a config option')
+    this.debug('new Schema with ', config)
+    if (!config) throw new CassException('Schema needs to be created with a config')
     this.config = config
   }
 
@@ -36,19 +37,19 @@ class Schema {
   }
 
   set config(config){
+    if (!config) throw new CassException('Schema config must be an object')
+    if (Object.keys(config).length === 0) throw new CassException('Schema must have fields')
+
     // Validate
-    forEach(config, ( field, name )=>{
-      let field_type = null 
-      if (typeof field === 'string') {
-        field_type = field.toLowerCase()
-      } else {
-        if (!field.type) throw new CassException(`Schema type must be defined for field "${name}"`)
-        field_type = field.type.toLowerCase()
+    forEach(config, ( field_def, field_name )=>{
+      if (typeof field_def === 'string'){
+        field_def = { name: field_name, type: field_def }
       }
-      if ( field_type === 'string' ) field_type = 'text'
-      if ( field_type === 'datetime' ) field_type = 'timestamp'
-      if ( field_type === 'integer' ) field_type = 'int'
-      if ( !this.data_types[field_type] ) throw new CassException(`No cassandra field type "${field_type}" for ${name}`)
+      if (!field_def.type) {
+        throw new CassException(`Schema "type" must be defined for field "${field_name}"`)
+      }
+      field_def.type = Paramaters.checkType(field_def.type)
+      config[field_name] = field_def
     })
     this._config = config
   }

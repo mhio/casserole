@@ -65,18 +65,15 @@ class Model {
     // Name the class via an object property
     const o = { [name]: class extends this {} }
     let NewModel = o[name]
-    if ( schema instanceof Schema ) {
-      NewModel.applySchema(schema)  
+    if ( schema instanceof Schema === false) {
+      schema = new Schema(schema)
     }
-    else {
-      let sch = new Schema(schema)
-      NewModel.applySchema(sch)
-    }
+    NewModel.applySchema(schema)  
     
     NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
     NewModel.table_name = snakeCase(pluralize(name))
     NewModel.table = new CassTable(NewModel.table_name, {
-      fields: schema._config,
+      fields: schema.config,
       primary_keys: schema.primary_keys
     })
     /* istanbul ignore else */
@@ -175,7 +172,9 @@ class Model {
   }
 
   /** Save this instance to the database */
-  async execSave(options){
+  async execSave( options = {} ){
+    // prepares is used for type inference, could `hint` on models as well
+    options.prepare = true 
     this.constructor.debug('this',this)
     let query = (this._new)
       ? Query.insert(this.constructor.table_name, this._row_data)

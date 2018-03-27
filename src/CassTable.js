@@ -76,7 +76,7 @@ class CassTable extends CassEntity {
     
     let exists_clause = ''
     if ( options.if_not_exists || options.exists ) {
-      exists_clause = this.create_exists_cql
+      exists_clause = this.create_exists_cql + ' '
       delete options.if_not_exists
       delete options.exists
     }
@@ -151,20 +151,22 @@ class CassTable extends CassEntity {
    */
   constructor( name, options = {} ){
     super()
-    this.debug('new', name, options)
+    if ( ! name ) throw new CassException('CassTable requires a name')
+    this.debug('new CassTable', name, options)
     this.table_name = name
     this.fields = {}
-    if (options.fields) forEach(options.fields, (field, name) => this.addField(name, field.type))
+    if (options.fields) forEach(options.fields, (field, name) => this.addField(name, field))
     this.primary_keys = options.primary_keys || []
     this.replication = options.replication
     this.keyspace = options.keyspace || ''
     if (has(options,'durable')) this.durable = Boolean(options.durable)
   }
 
-  addField( field, type ){
+  addField( field_name, field_def ){
+    let type = (typeof field_def === 'string') ? field_def : field_def.type
     if ( !this.data_types[type] ) throw new CassException(`No cassandra type "${type}" available`)
-    this.debug('adding field "%s" of type "%s" to table "%s"', field, type, this.table_name)
-    this.fields[field] = { name: field, type: type }
+    this.debug('adding field "%s" of type "%s" to table "%s"', field_name, type, this.table_name)
+    this.fields[field_name] = { name: field_name, type: type }
     return this
   }
 

@@ -12,7 +12,7 @@ describe('unit::mh::casserole::Schema', function(){
   }
 
   it('should create a new Schema', function(){
-    expect( new Schema({}) ).to.be.ok
+    expect( new Schema({ a: 'string' }) ).to.be.ok
   })
 
   it('should fail to create an empty Schema', function(){
@@ -46,24 +46,24 @@ describe('unit::mh::casserole::Schema', function(){
 
   it('should not allow blank types', function(){
     let fn = ()=> new Schema({ anint: {} })
-    expect( fn ).to.throw(/Schema type must be defined for field/)
+    expect( fn ).to.throw(/Schema "type" must be defined for field "anint"/)
   })
 
   it('should not allow a bad type string', function(){
     let fn = ()=> new Schema({ anint: 'bad' })
-    expect( fn ).to.throw(/No cassandra field type "bad"/)
+    expect( fn ).to.throw(/No cassandra type "bad"/)
   })
 
   it('should not allow a bad type property', function(){
     let fn = ()=> new Schema({ anint: { type: 'bad'} })
-    expect( fn ).to.throw(/No cassandra field type "bad"/)
+    expect( fn ).to.throw(/No cassandra type "bad"/)
   })
 
   it('should get the config for a Schema', function(){
     let schema = new Schema({
       field1: { type: 'string'},
     })
-    expect( schema.config ).to.eql({ field1: { type: 'string'} })
+    expect( schema.config ).to.eql({ field1: { type: 'text'} })
   })
 
   it('should set the config for a Schema', function(){
@@ -77,7 +77,7 @@ describe('unit::mh::casserole::Schema', function(){
   it('should get the column types', function(){
     let schema = new Schema(big_schema)
     expect( schema.column_types ).to.eql({
-      field1: 'string',
+      field1: 'text',
       field2: 'uuid',
       field3: 'int',
       field4: 'decimal',

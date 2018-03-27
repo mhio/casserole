@@ -1,7 +1,9 @@
 import debugr from 'debug'
 import { dataTypes } from 'cassandra-driver/lib/types'
+import { CassException } from './CassExceptions'
 
-export default class Paramaters {
+
+export class Paramaters {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Paramaters')
@@ -9,8 +11,9 @@ export default class Paramaters {
     this.types = dataTypes
     this.types['string'] = this.types['text']
     this.types['integer'] = this.types['int']
-    
-    // JS name that would collide with the Paramaters instance fields
+    this.types['datetime'] = this.types['timestamp']
+
+    // JS names that would collide with the Model instance fields
     this.reserved_fields = { 
       'prototype': true,
       'constructor': true,
@@ -42,5 +45,25 @@ export default class Paramaters {
 
   }
 
+  /** 
+    * Map any of our type aliases into Cassandra types 
+    * @param {String} type_name - 
+    * @return {String} - The actual type name
+    * @throws {CassException} - Unknown type
+    */
+  static checkType(type_name){
+    if (!type_name.toLowerCase) throw new CassException('Cassandra types can on be supplied as strings')
+    let lower_type_name = type_name.toLowerCase()
+    switch ( lower_type_name ) {
+      case 'string': return 'text'
+      case 'integer': return 'int'
+      case 'datetime': return 'timestamp'
+      default:
+        if (Paramaters.types[lower_type_name]) return lower_type_name
+        throw new CassException(`No cassandra type "${type_name}" found`)
+    }
+  }
 }
 Paramaters.classInit()
+
+export default Paramaters

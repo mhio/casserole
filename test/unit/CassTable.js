@@ -26,6 +26,12 @@ describe('unit::mh::casserole::CassTable', function(){
     )
   })
 
+  it('should dump CREATE cql from the class', function () {
+    expect( CassTable.toCqlCreate('one', fields, [ 'a','b' ], { exists: true }) ).to.equal(
+      'CREATE TABLE IF NOT EXISTS "one" ( "a" int, PRIMARY KEY (a, b) );'
+    )
+  })
+
   it('should dump CREATE cql with cluster order by', function () {
     let options = { order_by: 'whatever', order: 'DESC'}
     let query = CassTable.toCqlCreate('one', fields, [ 'a','b' ], options)
@@ -58,7 +64,7 @@ describe('unit::mh::casserole::CassTable', function(){
     let table = null
 
     beforeEach(function(){
-      table = new CassTable()
+      table = new CassTable('atable')
     })
 
     it('should create an instance', function(){
