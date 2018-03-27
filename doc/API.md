@@ -233,6 +233,11 @@ CDC = TRUE</p>
     * [.insert(table, values)](#CassQuery_3_3+insert) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.update(table, set, where)](#CassQuery_3_3+update) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.delete(table, where)](#CassQuery_3_3+delete) ⇒ [<code>CassQuery</code>](#CassQuery)
+    * [.values()](#CassQuery_3_3+values)
+    * [.set()](#CassQuery_3_3+set)
+    * [.whereObject(clause)](#CassQuery_3_3+whereObject) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+    * [.whereString(field)](#CassQuery_3_3+whereString) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+    * [.where(param)](#CassQuery_3_3+where) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
 
 
 * * *
@@ -316,6 +321,68 @@ CDC = TRUE</p>
 | --- | --- | --- |
 | table | <code>string</code> | <p>Table to select from</p> |
 | where | <code>string</code> \| <code>object</code> | <p>Where clause</p> |
+
+
+* * *
+
+<a name="CassQuery_3_3+values"></a>
+
+### cassQuery_3_3.values()
+<p>INSERT values</p>
+
+**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+
+* * *
+
+<a name="CassQuery_3_3+set"></a>
+
+### cassQuery_3_3.set()
+<p>UPDATE set</p>
+
+**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+
+* * *
+
+<a name="CassQuery_3_3+whereObject"></a>
+
+### cassQuery_3_3.whereObject(clause) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+<p>WHERE from an object</p>
+
+**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| clause | <code>Object</code> | <p>Fields to match on for WHERE clause</p> |
+
+
+* * *
+
+<a name="CassQuery_3_3+whereString"></a>
+
+### cassQuery_3_3.whereString(field) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+<p>WHERE from a string</p>
+
+**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| field | <code>String</code> | <p>Name of the field</p> |
+
+
+* * *
+
+<a name="CassQuery_3_3+where"></a>
+
+### cassQuery_3_3.where(param) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+<p>Supply a string to start setting up a chain for a field. 
+             Supply an object to setup a simple <code>field = value</code> clause.</p>
+
+**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Summary**: <p>Setup a WHERE clause</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| param | <code>String</code> \| <code>Object</code> | <p>Field(s) to setup for WHERE clause</p> |
 
 
 * * *

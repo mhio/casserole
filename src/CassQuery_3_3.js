@@ -118,7 +118,6 @@ class CassQuery_3_3 extends CassQuery {
 
 
 
-  // ### Types
   /**
    * Select query
    * @description Build a select query 
@@ -197,7 +196,7 @@ class CassQuery_3_3 extends CassQuery {
     return this._columns
   }
 
-  // Insert values
+  /** INSERT values */
   values(values){
     this._values = values
     const cols = []
@@ -212,7 +211,7 @@ class CassQuery_3_3 extends CassQuery {
     return this
   }
 
-  // Update set
+  /** UPDATE set */
   set(values){
     this._values = values
     this.query += ' SET '
@@ -234,6 +233,11 @@ class CassQuery_3_3 extends CassQuery {
 
   // `.find()` === `.select()`
 
+  /** 
+  * WHERE from an object 
+  * @param {Object} clause - Fields to match on for WHERE clause
+  * @returns {CassQuery_3_3}
+  */
   whereObject(clause){
     this.query += ' WHERE '
     this.query += map(clause, (value, name) => {
@@ -243,6 +247,12 @@ class CassQuery_3_3 extends CassQuery {
     }).join(' AND ')
     return this
   }
+
+  /** 
+  * WHERE from a string 
+  * @param {String} field - Name of the field
+  * @returns {CassQuery_3_3}
+  */
   whereString(field){
     let prefix = (this._where_started) ? 'AND' : 'WHERE'
     this.query += ` ${prefix} "${field}"`
@@ -250,6 +260,14 @@ class CassQuery_3_3 extends CassQuery {
     this.expectConstraint()
     return this
   }
+
+  /**
+  * @summary Setup a WHERE clause 
+  * @description Supply a string to start setting up a chain for a field. 
+  *              Supply an object to setup a simple `field = value` clause. 
+  * @param {String|Object} param - Field(s) to setup for WHERE clause
+  * @returns {CassQuery_3_3}
+  */
   where(param){
     QueryException.if( this._where_started , 'WHERE clause already started' )
     if ( typeof param === 'string' ) return this.whereString(param)
