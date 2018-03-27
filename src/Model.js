@@ -160,12 +160,15 @@ class Model {
     forEach(data, (value, name)=> this._row_data[name] = value)
   }
 
+  /** Build a where clause based on primary key */
   buildPrimaryKeyWhere(){
     return this.constructor.primary_keys.reduce((res, key) => {
       res[key] = this._row_data[key]
       return res
     }, {})
   }
+
+  /** Save this instance to the database */
   async execSave(options){
     this.constructor.debug('this',this)
     let selector = this.buildPrimaryKeyWhere()
@@ -177,6 +180,7 @@ class Model {
     return res
   }
 
+  /** Remove this instance from the database */
   async execRemove(options){
     let selector = this.buildPrimaryKeyWhere()
     let query = Query.delete(this.constructor.table_name, selector)
@@ -191,6 +195,7 @@ class Model {
   //   return this._schema
   // }
 
+  /** Convert data to JSON, taking account of hidden fields */
   toJSON(){
     const o = cloneDeep(this._row_data)
     let hidden_fields = this.constructor.hidden_fields

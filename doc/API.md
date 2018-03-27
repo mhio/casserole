@@ -451,13 +451,19 @@ CDC = TRUE</p>
 
 * [Model](#Model)
     * [new Model()](#new_Model_new)
-    * [.applySchema()](#Model.applySchema)
-    * [.sync()](#Model.sync)
-    * [.select()](#Model.select)
-    * [.findOne()](#Model.findOne)
-    * [.insert()](#Model.insert)
-    * [.update()](#Model.update)
-    * [.delete()](#Model.delete)
+    * _instance_
+        * [.buildPrimaryKeyWhere()](#Model+buildPrimaryKeyWhere)
+        * [.execSave()](#Model+execSave)
+        * [.execRemove()](#Model+execRemove)
+        * [.toJSON()](#Model+toJSON)
+    * _static_
+        * [.applySchema()](#Model.applySchema)
+        * [.sync()](#Model.sync)
+        * [.select()](#Model.select)
+        * [.findOne()](#Model.findOne)
+        * [.insert()](#Model.insert)
+        * [.update()](#Model.update)
+        * [.delete()](#Model.delete)
 
 
 * * *
@@ -467,6 +473,42 @@ CDC = TRUE</p>
 ### new Model()
 <p>new Model</p>
 
+
+* * *
+
+<a name="Model+buildPrimaryKeyWhere"></a>
+
+### model.buildPrimaryKeyWhere()
+<p>Build a where clause based on primary key</p>
+
+**Kind**: instance method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model+execSave"></a>
+
+### model.execSave()
+<p>Save this instance to the database</p>
+
+**Kind**: instance method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model+execRemove"></a>
+
+### model.execRemove()
+<p>Remove this instance from the database</p>
+
+**Kind**: instance method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model+toJSON"></a>
+
+### model.toJSON()
+<p>Convert data to JSON, taking account of hidden fields</p>
+
+**Kind**: instance method of [<code>Model</code>](#Model)  
 
 * * *
 
