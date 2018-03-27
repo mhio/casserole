@@ -3,11 +3,10 @@ import noop from 'lodash/noop'
 import reduce from 'lodash/reduce'
 import Util from './Util'
 
-/*
-  Base class for other CQL implementations to extend
-*/
-
-export default class CassCql {
+/**
+ * Base class for other CQL implementations to extend
+ */
+class CassCql {
 
   static classInit(){
 
@@ -25,13 +24,15 @@ export default class CassCql {
     if (!this.debug.enabled) this.debug = noop 
   }
 
-  // Create an options string, 
-  // ```
-  // whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`
-  // ```
+  /** 
+   * Create an options string, 
+   * ```
+   * whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`
+   * ```
 
-  // ID = 'uppercase'
-  // CDC = TRUE
+   * ID = 'uppercase'
+   * CDC = TRUE
+   */
   static withOptions(object){
     return reduce(object, (res, val, key) => {
       res.push(`${key} = ${this.valueToCqlMap(val)}`)
@@ -41,3 +42,5 @@ export default class CassCql {
 
 }
 CassCql.classInit()
+
+export default CassCql

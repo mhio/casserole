@@ -6,12 +6,14 @@ import isPlainObject from 'lodash/isPlainObject'
 import {CassError} from './CassErrors'
 import CassMap from './CassMap'
 
-/*
-  https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy
-  https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html
+
+/**
+  @description
+    https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy
+    https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html
 */
 
-export default class CassReplicationStrategy extends CassMap {
+class CassReplicationStrategy extends CassMap {
 
   static classInit(){
     this.debugInit('mhio:casserole:CassReplicationStrategy')
@@ -58,3 +60,5 @@ export default class CassReplicationStrategy extends CassMap {
 
 }
 CassReplicationStrategy.classInit()
+
+export default CassReplicationStrategy

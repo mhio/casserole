@@ -1,16 +1,26 @@
 ## Classes
 
 <dl>
+<dt><a href="#CassCql">CassCql</a></dt>
+<dd><p>Base class for other CQL implementations to extend</p></dd>
 <dt><a href="#CassEntity">CassEntity</a></dt>
 <dd><p>Base entity class for specific CQL entities to extend</p></dd>
+<dt><a href="#CassError">CassError</a></dt>
+<dd><p>Extended Error classes for Casserole</p></dd>
+<dt><a href="#CassKeyspace">CassKeyspace</a></dt>
+<dd></dd>
 <dt><a href="#CassMap">CassMap</a></dt>
 <dd><p>Base class for other CQL Map implementations to extend</p></dd>
 <dt><a href="#CassQuery">CassQuery</a></dt>
 <dd><p>Base class for versioned Query implementations to extend</p></dd>
 <dt><a href="#CassQuery_3_3">CassQuery_3_3</a></dt>
 <dd><p>Creates CQL 3.3 compatible queries</p></dd>
+<dt><a href="#CassReplicationStrategy">CassReplicationStrategy</a></dt>
+<dd></dd>
 <dt><a href="#CassTable">CassTable</a></dt>
 <dd><p>Covers all operations to a table, like CREATE and ALTER</p></dd>
+<dt><a href="#CassType">CassType</a></dt>
+<dd></dd>
 <dt><a href="#Client">Client</a></dt>
 <dd><p>Client for apps to interact with Cassandra</p></dd>
 <dt><a href="#Model">Model</a></dt>
@@ -28,12 +38,76 @@
 <dd><p>Client options</p></dd>
 </dl>
 
+<a name="CassCql"></a>
+
+## CassCql
+<p>Base class for other CQL implementations to extend</p>
+
+**Kind**: global class  
+
+* * *
+
+<a name="CassCql.withOptions"></a>
+
+### CassCql.withOptions()
+<p>Create an options string, </p>
+<pre class="prettyprint source"><code>whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`</code></pre><p>ID = 'uppercase'
+CDC = TRUE</p>
+
+**Kind**: static method of [<code>CassCql</code>](#CassCql)  
+
+* * *
+
 <a name="CassEntity"></a>
 
 ## CassEntity
 <p>Base entity class for specific CQL entities to extend</p>
 
 **Kind**: global class  
+
+* * *
+
+<a name="CassError"></a>
+
+## CassError
+<p>Extended Error classes for Casserole</p>
+
+**Kind**: global class  
+
+* * *
+
+<a name="CassKeyspace"></a>
+
+## CassKeyspace
+**Kind**: global class  
+**Summary**: <p>Manage a Cassandra Keyspace</p>  
+
+* * *
+
+<a name="new_CassKeyspace_new"></a>
+
+### new CassKeyspace()
+<pre class="prettyprint source"><code>    CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
+    options ::=  option ( AND option )*
+    option  ::=  identifier '=' ( identifier | constant | map_literal )
+
+    CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
+       WITH REPLICATION = { 
+          'class' : 'SimpleStrategy', 'replication_factor' : N } 
+         | 'class' : 'NetworkTopologyStrategy', 
+           'dc1_name' : N [, ...] 
+       }
+       [AND DURABLE_WRITES =  true|false] ;
+
+    ALTER  KEYSPACE keyspace_name 
+     WITH REPLICATION = { 
+        'class' : 'SimpleStrategy', 'replication_factor' : N  
+       | 'class' : 'NetworkTopologyStrategy', 'dc1_name' : N [, ...] 
+     }
+     [AND DURABLE_WRITES =  true|false] ;
+
+    DROP KEYSPACE [IF EXISTS] keyspace_name</code></pre>
+
 
 * * *
 
@@ -136,6 +210,22 @@
 
 * * *
 
+<a name="CassReplicationStrategy"></a>
+
+## CassReplicationStrategy
+**Kind**: global class  
+
+* * *
+
+<a name="new_CassReplicationStrategy_new"></a>
+
+### new CassReplicationStrategy()
+<p>https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy
+    https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html</p>
+
+
+* * *
+
 <a name="CassTable"></a>
 
 ## CassTable
@@ -158,6 +248,34 @@
 | options.primary_keys | <code>Array</code> | <p>Primary Keys</p> |
 | options.replication | <code>object</code> | <p>Replication options for the table</p> |
 | options.durable | <code>Boolean</code> | <p>Turn Durable on/off</p> |
+
+
+* * *
+
+<a name="CassType"></a>
+
+## CassType
+**Kind**: global class  
+**Summary**: <p>Manage Cassandra Types</p>  
+
+* * *
+
+<a name="new_CassType_new"></a>
+
+### new CassType()
+<p>Create, drop and alter custom Cassandra types.</p>
+<pre class="prettyprint source"><code>  CREATE TYPE [IF NOT EXISTS] 
+  keyspace_name.type_name(
+  field_name cql_datatype[,] 
+  [field_name cql_datatype] [,...]
+  )
+
+  DROP TYPE [IF EXISTS] keyspace_name.type_name
+
+  ALTER TYPE field_name 
+  [ALTER field_name TYPE new_cql_datatype
+  | ADD (field_name cql_datatype[,...])
+  | RENAME field_name TO new_field_name[AND ...]]</code></pre>
 
 
 * * *

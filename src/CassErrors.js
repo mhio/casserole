@@ -1,3 +1,5 @@
+
+/** Extended Error classes for Casserole */
 export class CassError extends Error {
 
   static if(test, msg, opts = {}){

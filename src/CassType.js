@@ -5,7 +5,10 @@ import { CassError } from './CassErrors'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
-/*
+/**
+  @summary Manage Cassandra Types
+  @description Create, drop and alter custom Cassandra types.
+  ```
   CREATE TYPE [IF NOT EXISTS] 
   keyspace_name.type_name(
   field_name cql_datatype[,] 
@@ -18,6 +21,7 @@ import CassEntity from './CassEntity'
   [ALTER field_name TYPE new_cql_datatype
   | ADD (field_name cql_datatype[,...])
   | RENAME field_name TO new_field_name[AND ...]]
+  ```
 */
 
 class CassType extends CassEntity {
