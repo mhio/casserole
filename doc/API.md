@@ -131,6 +131,18 @@ CDC = TRUE</p>
 
 **Kind**: global class  
 
+* [CassMap](#CassMap)
+    * [new CassMap(data, options)](#new_CassMap_new)
+    * [.name](#CassMap+name)
+    * [.data](#CassMap+data)
+    * [.toCqlMap()](#CassMap+toCqlMap)
+    * [.toCqlWith()](#CassMap+toCqlWith)
+    * [.get()](#CassMap+get)
+    * [.set()](#CassMap+set)
+    * [.add()](#CassMap+add)
+    * [.delete()](#CassMap+delete)
+
+
 * * *
 
 <a name="new_CassMap_new"></a>
@@ -145,6 +157,78 @@ CDC = TRUE</p>
 | options | <code>Object</code> |  |
 | options.name | <code>String</code> | <p>Name for the map</p> |
 
+
+* * *
+
+<a name="CassMap+name"></a>
+
+### cassMap.name
+<p>Name is for the CQL paramater name outside the Map</p>
+
+**Kind**: instance property of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+data"></a>
+
+### cassMap.data
+<p>Data is where the map is stored</p>
+
+**Kind**: instance property of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+toCqlMap"></a>
+
+### cassMap.toCqlMap()
+<p>Convert data to a CQL Map</p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+toCqlWith"></a>
+
+### cassMap.toCqlWith()
+<p>Convert to CQL with <code>name = {}</code></p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+get"></a>
+
+### cassMap.get()
+<p>Get map data</p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+set"></a>
+
+### cassMap.set()
+<p>Set map data</p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+add"></a>
+
+### cassMap.add()
+<p>Add new data</p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
+
+* * *
+
+<a name="CassMap+delete"></a>
+
+### cassMap.delete()
+<p>Delete map data</p>
+
+**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
 
 * * *
 
@@ -269,13 +353,15 @@ CDC = TRUE</p>
 <a name="new_CassTable_new"></a>
 
 ### new CassTable(name, options)
-<p>new Client</p>
+<p>Create a table instance with a name, fields and primary keys.</p>
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>String</code> | <p>The table name all the operations within the [CassTable](#CassTable) instance.</p> |
 | options | <code>Object</code> |  |
+| options.fields | <code>Object</code> | <p>Field name, type defintion <code>{ name: { type: '' }}</code></p> |
+| options.keyspace | <code>String</code> | <p>Keyspace for table</p> |
 | options.primary_keys | <code>Array</code> | <p>Primary Keys</p> |
 | options.replication | <code>object</code> | <p>Replication options for the table</p> |
 | options.durable | <code>Boolean</code> | <p>Turn Durable on/off</p> |
