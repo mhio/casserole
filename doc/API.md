@@ -3,19 +3,19 @@
 <dl>
 <dt><a href="#CassCql">CassCql</a></dt>
 <dd><p>Base class for other CQL implementations to extend</p></dd>
-<dt><a href="#CassEntity">CassEntity</a></dt>
+<dt><a href="#CassEntity">CassEntity</a> ⇐ <code><a href="#CassCql">CassCql</a></code></dt>
 <dd><p>Base class for CQL entities to extend</p></dd>
 <dt><a href="#CassException">CassException</a> ⇐ <code>Exception</code></dt>
 <dd><p>Extended Error classes for Casserole</p></dd>
-<dt><a href="#CassKeyspace">CassKeyspace</a></dt>
+<dt><a href="#CassKeyspace">CassKeyspace</a> ⇐ <code><a href="#CassEntity">CassEntity</a></code></dt>
 <dd><p>Manage a Cassandra Keyspace</p></dd>
 <dt><a href="#CassMap">CassMap</a></dt>
 <dd><p>Base class for other CQL Map implementations to extend</p></dd>
-<dt><a href="#CassQuery">CassQuery</a></dt>
+<dt><a href="#CassQuery">CassQuery</a> ⇐ <code><a href="#CassCql">CassCql</a></code></dt>
 <dd><p>Base class for versioned Query implementations to extend</p></dd>
-<dt><a href="#CassQuery_3_3">CassQuery_3_3</a></dt>
+<dt><a href="#CassQuery_3_3">CassQuery_3_3</a> ⇐ <code><a href="#CassQuery">CassQuery</a></code></dt>
 <dd><p>Creates CQL 3.3 compatible queries</p></dd>
-<dt><a href="#CassReplicationStrategy">CassReplicationStrategy</a></dt>
+<dt><a href="#CassReplicationStrategy">CassReplicationStrategy</a> ⇐ <code><a href="#CassMap">CassMap</a></code></dt>
 <dd></dd>
 <dt><a href="#CassTable">CassTable</a></dt>
 <dd><p>Covers all operations to a table, like CREATE and ALTER</p></dd>
@@ -60,10 +60,11 @@ CDC = TRUE</p>
 
 <a name="CassEntity"></a>
 
-## CassEntity
+## CassEntity ⇐ [<code>CassCql</code>](#CassCql)
 <p>Base class for CQL entities to extend</p>
 
 **Kind**: global class  
+**Extends**: [<code>CassCql</code>](#CassCql)  
 
 * * *
 
@@ -85,17 +86,18 @@ CDC = TRUE</p>
 | --- | --- | --- |
 | message | <code>String</code> | <p>Standard Error message</p> |
 | metadata | <code>Object</code> | <p>-</p> |
-| metadata.details | <code>Object</code> | <p>A standard place to store more error details for the humans                                   Single level objects are ok and should be presented to                                    the user as such.</p> |
+| metadata.details | <code>Object</code> | <p>Store more error details for the humans                                   Single level objects are ok and should be presented to                                    the user as such.</p> |
 
 
 * * *
 
 <a name="CassKeyspace"></a>
 
-## CassKeyspace
+## CassKeyspace ⇐ [<code>CassEntity</code>](#CassEntity)
 <p>Manage a Cassandra Keyspace</p>
 
 **Kind**: global class  
+**Extends**: [<code>CassEntity</code>](#CassEntity)  
 
 * * *
 
@@ -209,21 +211,23 @@ CDC = TRUE</p>
 
 <a name="CassQuery"></a>
 
-## CassQuery
+## CassQuery ⇐ [<code>CassCql</code>](#CassCql)
 <p>Base class for versioned Query implementations to extend</p>
 
 **Kind**: global class  
+**Extends**: [<code>CassCql</code>](#CassCql)  
 
 * * *
 
 <a name="CassQuery_3_3"></a>
 
-## CassQuery_3_3
+## CassQuery_3_3 ⇐ [<code>CassQuery</code>](#CassQuery)
 <p>Creates CQL 3.3 compatible queries</p>
 
 **Kind**: global class  
+**Extends**: [<code>CassQuery</code>](#CassQuery)  
 
-* [CassQuery_3_3](#CassQuery_3_3)
+* [CassQuery_3_3](#CassQuery_3_3) ⇐ [<code>CassQuery</code>](#CassQuery)
     * [new CassQuery_3_3(type, options)](#new_CassQuery_3_3_new)
     * [.select(table, columns, where)](#CassQuery_3_3+select) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.insert(table, values)](#CassQuery_3_3+insert) ⇒ [<code>CassQuery</code>](#CassQuery)
@@ -318,9 +322,22 @@ CDC = TRUE</p>
 
 <a name="CassReplicationStrategy"></a>
 
-## CassReplicationStrategy
+## CassReplicationStrategy ⇐ [<code>CassMap</code>](#CassMap)
 **Kind**: global class  
 **Summary**: <p>Setup replication strategies</p>  
+**Extends**: [<code>CassMap</code>](#CassMap)  
+
+* [CassReplicationStrategy](#CassReplicationStrategy) ⇐ [<code>CassMap</code>](#CassMap)
+    * [new CassReplicationStrategy(replication_class, data)](#new_CassReplicationStrategy_new)
+    * [.name](#CassMap+name)
+    * [.data](#CassMap+data)
+    * [.toCqlMap()](#CassMap+toCqlMap)
+    * [.toCqlWith()](#CassMap+toCqlWith)
+    * [.get()](#CassMap+get)
+    * [.set()](#CassMap+set)
+    * [.add()](#CassMap+add)
+    * [.delete()](#CassMap+delete)
+
 
 * * *
 
@@ -340,6 +357,78 @@ CDC = TRUE</p>
 | replication_class | <code>String</code> | <p>The replication class name to create</p> |
 | data | <code>Object</code> | <p>The configuration data for the class</p> |
 
+
+* * *
+
+<a name="CassMap+name"></a>
+
+### cassReplicationStrategy.name
+<p>Name is for the CQL paramater name outside the Map</p>
+
+**Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+data"></a>
+
+### cassReplicationStrategy.data
+<p>Data is where the map is stored</p>
+
+**Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+toCqlMap"></a>
+
+### cassReplicationStrategy.toCqlMap()
+<p>Convert data to a CQL Map</p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+toCqlWith"></a>
+
+### cassReplicationStrategy.toCqlWith()
+<p>Convert to CQL with <code>name = {}</code></p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+get"></a>
+
+### cassReplicationStrategy.get()
+<p>Get map data</p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+set"></a>
+
+### cassReplicationStrategy.set()
+<p>Set map data</p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+add"></a>
+
+### cassReplicationStrategy.add()
+<p>Add new data</p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="CassMap+delete"></a>
+
+### cassReplicationStrategy.delete()
+<p>Delete map data</p>
+
+**Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
 
 * * *
 

@@ -4,8 +4,8 @@ import reduce from 'lodash/reduce'
 import Util from './Util'
 
 /**
- * Base class for other CQL implementations to extend
- */
+  * Base class for other CQL implementations to extend
+  */
 class CassCql {
 
   static classInit(){

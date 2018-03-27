@@ -2,8 +2,9 @@ import CassCql from './CassCql'
 import Paramaters from './Paramaters'
 
 /**
- * Base class for versioned Query implementations to extend
- */
+  * Base class for versioned Query implementations to extend
+  * @extends CassCql
+  */
 class CassQuery extends CassCql {
 
   static classInit(){

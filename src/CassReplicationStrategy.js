@@ -12,6 +12,7 @@ import CassMap from './CassMap'
  *  @description 
  *    - [Architecture](https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy)
  *    - [Alerting replication strategy](https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html)
+  * @extends CassMap
  */
 class CassReplicationStrategy extends CassMap {
 

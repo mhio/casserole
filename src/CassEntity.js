@@ -1,8 +1,9 @@
 import CassCql from './CassCql'
 
 /**
- * Base class for CQL entities to extend
- */
+  * Base class for CQL entities to extend
+  * @extends CassCql
+  */
 class CassEntity extends CassCql {
 
   static classInit(){

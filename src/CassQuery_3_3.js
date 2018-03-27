@@ -7,8 +7,9 @@ import CassQuery from './CassQuery'
 import {QueryException} from './CassExceptions'
 
 /**
- * Creates CQL 3.3 compatible queries
- */
+  * Creates CQL 3.3 compatible queries
+  * @extends CassQuery
+  */
 class CassQuery_3_3 extends CassQuery {
 
   static classInit(){

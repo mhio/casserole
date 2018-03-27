@@ -31,8 +31,9 @@ DROP KEYSPACE [IF EXISTS] keyspace_name
 */
 
 /**
- * Manage a Cassandra Keyspace
- */
+  * Manage a Cassandra Keyspace
+  * @extends CassEntity
+  */
 class CassKeyspace extends CassEntity {
 
   static classInit(){

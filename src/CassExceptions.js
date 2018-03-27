@@ -1,9 +1,9 @@
 import {Exception} from '@mhio/exception'
 
 /** 
- * Extended Error classes for Casserole 
- * @extends Exception
- */
+  * Extended Error classes for Casserole 
+  * @extends Exception
+  */
 export class CassException extends Exception {
 
   static if(test, msg, opts = {}){
@@ -22,7 +22,7 @@ export class CassException extends Exception {
   /**
    * @param {String} message - Standard Error message
    * @param {Object} metadata - 
-   * @param {Object} metadata.details - A standard place to store more error details for the humans
+   * @param {Object} metadata.details - Store more error details for the humans
    *                                   Single level objects are ok and should be presented to 
    *                                   the user as such.
    */
