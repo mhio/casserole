@@ -25,6 +25,7 @@ const template = Util.template
 
 /**
  * Covers all operations to a table, like CREATE and ALTER
+ * @extends CassEntity
  */
 class CassTable extends CassEntity {
 

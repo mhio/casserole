@@ -17,14 +17,16 @@
 <dd><p>Creates CQL 3.3 compatible queries</p></dd>
 <dt><a href="#CassReplicationStrategy">CassReplicationStrategy</a> ⇐ <code><a href="#CassMap">CassMap</a></code></dt>
 <dd></dd>
-<dt><a href="#CassTable">CassTable</a></dt>
+<dt><a href="#CassTable">CassTable</a> ⇐ <code><a href="#CassEntity">CassEntity</a></code></dt>
 <dd><p>Covers all operations to a table, like CREATE and ALTER</p></dd>
 <dt><a href="#CassType">CassType</a></dt>
-<dd></dd>
+<dd><p>Manage Custom Cassandra Types</p></dd>
 <dt><a href="#Client">Client</a></dt>
 <dd><p>Client for apps to interact with Cassandra</p></dd>
 <dt><a href="#Model">Model</a></dt>
 <dd><p>Model for apps to work with</p></dd>
+<dt><a href="#Paramaters">Paramaters</a></dt>
+<dd><p>Paramaters for other classes to import</p></dd>
 <dt><a href="#Schema">Schema</a></dt>
 <dd><p>Schema for apps to build into Models</p></dd>
 <dt><a href="#Util">Util</a></dt>
@@ -501,10 +503,11 @@ CDC = TRUE</p>
 
 <a name="CassTable"></a>
 
-## CassTable
+## CassTable ⇐ [<code>CassEntity</code>](#CassEntity)
 <p>Covers all operations to a table, like CREATE and ALTER</p>
 
 **Kind**: global class  
+**Extends**: [<code>CassEntity</code>](#CassEntity)  
 
 * * *
 
@@ -530,16 +533,94 @@ CDC = TRUE</p>
 <a name="CassType"></a>
 
 ## CassType
+<p>Manage Custom Cassandra Types</p>
+
 **Kind**: global class  
-**Summary**: <p>Manage Cassandra Types</p>  
+
+* [CassType](#CassType)
+    * [new exports.CassType(name, fields)](#new_CassType_new)
+    * _instance_
+        * [.addField()](#CassType+addField) ⇒
+    * _static_
+        * [._classInit()](#CassType._classInit)
+        * [.toCqlDrop()](#CassType.toCqlDrop)
+        * [.toCqlAlter()](#CassType.toCqlAlter)
+        * [.toCqlCreate()](#CassType.toCqlCreate)
+
 
 * * *
 
 <a name="new_CassType_new"></a>
 
-### new CassType()
-<p>Create, Drop and Alter custom Cassandra types.</p>
+### new exports.CassType(name, fields)
 
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | <p>Name of Type</p> |
+| fields | <code>Object</code> | <p>Field definitions for Type</p> |
+
+
+* * *
+
+<a name="CassType+addField"></a>
+
+### cassType.addField() ⇒
+<p>Add a field to the Type</p>
+
+**Kind**: instance method of [<code>CassType</code>](#CassType)  
+**Returns**: <p>this</p>  
+**Params**: <code>String</code> field       - Name of the field to add  
+**Params**: <code>Object</code> fields      - Definitions of the field to add  
+
+* * *
+
+<a name="CassType._classInit"></a>
+
+### CassType._classInit()
+**Kind**: static method of [<code>CassType</code>](#CassType)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| noun | <code>string</code> | <p>Set a generic prefix var, so users can subclass in the                                    their app (see [ClassDebug.extend](ClassDebug.extend))</p> |
+| drop_cql | <code>string</code> | <p>CQL to DROP a TYPE</p> |
+| create_cql | <code>string</code> | <p>CQL to CREATE a TYPE</p> |
+| create_fields_cql | <code>string</code> | <p>CQL setup a field in CREATE</p> |
+
+
+* * *
+
+<a name="CassType.toCqlDrop"></a>
+
+### CassType.toCqlDrop()
+<p>Create a CQL <code>DROP TYPE</code> string</p>
+
+**Kind**: static method of [<code>CassType</code>](#CassType)  
+**Params**: <code>String</code> name - Name of the TYPE to drop  
+
+* * *
+
+<a name="CassType.toCqlAlter"></a>
+
+### CassType.toCqlAlter()
+<p>Create a CQL <code>ALTER TYPE</code> string</p>
+
+**Kind**: static method of [<code>CassType</code>](#CassType)  
+**Params**: <code>String</code> name - Name of the TYPE to drop  
+
+* * *
+
+<a name="CassType.toCqlCreate"></a>
+
+### CassType.toCqlCreate()
+<p>Create a CQL <code>CREATE TYPE</code> string</p>
+
+**Kind**: static method of [<code>CassType</code>](#CassType)  
+**Params**: <code>String</code> name             - Name of the TYPE to create  
+**Params**: <code>Object</code> fields           - Field definitions to add to the TYPE  
+**Params**: <code>Object</code> options          - Options to pass to CQL  
+**Params**: <code>Boolean</code> options.exists  - Add exists clause  
+**Params**: <code>String</code> options.keyspace - Set the keyspace to use  
 
 * * *
 
@@ -736,12 +817,200 @@ CDC = TRUE</p>
 
 * * *
 
+<a name="Paramaters"></a>
+
+## Paramaters
+<p>Paramaters for other classes to import</p>
+
+**Kind**: global class  
+
+* [Paramaters](#Paramaters)
+    * [._classInit()](#Paramaters._classInit)
+    * [.checkType(type_name)](#Paramaters.checkType) ⇒ <code>String</code>
+
+
+* * *
+
+<a name="Paramaters._classInit"></a>
+
+### Paramaters._classInit()
+**Kind**: static method of [<code>Paramaters</code>](#Paramaters)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| debug | <code>string</code> | <p>A <code>debug</code> instance for the class</p> |
+| types | <code>string</code> | <p>Cassandra data types from datastax driver</p> |
+| reserved_fields | <code>string</code> | <p>Model field names that are not allowed</p> |
+| warning_fields | <code>string</code> | <p>Model field names that generate a warning</p> |
+| fmt_identifier_str | <code>string</code> | <p>String re for CQL Identifiers</p> |
+| fmt_identifier_re | <code>string</code> | <p>Regex for CQL Identifiers</p> |
+| fmt_identifier_all_re | <code>string</code> | <p>Regex for string start to end CQL Identifiers</p> |
+
+
+* * *
+
+<a name="Paramaters.checkType"></a>
+
+### Paramaters.checkType(type_name) ⇒ <code>String</code>
+<p>Map any of our type aliases into Cassandra types</p>
+
+**Kind**: static method of [<code>Paramaters</code>](#Paramaters)  
+**Returns**: <code>String</code> - <ul>
+<li>The actual type name</li>
+</ul>  
+**Throws**:
+
+- [<code>CassException</code>](#CassException) <ul>
+<li>On an unknown type name</li>
+</ul>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type_name | <code>String</code> | <p>Name of the data type to check</p> |
+
+
+* * *
+
 <a name="Schema"></a>
 
 ## Schema
 <p>Schema for apps to build into Models</p>
 
 **Kind**: global class  
+
+* [Schema](#Schema)
+    * [new exports.Schema(config)](#new_Schema_new)
+    * _instance_
+        * [.debug](#Schema+debug) : <code>function</code>
+        * [.data_types](#Schema+data_types) : <code>Array</code>
+        * [.config](#Schema+config) : <code>Object</code>
+        * [.primary_keys](#Schema+primary_keys) : <code>Array</code>
+        * [.column_types](#Schema+column_types) : <code>Array</code>
+        * [.columns](#Schema+columns) : <code>Object</code>
+        * [.forEach(fn)](#Schema+forEach)
+    * _static_
+        * [.debug](#Schema.debug) : <code>function</code>
+        * [.reserved_fields](#Schema.reserved_fields) : <code>Array</code>
+        * [.warning_fields](#Schema.warning_fields) : <code>Array</code>
+        * [.data_types](#Schema.data_types) : <code>Array</code>
+
+
+* * *
+
+<a name="new_Schema_new"></a>
+
+### new exports.Schema(config)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>Object</code> | <p>The Schema config object <code>{ field: { type: 'x' }</code></p> |
+
+
+* * *
+
+<a name="Schema+debug"></a>
+
+### schema.debug : <code>function</code>
+<p>A <code>debug</code> instance for the class instance</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+data_types"></a>
+
+### schema.data_types : <code>Array</code>
+<p>Cassandra data types from datastax driver</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+config"></a>
+
+### schema.config : <code>Object</code>
+<p>The schemas config object</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+primary_keys"></a>
+
+### schema.primary_keys : <code>Array</code>
+<p>All primary keys for the schema</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+column_types"></a>
+
+### schema.column_types : <code>Array</code>
+<p>All columns in an array</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+columns"></a>
+
+### schema.columns : <code>Object</code>
+<p>All columns types, keyed by name</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+forEach"></a>
+
+### schema.forEach(fn)
+<p>Run a function for each schema config item</p>
+
+**Kind**: instance method of [<code>Schema</code>](#Schema)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | <p>The function to run</p> |
+
+
+* * *
+
+<a name="Schema.debug"></a>
+
+### Schema.debug : <code>function</code>
+<p>A <code>debug</code> instance for the class</p>
+
+**Kind**: static property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema.reserved_fields"></a>
+
+### Schema.reserved_fields : <code>Array</code>
+<p>Model field names that are not allowed</p>
+
+**Kind**: static property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema.warning_fields"></a>
+
+### Schema.warning_fields : <code>Array</code>
+<p>Model field names that generate a warning</p>
+
+**Kind**: static property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema.data_types"></a>
+
+### Schema.data_types : <code>Array</code>
+<p>Cassandra data types from datastax driver</p>
+
+**Kind**: static property of [<code>Schema</code>](#Schema)  
 
 * * *
 

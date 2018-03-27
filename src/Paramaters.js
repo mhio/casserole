@@ -2,10 +2,19 @@ import debugr from 'debug'
 import { dataTypes } from 'cassandra-driver/lib/types'
 import { CassException } from './CassExceptions'
 
-
+/** Paramaters for other classes to import */
 export class Paramaters {
 
-  static classInit(){
+  /**
+  * @property {string} debug              - A `debug` instance for the class
+  * @property {string} types              - Cassandra data types from datastax driver
+  * @property {string} reserved_fields    - Model field names that are not allowed
+  * @property {string} warning_fields     - Model field names that generate a warning
+  * @property {string} fmt_identifier_str - String re for CQL Identifiers
+  * @property {string} fmt_identifier_re  - Regex for CQL Identifiers
+  * @property {string} fmt_identifier_all_re - Regex for string start to end CQL Identifiers
+  */
+  static _classInit(){
     this.debug = debugr('mhio:casserole:Paramaters')
 
     this.types = dataTypes
@@ -47,9 +56,9 @@ export class Paramaters {
 
   /** 
     * Map any of our type aliases into Cassandra types 
-    * @param {String} type_name - 
-    * @return {String} - The actual type name
-    * @throws {CassException} - Unknown type
+    * @param {String} type_name - Name of the data type to check
+    * @returns {String}         - The actual type name
+    * @throws {CassException}   - On an unknown type name
     */
   static checkType(type_name){
     if ( ! type_name || ! type_name.toLowerCase ) {
@@ -66,6 +75,6 @@ export class Paramaters {
     }
   }
 }
-Paramaters.classInit()
+Paramaters._classInit()
 
 export default Paramaters
