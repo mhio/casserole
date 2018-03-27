@@ -3,7 +3,7 @@ import CassCql from './CassCql'
 /**
  * Base entity class for specific CQL entities to extend
  */
-export default class CassEntity extends CassCql {
+class CassEntity extends CassCql {
 
   static classInit(){
 
@@ -41,3 +41,5 @@ export default class CassEntity extends CassCql {
 
 }
 CassEntity.classInit()
+
+export default CassEntity

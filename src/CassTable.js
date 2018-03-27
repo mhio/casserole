@@ -130,6 +130,14 @@ class CassTable extends CassEntity {
     )
   }
 
+  /**
+   * new Client 
+   * @param {String}  name - The table name all the operations within the {@link CassTable} instance.
+   * @param {Object}  options
+   * @param {Array}   options.primary_keys  - Primary Keys
+   * @param {object}  options.replication   - Replication options for the table
+   * @param {Boolean} options.durable       - Turn Durable on/off
+   */
   constructor( name, options = {} ){
     super()
     this.debug = this.constructor.debug

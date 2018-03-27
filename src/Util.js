@@ -9,7 +9,7 @@ const debug = debugr('mhio:casserole:util')
 /**
  * Utility class, templating and CQL maps
  */
-export default class Util {
+class Util {
 
   static initClass(){
     this.debug = debug
@@ -197,3 +197,5 @@ export default class Util {
 
 }
 Util.initClass()
+
+export default Util

@@ -9,7 +9,7 @@ import CassError from './CassErrors'
 /**
  * Base class for other CQL Map implementations to extend
  */
-export default class CassMap {
+class CassMap {
 
   static classInit(){
     this.template = Util.template
@@ -23,6 +23,12 @@ export default class CassMap {
     if (!this.debug.enabled) this.debug = noop
   }
   
+  /**
+   * new CassMap 
+   * @param {Object}  data - JS Data to build the map from
+   * @param {Object}  options
+   * @param {String}  options.name - Name for the map
+   */
   constructor( data, options = {} ){
     this._data = data
     this.name = options.name
@@ -85,3 +91,5 @@ export default class CassMap {
 
 }
 CassMap.classInit()
+
+export default CassMap

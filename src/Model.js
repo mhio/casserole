@@ -16,7 +16,7 @@ import Schema from './Schema'
 /**
  * Model for apps to work with
  */
-export default class Model {
+class Model {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Model')
@@ -188,3 +188,5 @@ export default class Model {
 
 }
 Model.classInit()
+
+export default Model

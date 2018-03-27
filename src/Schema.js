@@ -9,7 +9,7 @@ import CassError from './CassErrors'
 /**
  * Schema for apps to build into Models
  */
-export default class Schema {
+class Schema {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:Schema')
@@ -75,3 +75,5 @@ export default class Schema {
 
 }
 Schema.classInit()
+
+export default Schema

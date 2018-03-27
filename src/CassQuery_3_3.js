@@ -9,7 +9,7 @@ import {QueryError} from './CassErrors'
 /**
  * Creates CQL 3.3 compatible queries
  */
-export default class CassQuery_3_3 extends CassQuery {
+class CassQuery_3_3 extends CassQuery {
 
   static classInit(){
     this.debug = debugr('mhio:casserole:CassQuery_3_3')
@@ -334,3 +334,5 @@ export default class CassQuery_3_3 extends CassQuery {
 
 }
 CassQuery_3_3.classInit()
+
+export default CassQuery_3_3
