@@ -5,32 +5,34 @@ import CassEntity from './CassEntity'
 import CassException from './CassExceptions'
 import CassReplicationStrategy from './CassReplicationStrategy'
 
-/**
- * @summary Manage a Cassandra Keyspace
- * @description
-    ```
-    CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
-    options ::=  option ( AND option )*
-    option  ::=  identifier '=' ( identifier | constant | map_literal )
+/*
+```
+CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options
+options ::=  option ( AND option )*
+option  ::=  identifier '=' ( identifier | constant | map_literal )
 
-    CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
-       WITH REPLICATION = { 
-          'class' : 'SimpleStrategy', 'replication_factor' : N } 
-         | 'class' : 'NetworkTopologyStrategy', 
-           'dc1_name' : N [, ...] 
-       }
-       [AND DURABLE_WRITES =  true|false] ;
+CREATE  KEYSPACE [IF NOT EXISTS] keyspace_name 
+   WITH REPLICATION = { 
+      'class' : 'SimpleStrategy', 'replication_factor' : N } 
+     | 'class' : 'NetworkTopologyStrategy', 
+       'dc1_name' : N [, ...] 
+   }
+   [AND DURABLE_WRITES =  true|false] ;
 
-    ALTER  KEYSPACE keyspace_name 
-     WITH REPLICATION = { 
-        'class' : 'SimpleStrategy', 'replication_factor' : N  
-       | 'class' : 'NetworkTopologyStrategy', 'dc1_name' : N [, ...] 
-     }
-     [AND DURABLE_WRITES =  true|false] ;
+ALTER  KEYSPACE keyspace_name 
+ WITH REPLICATION = { 
+    'class' : 'SimpleStrategy', 'replication_factor' : N  
+   | 'class' : 'NetworkTopologyStrategy', 'dc1_name' : N [, ...] 
+ }
+ [AND DURABLE_WRITES =  true|false] ;
 
-    DROP KEYSPACE [IF EXISTS] keyspace_name
-    ```
+DROP KEYSPACE [IF EXISTS] keyspace_name
+```
 */
+
+/**
+ * Manage a Cassandra Keyspace
+ */
 class CassKeyspace extends CassEntity {
 
   static classInit(){

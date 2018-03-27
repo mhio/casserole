@@ -6,8 +6,6 @@ import Util from './Util'
 import CassEntity from './CassEntity'
 
 /**
-  @summary Manage Cassandra Types
-  @description Create, drop and alter custom Cassandra types.
   ```
   CREATE TYPE [IF NOT EXISTS] 
   keyspace_name.type_name(
@@ -24,6 +22,10 @@ import CassEntity from './CassEntity'
   ```
 */
 
+/**
+ * @summary Manage Cassandra Types
+ * @description Create, Drop and Alter custom Cassandra types.
+ */
 class CassType extends CassEntity {
 
   static classInit(){

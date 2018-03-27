@@ -8,11 +8,11 @@ import CassMap from './CassMap'
 
 
 /**
-  @description
-    https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy
-    https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html
-*/
-
+ *  @summary Setup replication strategies
+ *  @description 
+ *    - [Architecture](https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy)
+ *    - [Alerting replication strategy](https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html)
+ */
 class CassReplicationStrategy extends CassMap {
 
   static classInit(){
@@ -40,6 +40,10 @@ class CassReplicationStrategy extends CassMap {
     return new this('NetworkTopologyStrategy', dcs)
   }
 
+  /** new CassReplicationStrategy
+   *  @param {String} replication_class - The replication class name to create
+   *  @param {Object} data              - The configuration data for the class
+   */
   constructor( replication_class, data = {} ){
     super()
     this._data = {}
