@@ -152,10 +152,28 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [CassQuery_3_3](#CassQuery_3_3)
+    * [new CassQuery_3_3(type, options)](#new_CassQuery_3_3_new)
     * [.select()](#CassQuery_3_3+select) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.insert()](#CassQuery_3_3+insert) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.update()](#CassQuery_3_3+update) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.delete()](#CassQuery_3_3+delete) ⇒ [<code>CassQuery</code>](#CassQuery)
+
+
+* * *
+
+<a name="new_CassQuery_3_3_new"></a>
+
+### new CassQuery_3_3(type, options)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>String</code> | <p>select, insert, update, delete</p> |
+| options | <code>Object</code> |  |
+| options.table | <code>Object</code> | <p>Table to act upon</p> |
+| options.columns | <code>Object</code> | <p>Columns to return, for select</p> |
+| options.values | <code>Object</code> | <p>Values to insert</p> |
+| options.set | <code>Object</code> | <p>Values to set ( maybe merge with values?)</p> |
+| options.where | <code>Object</code> | <p>Where clause to use</p> |
 
 
 * * *
