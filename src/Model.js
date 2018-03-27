@@ -16,9 +16,6 @@ import Schema from './Schema'
 
 /**
   * Model for apps to work with
-  * @param {Object} data - Data to populate the Model with
-  * @param {Object} options - Metadata for the Model instance
-  * @param {Object} options.new - Is this new or existing data
   */
 class Model {
 
