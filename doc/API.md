@@ -5,7 +5,7 @@
 <dd><p>Base class for other CQL implementations to extend</p></dd>
 <dt><a href="#CassEntity">CassEntity</a></dt>
 <dd><p>Base entity class for specific CQL entities to extend</p></dd>
-<dt><a href="#CassError">CassError</a></dt>
+<dt><a href="#CassException">CassException</a></dt>
 <dd><p>Extended Error classes for Casserole</p></dd>
 <dt><a href="#CassKeyspace">CassKeyspace</a></dt>
 <dd></dd>
@@ -67,12 +67,25 @@ CDC = TRUE</p>
 
 * * *
 
-<a name="CassError"></a>
+<a name="CassException"></a>
 
-## CassError
+## CassException
 <p>Extended Error classes for Casserole</p>
 
 **Kind**: global class  
+
+* * *
+
+<a name="new_CassException_new"></a>
+
+### new exports.CassException(message, metadata)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| message | <code>String</code> | <p>Standard Error message</p> |
+| metadata | <code>Object</code> | <p>-</p> |
+| metadata.details | <code>Object</code> | <p>A standard place to store more error details for the humans                                   Single level objects are ok and should be presented to                                    the user as such.</p> |
+
 
 * * *
 
@@ -171,9 +184,9 @@ CDC = TRUE</p>
 | options | <code>Object</code> |  |
 | options.table | <code>Object</code> | <p>Table to act upon</p> |
 | options.columns | <code>Object</code> | <p>Columns to return, for select</p> |
-| options.values | <code>Object</code> | <p>Values to insert</p> |
-| options.set | <code>Object</code> | <p>Values to set ( maybe merge with values?)</p> |
-| options.where | <code>Object</code> | <p>Where clause to use</p> |
+| options.values | <code>Object</code> | <p>Values to update, insert</p> |
+| options.set | <code>Object</code> | <p>See values</p> |
+| options.where | <code>Object</code> | <p>Limit operation to these values</p> |
 
 
 * * *
