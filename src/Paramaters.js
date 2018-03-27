@@ -40,7 +40,7 @@ export class Paramaters {
     }
 
     this.fmt_identifier_str = '[a-zA-Z][a-zA-Z0-9_]*'
-    this.fmt_identifier_re = /[a-zA-Z][a-zA-Z0-9_]*/
+    this.fmt_identifier_re = new RegExp(this.fmt_identifier_str)
     this.fmt_identifier_all_re = new RegExp('^'+this.fmt_identifier_re.source+'$')
 
   }
