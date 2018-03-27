@@ -2,7 +2,7 @@ import has from 'lodash/has'
 
 import Util from './Util'
 import CassEntity from './CassEntity'
-import CassError from './CassErrors'
+import CassException from './CassExceptions'
 import CassReplicationStrategy from './CassReplicationStrategy'
 
 /**
@@ -59,7 +59,7 @@ class CassKeyspace extends CassEntity {
       : Util.template(this.durable_cql, 'true')
     let options_cql = durable
 
-    if( !replication_stategy ) throw new CassError('No replication strategy')
+    if( !replication_stategy ) throw new CassException('No replication strategy')
     let replication_stategy_cql = (replication_stategy.toCqlMap)
       ? replication_stategy.toCqlMap()
       : Util.valueToCqlMap(replication_stategy)
@@ -89,7 +89,7 @@ class CassKeyspace extends CassEntity {
 
   get keyspace(){ return this._keyspace }
   set keyspace( value ){
-    CassError.if( !value, 'No keyspace name')
+    CassException.if( !value, 'No keyspace name')
     this._keyspace = value
   }
 

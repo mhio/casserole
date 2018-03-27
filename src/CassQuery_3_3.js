@@ -4,7 +4,7 @@ import noop from 'lodash/noop'
 import forEach from 'lodash/forEach'
 
 import CassQuery from './CassQuery'
-import {QueryError} from './CassErrors'
+import {QueryException} from './CassExceptions'
 
 /**
  * Creates CQL 3.3 compatible queries
@@ -81,7 +81,7 @@ class CassQuery_3_3 extends CassQuery {
       case 'select':
         this.select(options.table, options.columns, options.where)
         break
-        
+
       case 'insert':
         this.insert(options.table, options.values)
         break
@@ -94,7 +94,7 @@ class CassQuery_3_3 extends CassQuery {
         this.delete(options.table, options.where)
         break
       
-      default: throw new QueryError('A Query instance requires a type: select, insert, update or delete')
+      default: throw new QueryException('A Query instance requires a type: select, insert, update or delete')
     }
   }
 
@@ -107,7 +107,7 @@ class CassQuery_3_3 extends CassQuery {
 
   // ### Helpers
   expectConstraint(){
-    if ( this._expecting_constraint ) throw new QueryError('Expected constraint')
+    if ( this._expecting_constraint ) throw new QueryException('Expected constraint')
     this._expecting_constraint = true
   }
 
@@ -251,22 +251,22 @@ class CassQuery_3_3 extends CassQuery {
     return this
   }
   where(param){
-    QueryError.if( this._where_started , 'WHERE clause already started' )
+    QueryException.if( this._where_started , 'WHERE clause already started' )
     if ( typeof param === 'string' ) return this.whereString(param)
     return this.whereObject(param)
   }
 
   or(field){
-    QueryError.if( !this._where_started , 'No WHERE clause started' )
-    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
+    QueryException.if( !this._where_started , 'No WHERE clause started' )
+    QueryException.if( this._expecting_constraint , 'Expecting constraint' )
     this.query += ` OR "${field}"`
     this.expectConstraint()
     return this
   }
 
   and(field){
-    QueryError.if( !this._where_started , 'No WHERE clause started' )
-    QueryError.if( this._expecting_constraint , 'Expecting constraint' )
+    QueryException.if( !this._where_started , 'No WHERE clause started' )
+    QueryException.if( this._expecting_constraint , 'Expecting constraint' )
     this.query += ` AND "${field}"`
     this.expectConstraint()
     return this

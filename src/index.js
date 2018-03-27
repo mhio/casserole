@@ -1,7 +1,10 @@
 
 var CassCql       = require('./lib/CassCql')
 var CassEntity    = require('./lib/CassEntity')
-var CassErrors    = require('./lib/CassErrors')
+var CassExceptions = require('./lib/CassExceptions')
+var Exception = CassExceptions.Exception
+var CassException = CassExceptions.CassException
+var QueryException = CassExceptions.QueryException
 var CassInsert    = require('./lib/CassInsert')
 var CassKeyspace  = require('./lib/CassKeyspace')
 var CassMap       = require('./lib/CassMap')
@@ -20,7 +23,10 @@ var Util          = require('./lib/Util')
 module.exports = {
   CassCql: CassCql,
   CassEntity: CassEntity,
-  CassErrors: CassErrors,
+  CassExceptions: CassExceptions,
+  Exception: Exception,
+  CassException: CassException,
+  QueryException: QueryException,
   CassInsert: CassInsert,
   CassKeyspace: CassKeyspace,
   CassMap: CassMap,

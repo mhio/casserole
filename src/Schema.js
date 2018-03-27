@@ -4,7 +4,7 @@ import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
 
 import Paramaters from './Paramaters'
-import CassError from './CassErrors'
+import CassException from './CassExceptions'
 
 /**
  * Schema for apps to build into Models
@@ -27,7 +27,7 @@ class Schema {
   }
 
   constructor(config){
-    CassError.if( !config, 'Schema needs a config option')
+    CassException.if( !config, 'Schema needs a config option')
     this.config = config
   }
 
@@ -42,13 +42,13 @@ class Schema {
       if (typeof field === 'string') {
         field_type = field.toLowerCase()
       } else {
-        if (!field.type) throw new CassError(`Schema type must be defined for field "${name}"`)
+        if (!field.type) throw new CassException(`Schema type must be defined for field "${name}"`)
         field_type = field.type.toLowerCase()
       }
       if ( field_type === 'string' ) field_type = 'text'
       if ( field_type === 'datetime' ) field_type = 'timestamp'
       if ( field_type === 'integer' ) field_type = 'int'
-      if ( !this.data_types[field_type] ) throw new CassError(`No cassandra field type "${field_type}" for ${name}`)
+      if ( !this.data_types[field_type] ) throw new CassException(`No cassandra field type "${field_type}" for ${name}`)
     })
     this._config = config
   }

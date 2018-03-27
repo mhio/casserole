@@ -7,13 +7,14 @@ import isEmpty from 'lodash/isEmpty'
 import { dataTypes } from 'cassandra-driver/lib/types'
 //import { types } from 'cassandra-driver'
 
-import CassError from './CassErrors'
+import {CassException} from './CassExceptions'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
 const template = Util.template
 
 /*
+  ```
   CREATE TABLE [IF NOT EXISTS] [keyspace_name.]table_name ( 
      column_definition [, ...]
      PRIMARY KEY (column_name [, column_name ...])
@@ -21,6 +22,7 @@ const template = Util.template
      | CLUSTERING ORDER BY (clustering_column_name order])
      | ID = 'table_hash_tag'
      | COMPACT STORAGE]
+  ```
 */
 
 /**
@@ -61,9 +63,9 @@ class CassTable extends CassEntity {
   }
 
   static toCqlCreate( name, fields, primary_keys, options = {} ){
-    if (isEmpty(name)) throw new CassError('CassTable Create cql requires a table "name"')
-    if (isEmpty(fields)) throw new CassError('CassTable Create cql requires "fields"')
-    if (isEmpty(primary_keys)) throw new CassError('CassTable Create cql requires "primary_keys"')
+    if (isEmpty(name)) throw new CassException('CassTable Create cql requires a table "name"')
+    if (isEmpty(fields)) throw new CassException('CassTable Create cql requires "fields"')
+    if (isEmpty(primary_keys)) throw new CassException('CassTable Create cql requires "primary_keys"')
     
     let exists_clause = ''
     if ( options.if_not_exists || options.exists ) {
@@ -86,7 +88,7 @@ class CassTable extends CassEntity {
     
     let order = 'ASC'
     if ( options.order ) {
-      if ( ! options.order_by ) throw new CassError('CLUSTER ORDER requires an ORDER BY field')
+      if ( ! options.order_by ) throw new CassException('CLUSTER ORDER requires an ORDER BY field')
       order = options.order
       delete options.order
     }
@@ -151,7 +153,7 @@ class CassTable extends CassEntity {
   }
 
   addField( field, type ){
-    if ( !dataTypes[type] ) throw new CassError(`No cassandra type "${type}" available`)
+    if ( !dataTypes[type] ) throw new CassException(`No cassandra type "${type}" available`)
     this.debug('adding field "%s" of type "%s" to table "%s"', field, type, this.table_name)
     this.fields[field] = { name: field, type: type }
   }

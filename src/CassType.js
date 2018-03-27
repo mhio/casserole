@@ -1,7 +1,7 @@
 import map from 'lodash/map'
 import { dataTypes } from 'cassandra-driver/lib/types'
 
-import { CassError } from './CassErrors'
+import { CassException } from './CassExceptions'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
@@ -83,7 +83,7 @@ class CassType extends CassEntity {
 
   addField(field, datatype){
     if ( datatype.startsWith('<') && !dataTypes[datatype] ) {
-      throw new CassError(`No cassandra datatype "${datatype} available`)
+      throw new CassException(`No cassandra datatype "${datatype} available`)
     }
     this.fields[field] = { name: field, datatype: datatype }
   }

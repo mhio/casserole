@@ -6,7 +6,7 @@ import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
 import map from 'lodash/map'
 
-import {CassError} from './CassErrors'
+import {CassException} from './CassExceptions'
 import Paramaters from './Paramaters'
 import Query from './CassQuery_3_3'
 import CassTable from './CassTable'
@@ -79,7 +79,7 @@ class Model {
     })
     /* istanbul ignore else */
     if ( !NewModel.debug.enabled ) NewModel.debug = noop
-    if ( options.client && options.client instanceof Client === false ) throw new CassError('A Client instance must be attached')
+    if ( options.client && options.client instanceof Client === false ) throw new CassException('A Client instance must be attached')
     NewModel.client = options.client
     return NewModel
   }

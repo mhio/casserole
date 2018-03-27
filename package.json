@@ -58,6 +58,7 @@
     "source-map-support": "^0.5.0"
   },
   "dependencies": {
+    "@mhio/exception": "^0.1.12",
     "bluebird": "^3.5.0",
     "cassandra-driver": "^3.3.0",
     "lodash": "^4.17.5",

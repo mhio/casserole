@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 
-import {CassError} from './CassErrors'
+import {CassException} from './CassExceptions'
 import CassMap from './CassMap'
 
 
@@ -22,15 +22,20 @@ class CassReplicationStrategy extends CassMap {
 
   // Create a Simple strategy
   static simple(replication_factor = 3){
-    CassError.if( !isInteger(replication_factor), 'SimpleStrategy needs an integer replication_factor')
+    if (!isInteger(replication_factor)) {
+      throw new CassException('SimpleStrategy needs an integer replication_factor')
+    }
     return new this('SimpleStrategy', { replication_factor: replication_factor })
   }
 
   // Create a NetworkTopologyStrategy strategy
   static networkTopology( dcs ){
-    CassError.if(( isEmpty(dcs) || !isPlainObject(dcs) ),
-      'NetworkTopologyStrategy needs an object containing data center replication factors',
-      { label: 'ReplicationStrategy', details: dcs })
+    if ( isEmpty(dcs) || !isPlainObject(dcs) ) {
+      throw new CassException(
+        'NetworkTopologyStrategy needs an object containing data center replication factors',
+        { label: 'ReplicationStrategy', details: dcs }
+      )
+    }
 
     return new this('NetworkTopologyStrategy', dcs)
   }
@@ -49,8 +54,13 @@ class CassReplicationStrategy extends CassMap {
 
   // This is annoying as the user might expect `strat.dc = 1` to work the same way :/
   set class (value) { 
-    CassError.if( !this.constructor.replication_strategies.includes(value), 
-      `Replication Strategy class must be one of [${this.constructor.replication_strategies}]". Got ${value}`)
+    if ( !this.constructor.replication_strategies.includes(value) ) {
+      throw new CassException(
+        `Replication Strategy class must be one of [${this.constructor.replication_strategies}]". Got ${value}`,
+        { detail: {value: value} }
+      )
+    } 
+      
     return this._data.class = value
   }
   get class (){

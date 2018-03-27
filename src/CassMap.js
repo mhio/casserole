@@ -4,7 +4,7 @@ import has from 'lodash/has'
 
 import Util from './Util'
 import Paramaters from './Paramaters'
-import CassError from './CassErrors'
+import CassException from './CassExceptions'
 
 /**
  * Base class for other CQL Map implementations to extend
@@ -47,9 +47,15 @@ class CassMap {
     return this.constructor.toCqlMap(this._data)
   }
 
-  // Convert to CQL with `name = {}`
   toCql(){
-    CassError.if( ( this.name === undefined ), 'Map must have a name to create cql')
+    return this.constructor.toCqlMap(this._data)
+  }
+
+  // Convert to CQL with `name = {}`
+  toCqlWith(){
+    if ( this.name === undefined ) { 
+      throw new CassException('Map must have a name to create cql')
+    }
     return `${this.name} = ${this.toCqlMap()}`
   }
 
@@ -58,7 +64,7 @@ class CassMap {
     return this._name
   }
   set name(name){
-    CassError.if( !Paramaters.fmt_identifier_all_re.test(name),
+    CassException.if( !Paramaters.fmt_identifier_all_re.test(name),
       `Map name must be [${Paramaters.fmt_identifier_str}]`)
     return this._name = name
   }
@@ -80,7 +86,7 @@ class CassMap {
 
   // Add new data
   add(field, value){
-    CassError.if( has(this._data, field), `Map field "${field}" already set`)
+    CassException.if( has(this._data, field), `Map field "${field}" already set`)
     return this._data[field] = value
   }
 

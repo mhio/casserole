@@ -52,9 +52,14 @@ describe('unit::mh::casserole::CassMap', function(){
     expect( cassmap.toCqlMap() ).to.eql("{'test':'true','other':'what'}") // eslint-disable-line quotes
   })
 
+  it('should return the data as cql map for a WITH statement', function () {
+    cassmap.name = 'whatever'
+    expect( cassmap.toCqlWith() ).to.eql("whatever = {'test':'true','other':'what'}") // eslint-disable-line quotes
+  })
+
   it('should return the data as cql map', function () {
     cassmap.name = 'whatever'
-    expect( cassmap.toCql() ).to.eql("whatever = {'test':'true','other':'what'}") // eslint-disable-line quotes
+    expect( cassmap.toCql() ).to.eql("{'test':'true','other':'what'}") // eslint-disable-line quotes
   })
 
   it('should add cql map data', function () {

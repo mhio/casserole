@@ -1,6 +1,6 @@
 /* global expect */
 import CassKeyspace from '../../src/CassKeyspace'
-import CassError from '../../src/CassErrors'
+import CassException from '../../src/CassExceptions'
 
 describe('unit::mh::casserole::CassKeyspace', function(){
 
@@ -55,7 +55,7 @@ describe('unit::mh::casserole::CassKeyspace', function(){
   })
 
   it('should fail to create a keyspace instance without name', function () {
-    expect( ()=> new CassKeyspace() ).to.throw(CassError)
+    expect( ()=> new CassKeyspace() ).to.throw(CassException)
   })
 
   it('should create a default keyspace instance', function () {
