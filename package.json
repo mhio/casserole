@@ -21,7 +21,7 @@
     "docker:cass:down": "cd test/fixture/docker; docker-compose down",
     "build:js": "babel -d lib/ src/",
     "release:test": "set -uex; yarn test; npm version prerelease; npm publish --access public --tag testing",
-    "release:patch": "set -uex; git pull; rm -rf node_modules; yarn; yarn run test:coverage; yarn run test:lint; yarn run build:doc; npm version patch; git push; npm publish --access public; git push --tags"
+    "release:patch": "set -uex; git pull; rm -rf node_modules; yarn; yarn run test:coverage; yarn run test:lint; yarn run build; yarn run test:built; npm version patch; git push; npm publish --access public; git push --tags"
   },
   "engines": {
     "node": ">=6"
