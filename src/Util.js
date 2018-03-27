@@ -96,14 +96,14 @@ class Util {
 
   /**
    * Template a string with function arguments, in order
-   * @params {string} str - Template string
-   * @params {string}
-   * @returns {string} - Templated string 
+   * @param {String} str        - Template string
+   * @param {...String} params  - Strings to replace in template
+   * @returns {String}          - String with template params replaced
    */
-  static templateArgs(str /*, arguments... */){
-    let current = 1
+  static templateArgs(str, ...params){
+    let current = 0
     return str.replace(/{{([\w.]+)}}/g, found => {
-      const str = arguments[current]
+      const str = params[current]
       current++
       if ( str === undefined ) return found
       return str
@@ -112,14 +112,14 @@ class Util {
 
   /**
    * Template a string with an array of params
-   * @params {string} str - Template string
-   * @params {array} params - 
-   * @returns {string} - Templated string 
+   * @param {String} str    - Template string
+   * @param {Array} params  - Array of params for template string
+   * @returns {String}      - String with template params replaced
    */
-  static templateArray(str, vars){
+  static templateArray(str, params){
     let current = 0
     return str.replace(/{{([\w.]+)}}/g, found => {
-      const str = vars[current]
+      const str = params[current]
       current++
       if ( str === undefined ) return found
       return str
@@ -129,9 +129,9 @@ class Util {
   /**
    * Template a string with an object of named args
    * @description Plain string param names  only `{{whatever}}` or `{{what_ever}}`
-   * @params {string} str     - Template string
-   * @params {object} params  - Key/Value paris matching template params
-   * @returns {string}        - Templated string 
+   * @param {String} str     - Template string
+   * @param {Object} params  - Key/Value pairs matching template param names
+   * @returns {String}       - String with template params replaced
    */
   static templateObject(str, params){
     return str.replace(/{{(\w+)}}/g, (found, name)=> {
@@ -144,9 +144,9 @@ class Util {
   /**
    * Template string withe deep objects. 
    * @description Support `one.two` and `one[1]` lodash `get` syntax to fetch nested properties. 
-   * @params {string} str         - Template string
-   * @params {object} params_deep - Object matching template params
-   * @returns {string}            - Templated string 
+   * @param {String} str         - Template string
+   * @param {Object} params_deep - Object matching template params
+   * @returns {String}            - Templated string 
    */
   static templateObjectDeep(str, params_deep){
     return str.replace(/{{([\w.[\]]+)}}/g, (found, name)=> {

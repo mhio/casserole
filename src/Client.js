@@ -98,8 +98,8 @@ class Client {
 
   /**
    * Run a Query
-   *  @params {Query} query - Query object
-   *  @params {object} options - Cassandra Driver query options
+   *  @param {Query} query - Query object
+   *  @param {object} options - Cassandra Driver query options
    *  @returns {ResultSet} - Cassandra ResultSet
    */
   async query( query, options = {} ){
@@ -112,9 +112,9 @@ class Client {
   /**
    *  Execute a query string 
    *  @description - Execute a string query, and possible paramaters and Cassandra driver options.
-   *  @params {string} query - Query string
-   *  @params {array} params - Params for a plain string query
-   *  @params {object} options - Cassandra Driver query options
+   *  @param {string} query - Query string
+   *  @param {array} params - Params for a plain string query
+   *  @param {object} options - Cassandra Driver query options
    *  @returns {ResultSet} - Cassandra ResultSet
    */
   async execute( query, params = [], options = {} ){

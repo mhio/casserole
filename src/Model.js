@@ -16,9 +16,9 @@ import Schema from './Schema'
 
 /**
   * Model for apps to work with
-  * @params {Object} data - Data to populate the Model with
-  * @params {Object} options - Metadata for the Model instance
-  * @params {Object} options.new - Is this new or existing data
+  * @param {Object} data - Data to populate the Model with
+  * @param {Object} options - Metadata for the Model instance
+  * @param {Object} options.new - Is this new or existing data
   */
 class Model {
 
@@ -150,9 +150,9 @@ class Model {
 
   /** 
    * @description new Model 
-   * @params {Object} data - Data to populate the Model with
-   * @params {Object} options - Metadata for the Model instance
-   * @params {Object} options.new - Is this new or existing data
+   * @param {Object} data - Data to populate the Model with
+   * @param {Object} options - Metadata for the Model instance
+   * @param {Object} options.new - Is this new or existing data
    */
   constructor(data, options){
     this._row_data = {}

@@ -124,9 +124,9 @@ class CassQuery_3_3 extends CassQuery {
    * ```
    * select(table_name, columns_array, where_fields)
    * ```
-   * @params {string} table - Table to select from 
-   * @params {string|array} columns - Column(s) to return
-   * @params {string|object} where - Where clause
+   * @param {string} table - Table to select from 
+   * @param {string|array} columns - Column(s) to return
+   * @param {string|object} where - Where clause
    * @returns {CassQuery}
    */
   select( table, columns, where ){
@@ -143,8 +143,8 @@ class CassQuery_3_3 extends CassQuery {
    * ```
    * insert(table_name, fields_values)
    * ```
-   * @params {string} table - Table to select from 
-   * @params {object} values - Column/Value pairs to insert
+   * @param {string} table - Table to select from 
+   * @param {object} values - Column/Value pairs to insert
    * @returns {CassQuery}
    */
   insert( table, values ){
@@ -160,9 +160,9 @@ class CassQuery_3_3 extends CassQuery {
    * ```
    * update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })
    * ```
-   * @params {string} table - Table to select from 
-   * @params {object} set - Column/Value pairs to set
-   * @params {string|object} where - Where clause
+   * @param {string} table - Table to select from 
+   * @param {object} set - Column/Value pairs to set
+   * @param {string|object} where - Where clause
    * @returns {CassQuery}
    */
   update( table, set, where ){
@@ -179,8 +179,8 @@ class CassQuery_3_3 extends CassQuery {
    * ```
    * delete(table_name, { id: 'equals_some_id' })
    * ```
-   * @params {string} table - Table to select from 
-   * @params {string|object} where - Where clause
+   * @param {string} table - Table to select from 
+   * @param {string|object} where - Where clause
    * @returns {CassQuery}
    */
   delete( table, where ){

@@ -250,10 +250,10 @@ CDC = TRUE</p>
 
 * [CassQuery_3_3](#CassQuery_3_3)
     * [new CassQuery_3_3(type, options)](#new_CassQuery_3_3_new)
-    * [.select()](#CassQuery_3_3+select) ⇒ [<code>CassQuery</code>](#CassQuery)
-    * [.insert()](#CassQuery_3_3+insert) ⇒ [<code>CassQuery</code>](#CassQuery)
-    * [.update()](#CassQuery_3_3+update) ⇒ [<code>CassQuery</code>](#CassQuery)
-    * [.delete()](#CassQuery_3_3+delete) ⇒ [<code>CassQuery</code>](#CassQuery)
+    * [.select(table, columns, where)](#CassQuery_3_3+select) ⇒ [<code>CassQuery</code>](#CassQuery)
+    * [.insert(table, values)](#CassQuery_3_3+insert) ⇒ [<code>CassQuery</code>](#CassQuery)
+    * [.update(table, set, where)](#CassQuery_3_3+update) ⇒ [<code>CassQuery</code>](#CassQuery)
+    * [.delete(table, where)](#CassQuery_3_3+delete) ⇒ [<code>CassQuery</code>](#CassQuery)
 
 
 * * *
@@ -277,51 +277,67 @@ CDC = TRUE</p>
 
 <a name="CassQuery_3_3+select"></a>
 
-### cassQuery_3_3.select() ⇒ [<code>CassQuery</code>](#CassQuery)
+### cassQuery_3_3.select(table, columns, where) ⇒ [<code>CassQuery</code>](#CassQuery)
 <p>Build a select query </p>
 <pre class="prettyprint source"><code>select(table_name, columns_array, where_fields)</code></pre>
 
 **Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
-**Params**: <code>string</code> table - Table to select from  
-**Params**: <code>string\|array</code> columns - Column(s) to return  
-**Params**: <code>string\|object</code> where - Where clause  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>string</code> | <p>Table to select from</p> |
+| columns | <code>string</code> \| <code>array</code> | <p>Column(s) to return</p> |
+| where | <code>string</code> \| <code>object</code> | <p>Where clause</p> |
+
 
 * * *
 
 <a name="CassQuery_3_3+insert"></a>
 
-### cassQuery_3_3.insert() ⇒ [<code>CassQuery</code>](#CassQuery)
+### cassQuery_3_3.insert(table, values) ⇒ [<code>CassQuery</code>](#CassQuery)
 <p>Build an insert query </p>
 <pre class="prettyprint source"><code>insert(table_name, fields_values)</code></pre>
 
 **Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
-**Params**: <code>string</code> table - Table to select from  
-**Params**: <code>object</code> values - Column/Value pairs to insert  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>string</code> | <p>Table to select from</p> |
+| values | <code>object</code> | <p>Column/Value pairs to insert</p> |
+
 
 * * *
 
 <a name="CassQuery_3_3+update"></a>
 
-### cassQuery_3_3.update() ⇒ [<code>CassQuery</code>](#CassQuery)
+### cassQuery_3_3.update(table, set, where) ⇒ [<code>CassQuery</code>](#CassQuery)
 <p>Build an update query </p>
 <pre class="prettyprint source"><code>update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })</code></pre>
 
 **Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
-**Params**: <code>string</code> table - Table to select from  
-**Params**: <code>object</code> set - Column/Value pairs to set  
-**Params**: <code>string\|object</code> where - Where clause  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>string</code> | <p>Table to select from</p> |
+| set | <code>object</code> | <p>Column/Value pairs to set</p> |
+| where | <code>string</code> \| <code>object</code> | <p>Where clause</p> |
+
 
 * * *
 
 <a name="CassQuery_3_3+delete"></a>
 
-### cassQuery_3_3.delete() ⇒ [<code>CassQuery</code>](#CassQuery)
+### cassQuery_3_3.delete(table, where) ⇒ [<code>CassQuery</code>](#CassQuery)
 <p>Build a delete query </p>
 <pre class="prettyprint source"><code>delete(table_name, { id: 'equals_some_id' })</code></pre>
 
 **Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
-**Params**: <code>string</code> table - Table to select from  
-**Params**: <code>string\|object</code> where - Where clause  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| table | <code>string</code> | <p>Table to select from</p> |
+| where | <code>string</code> \| <code>object</code> | <p>Where clause</p> |
+
 
 * * *
 
@@ -405,29 +421,33 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [Client](#Client)
-    * [.query()](#Client+query) ⇒ <code>ResultSet</code>
-    * [.execute()](#Client+execute) ⇒ <code>ResultSet</code>
+    * [.query(query, options)](#Client+query) ⇒ <code>ResultSet</code>
+    * [.execute(query, params, options)](#Client+execute) ⇒ <code>ResultSet</code>
 
 
 * * *
 
 <a name="Client+query"></a>
 
-### client.query() ⇒ <code>ResultSet</code>
+### client.query(query, options) ⇒ <code>ResultSet</code>
 <p>Run a Query</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Returns**: <code>ResultSet</code> - <ul>
 <li>Cassandra ResultSet</li>
 </ul>  
-**Params**: <code>Query</code> query - Query object  
-**Params**: <code>object</code> options - Cassandra Driver query options  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| query | <code>Query</code> | <p>Query object</p> |
+| options | <code>object</code> | <p>Cassandra Driver query options</p> |
+
 
 * * *
 
 <a name="Client+execute"></a>
 
-### client.execute() ⇒ <code>ResultSet</code>
+### client.execute(query, params, options) ⇒ <code>ResultSet</code>
 <ul>
 <li>Execute a string query, and possible paramaters and Cassandra driver options.</li>
 </ul>
@@ -436,9 +456,13 @@ CDC = TRUE</p>
 **Returns**: <code>ResultSet</code> - <ul>
 <li>Cassandra ResultSet</li>
 </ul>  
-**Params**: <code>string</code> query - Query string  
-**Params**: <code>array</code> params - Params for a plain string query  
-**Params**: <code>object</code> options - Cassandra Driver query options  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| query | <code>string</code> | <p>Query string</p> |
+| params | <code>array</code> | <p>Params for a plain string query</p> |
+| options | <code>object</code> | <p>Cassandra Driver query options</p> |
+
 
 * * *
 
@@ -448,12 +472,9 @@ CDC = TRUE</p>
 <p>Model for apps to work with</p>
 
 **Kind**: global class  
-**Params**: <code>Object</code> data - Data to populate the Model with  
-**Params**: <code>Object</code> options - Metadata for the Model instance  
-**Params**: <code>Object</code> options.new - Is this new or existing data  
 
 * [Model](#Model)
-    * [new Model()](#new_Model_new)
+    * [new Model(data, options)](#new_Model_new)
     * _instance_
         * [.buildPrimaryKeyWhere()](#Model+buildPrimaryKeyWhere)
         * [.execSave()](#Model+execSave)
@@ -473,8 +494,15 @@ CDC = TRUE</p>
 
 <a name="new_Model_new"></a>
 
-### new Model()
+### new Model(data, options)
 <p>new Model</p>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Object</code> | <p>Data to populate the Model with</p> |
+| options | <code>Object</code> | <p>Metadata for the Model instance</p> |
+| options.new | <code>Object</code> | <p>Is this new or existing data</p> |
 
 
 * * *
@@ -596,10 +624,10 @@ CDC = TRUE</p>
 
 * [Util](#Util)
     * [.template()](#Util.template)
-    * [.templateArgs()](#Util.templateArgs) ⇒ <code>string</code>
-    * [.templateArray()](#Util.templateArray) ⇒ <code>string</code>
-    * [.templateObject()](#Util.templateObject) ⇒ <code>string</code>
-    * [.templateObjectDeep()](#Util.templateObjectDeep) ⇒ <code>string</code>
+    * [.templateArgs(str, ...params)](#Util.templateArgs) ⇒ <code>String</code>
+    * [.templateArray(str, params)](#Util.templateArray) ⇒ <code>String</code>
+    * [.templateObject(str, params)](#Util.templateObject) ⇒ <code>String</code>
+    * [.templateObjectDeep(str, params_deep)](#Util.templateObjectDeep) ⇒ <code>String</code>
     * [.objectToCqlMap()](#Util.objectToCqlMap)
     * [.arrayToCqlMap()](#Util.arrayToCqlMap)
     * [.valueToCqlMap()](#Util.valueToCqlMap)
@@ -618,57 +646,73 @@ CDC = TRUE</p>
 
 <a name="Util.templateArgs"></a>
 
-### Util.templateArgs() ⇒ <code>string</code>
+### Util.templateArgs(str, ...params) ⇒ <code>String</code>
 <p>Template a string with function arguments, in order</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
-**Returns**: <code>string</code> - <ul>
-<li>Templated string</li>
+**Returns**: <code>String</code> - <ul>
+<li>String with template params replaced</li>
 </ul>  
-**Params**: <code>string</code> str - Template string  
-**Params**: <code>string</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | <p>Template string</p> |
+| ...params | <code>String</code> | <p>Strings to replace in template</p> |
+
 
 * * *
 
 <a name="Util.templateArray"></a>
 
-### Util.templateArray() ⇒ <code>string</code>
+### Util.templateArray(str, params) ⇒ <code>String</code>
 <p>Template a string with an array of params</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
-**Returns**: <code>string</code> - <ul>
-<li>Templated string</li>
+**Returns**: <code>String</code> - <ul>
+<li>String with template params replaced</li>
 </ul>  
-**Params**: <code>string</code> str - Template string  
-**Params**: <code>array</code> params -  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | <p>Template string</p> |
+| params | <code>Array</code> | <p>Array of params for template string</p> |
+
 
 * * *
 
 <a name="Util.templateObject"></a>
 
-### Util.templateObject() ⇒ <code>string</code>
+### Util.templateObject(str, params) ⇒ <code>String</code>
 <p>Plain string param names  only <code>{{whatever}}</code> or <code>{{what_ever}}</code></p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
-**Returns**: <code>string</code> - <ul>
-<li>Templated string</li>
+**Returns**: <code>String</code> - <ul>
+<li>String with template params replaced</li>
 </ul>  
-**Params**: <code>string</code> str     - Template string  
-**Params**: <code>object</code> params  - Key/Value paris matching template params  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | <p>Template string</p> |
+| params | <code>Object</code> | <p>Key/Value pairs matching template param names</p> |
+
 
 * * *
 
 <a name="Util.templateObjectDeep"></a>
 
-### Util.templateObjectDeep() ⇒ <code>string</code>
+### Util.templateObjectDeep(str, params_deep) ⇒ <code>String</code>
 <p>Support <code>one.two</code> and <code>one[1]</code> lodash <code>get</code> syntax to fetch nested properties.</p>
 
 **Kind**: static method of [<code>Util</code>](#Util)  
-**Returns**: <code>string</code> - <ul>
+**Returns**: <code>String</code> - <ul>
 <li>Templated string</li>
 </ul>  
-**Params**: <code>string</code> str         - Template string  
-**Params**: <code>object</code> params_deep - Object matching template params  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | <p>Template string</p> |
+| params_deep | <code>Object</code> | <p>Object matching template params</p> |
+
 
 * * *
 
