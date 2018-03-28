@@ -216,7 +216,7 @@ class Client {
   * @returns {ResultSet}      Cassandra ResultSet
   */
   async insert( table, values, options ){
-    let query = Query.insert(table, values)
+    let query = Query.insert(table, values, options)
     return this.query(query, options)
   }
 
@@ -230,8 +230,8 @@ class Client {
   * @param {Object} options        - Cassandra query options
   * @returns {ResultSet}           Cassandra ResultSet
   */
-  async select( table, columns, where, options ){
-    let query = Query.select(table, columns, where)
+  async select( table, columns, where, options){
+    let query = Query.select(table, columns, where, options)
     return this.query(query, options)
   }
 
@@ -246,7 +246,7 @@ class Client {
   * @returns {ResultSet}          Cassandra ResultSet
   */
   async update( table, values, where, options ){
-    let query = Query.update(table, values, where)
+    let query = Query.update(table, values, where, options)
     return this.query(query, options)
   }
 

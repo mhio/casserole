@@ -77,7 +77,13 @@ class CassQuery_3_3 extends CassQuery {
    */
   constructor( type, options = {} ){
     super()
+
     this._paramaters = []
+
+    this.keyspace_prefix = (options.keyspace)
+      ? `"${options.keyspace}".`
+      : ''
+
     switch(type){
       case 'select':
         this.select(options.table, options.columns, options.where)
@@ -97,6 +103,7 @@ class CassQuery_3_3 extends CassQuery {
       
       default: throw new QueryException('A Query instance requires a type: select, insert, update or delete')
     }
+
   }
 
   get paramaters(){
@@ -132,7 +139,7 @@ class CassQuery_3_3 extends CassQuery {
   select( table, columns, where ){
     this._table = table
     this._columns = columns || '*'
-    this.query = `SELECT ${this.generateColumns()} FROM "${table}"`
+    this.query = `SELECT ${this.generateColumns()} FROM ${this.keyspace_prefix}"${table}"`
     if (where) return this.where(where)
     return this
   }
@@ -149,7 +156,7 @@ class CassQuery_3_3 extends CassQuery {
    */
   insert( table, values ){
     this._table = table
-    this.query = `INSERT INTO "${table}"`
+    this.query = `INSERT INTO ${this.keyspace_prefix}"${table}"`
     if (values) return this.values(values)
     return this
   }
@@ -167,7 +174,7 @@ class CassQuery_3_3 extends CassQuery {
    */
   update( table, set, where ){
     this._table = table
-    this.query = `UPDATE "${table}"`
+    this.query = `UPDATE ${this.keyspace_prefix}"${table}"`
     if (set) this.set(set)
     if (where) this.whereObject(where)
     return this
@@ -185,7 +192,7 @@ class CassQuery_3_3 extends CassQuery {
    */
   delete( table, where ){
     this._table = table
-    this.query = `DELETE FROM "${table}"`
+    this.query = `DELETE FROM ${this.keyspace_prefix}"${table}"`
     if (where) return this.whereObject(where)
     return this
   }
