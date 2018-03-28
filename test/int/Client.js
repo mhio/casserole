@@ -10,7 +10,7 @@ describe('int::mh::casserole::Client', function(){
   let client
 
   before('connect', function(){
-    client = new Client('casserole_int_test')
+    client = new Client('casserole_int_test', { sync: false })
   })
 
   after('client', function(){
@@ -29,8 +29,7 @@ describe('int::mh::casserole::Client', function(){
 
   it('should connect and init keyspace', function(){
     return client.connect().then(res => {
-      expect( res ).to.be.ok
-      expect( res.columns ).to.be.null
+      expect( res ).to.equal(client)
     })
   })
 

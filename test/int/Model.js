@@ -5,6 +5,7 @@ chai.should()
 import Client from '../../src/Client'
 import Schema from '../../src/Schema'
 import Model from '../../src/Model'
+import ModelStore from '../../src/ModelStore'
 
 
 describe('int::mh::casserole::Model', function(){
@@ -12,7 +13,7 @@ describe('int::mh::casserole::Model', function(){
   let client, schema, TestModel, testmodel
 
   before('connect', async function(){
-    client = new Client('casserole_int_test')
+    client = new Client('casserole_int_test', { sync: false })
     await client.connect()
   })
 
@@ -126,4 +127,35 @@ describe('int::mh::casserole::Model', function(){
     expect(res.rows).to.equal(undefined)
   })
 
+  describe('client model store', function(){
+    
+    let store, cli
+
+    before(function(){
+      store = new ModelStore('things')
+      cli = new Client('casserole_int_test', { model_store: store })
+    })
+
+    after(function(){
+      return cli.disconnect()
+    })
+
+    it('should sync a new model on a new client in a new store', async function(){
+      let StoreThing = Model.generate(
+        'StoreThing',
+        { id: { type: 'int', primary: true }, name: 'string' },
+        { model_store: store, client: cli }
+      )
+      let res = await cli.connect()
+      debug('cli connect res', res.hosts, res._keyspace)
+      expect(res).to.be.ok
+      let tables = await cli.execute(
+        'SELECT * FROM system_schema.tables WHERE keyspace_name = ?;', 
+        ['casserole_int_test']
+      )
+      expect(tables.rows).to.have.length(2)
+      expect(tables.rows[0].table_name).to.eql('store_things')
+    })
+
+  })
 })

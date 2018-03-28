@@ -27,7 +27,7 @@ class Model {
     /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
 
-    this.model_store = new ModelStore()
+    this.model_store = ModelStore.default_store
 
     /** The main schema for the Model */
     this.schema = {}
@@ -49,7 +49,7 @@ class Model {
   static set table(value){ this._table = value }
 
   /** Store a cassandera client */
-  static get client(){ return this._client || this.super() }
+  static get client(){ return this._client || super.client }
   static set client(value){ this._client = value }
 
   /** 
@@ -57,8 +57,13 @@ class Model {
   * @description A custom store can be created and added when generating a new model.
   * @type {ModelStore}
   */
-  static get model_store(){ return this._model_store || this.super() }
-  static set model_store(value){ this._model_store = value }
+  static get model_store(){ return this._model_store || super.model_store }
+  static set model_store(value){
+    if ( value instanceof ModelStore === false ) {
+      throw new CassException('Store must be an instance of ModelStore')
+    }
+    this._model_store = value
+  }
 
   /** Store the schema */
   static get schema(){ return this._schema }
@@ -77,29 +82,34 @@ class Model {
     // Name the class via an object property
     const o = { [name]: class extends this {} }
     let NewModel = o[name]
+
+    // Create a shema if we got a simple object
     if ( schema instanceof Schema === false) {
       schema = new Schema(schema)
     }
     NewModel.applySchema(schema)  
     
-    NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
+    // Setup table
     NewModel.table_name = snakeCase(pluralize(name))
     NewModel.table = new CassTable(NewModel.table_name, {
       fields: schema.config,
       primary_keys: schema.primary_keys
     })
+
+    // Setup debug
+    NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
     /* istanbul ignore else */
     if ( !NewModel.debug.enabled ) NewModel.debug = noop
     
     if ( options.client && options.client instanceof Client === false ) {
       throw new CassException('A Client instance must be attached')
     }
-    NewModel.client = options.client
-
+    if (options.client) NewModel.client = options.client
+      
     if (options.hidden_fields) NewModel.hidden_fields = options.hidden_fields
     if (options.model_store) NewModel.model_store = options.model_store
 
-    Model.store(name, NewModel)
+    NewModel.store(name, NewModel)
     return NewModel
   }
 
@@ -124,6 +134,7 @@ class Model {
 
   /** Sync a table definition to the cassandra server */
   static store(){
+    this.debug('Adding model to store')
     return this._model_store.add(this)
   }
 

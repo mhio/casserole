@@ -1,6 +1,7 @@
 import debugr from 'debug'
 import cassandra from 'cassandra-driver'
 import noop from 'lodash/noop'
+import has from 'lodash/has'
 
 import CassKeyspace from './CassKeyspace'
 import CassTable from './CassTable'
@@ -31,7 +32,7 @@ class Client {
    * @property {String} keyspace The keyspace for all the operations within the {@link Client} instance.
    */
   constructor( keyspace, options = {} ){
-    this.keyspace = keyspace
+    this._keyspace = keyspace
 
     // We need an array of hosts to connect to, defualt to localhost
     this.hosts = options.hosts
@@ -43,28 +44,57 @@ class Client {
     this.replication_factor = 
       options.replication_factor || this.constructor.default_replication_factor
     
+    this.model_store = 
+      options.model_store || require('./ModelStore').default_store
+
+    this.sync_models = ( has(options, 'sync') )
+      ? Boolean(options.sync)
+      : true
+
     this.setupClient()
   }
 
+  /** The Cassandra driver client
+  * @type {CassandraDriver.Client}
+  */
+  get client(){ return this._client }
+
+  /** The default keyspace
+  * @type {String}
+  */
+  get keyspace(){ return this._keyspace }
+
+  /** 
+  * The model store for this client to lookup models with
+  * Defaults to `Model.model_store`
+  * @type {ModelStore}
+  */
+  get model_store(){ return this._model_store }
+  set model_store(store){ return this._model_store = store }
+
+  /** The model store for this client to lookup models */
+  get sync_models(){ return this._sync_models }
+  set sync_models(val){ return this._sync_models = Boolean(val) }
+
   setupClient(){
-    this.client = new cassandra.Client({
+    this._client = new cassandra.Client({
       contactPoints: this.hosts, //array of hosts to connect to 
       //keyspace: this.keyspace || this.constructor.default_keyspace
     })
     /* istanbul ignore next */
-    this.client.on('hostUp', host => {
+    this._client.on('hostUp', host => {
       this.debug('hostUp', host) 
     })
     /* istanbul ignore next */
-    this.client.on('hostDown', host => {
+    this._client.on('hostDown', host => {
       this.debug('hostDown', host)
     })
     /* istanbul ignore next */
-    this.client.on('hostAdd', host => {
+    this._client.on('hostAdd', host => {
       this.debug('hostAdd', host)
     })
     /* istanbul ignore next */
-    this.client.on('hostRemove', host => {
+    this._client.on('hostRemove', host => {
       this.debug('hostRemove', host)
     })
   }
@@ -72,10 +102,16 @@ class Client {
   /**
   * Connect to the cassandra db
   * @async
+  * @returns {Array} Connect, Create and optional Sync elements
   */
   async connect(){
     await this.client.connect()
-    return this.keyspaceCreate()
+    await this.keyspaceCreate()
+    if ( this._sync_models ) {
+      let sync = await this.sync()
+      this.debug('connect sync rows undef: ', sync.rows)
+    }
+    return this
   }
 
   /**
@@ -103,6 +139,15 @@ class Client {
     let res = await this.execute(query)
     await this.execute('USE '+this.keyspace)
     return res
+  }
+
+  /**
+  * Synchronise all models to the default keyspace
+  * @async
+  * @returns {ResultSet}          Result of query
+  */
+  async sync(){
+    return this.model_store.sync()
   }
 
   /**
