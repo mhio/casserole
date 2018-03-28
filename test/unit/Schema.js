@@ -76,12 +76,24 @@ describe('unit::mh::casserole::Schema', function(){
     expect( schema.config ).to.eql({ field1: { type: 'text'} })
   })
 
-  it('should set the config for a Schema', function(){
+  it('should set the config for a Schema without dates', function(){
+    let schema = new Schema({
+      field1: { type: 'string'},
+    }, { dates: false })
+    schema.config = { field2: { type: 'text'} }
+    expect( schema.config ).to.eql({ field2: { type: 'text'} })
+  })
+
+  it('should set the config for a Schema with auto dates', function(){
     let schema = new Schema({
       field1: { type: 'string'},
     })
     schema.config = { field2: { type: 'text'} }
-    expect( schema.config ).to.eql({ field2: { type: 'text'} })
+    expect( schema.config ).to.eql({
+      modified_at:  { type: 'timestamp' },
+      created_at:   { type: 'timestamp' },
+      field2:       { type: 'text'}
+    })
   })
 
   it('should get the column types', function(){

@@ -2,6 +2,7 @@ import debugr from 'debug'
 import transform from 'lodash/transform'
 import forEach from 'lodash/forEach'
 import noop from 'lodash/noop'
+import has from 'lodash/has'
 
 import { Paramaters } from './Paramaters'
 import { CassException } from './CassExceptions'
@@ -68,11 +69,28 @@ export class Schema {
   /**
   * @param {Object} config - The Schema config object `{ field: { type: 'x' }`
   */
-  constructor(config){
+  constructor( config, options ){
     this.debug('new Schema with ', config)
     if (!config) throw new CassException('Schema needs to be created with a config')
     this.config = config
+    this.dates = true
+    if ( options ){
+      if ( has(options,'dates') ) this.dates = Boolean(options.dates)
+      if ( has(options,'soft_delete') ) this.soft_delete = Boolean(options.soft_delete)
+    }
   }
+
+  /** Schema adds created/modified data handlers
+  * @type Boolean
+  */
+  get dates(){ return this._dates }
+  set dates(value){ return this._dates = Boolean(value) }
+
+  /** Schema track deletes rathe than deleting data
+  * @type Boolean
+  */
+  get soft_delete(){ return this._soft_delete }
+  set soft_delete(value){ return this._soft_delete = Boolean(value) }
 
   /**
   * The schemas config object
@@ -97,6 +115,16 @@ export class Schema {
       field_def.type = Paramaters.checkType(field_def.type)
       config[field_name] = field_def
     })
+
+    // Fix options
+    if ( this.dates === true ) {
+      config.created_at   = { type: 'timestamp' }
+      config.modified_at  = { type: 'timestamp' }
+    }
+    if ( this.soft_delete === true ){
+      config.deleted_at   = { type: 'timestamp' }
+    }
+
     this._config = config
   }
 
