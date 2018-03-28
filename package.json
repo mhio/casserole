@@ -10,17 +10,19 @@
     "test:built": "mocha test/built",
     "test:watch": "nodemon -w src/ -w test/ -x mocha --bail -- test/unit test/int",
     "test:lint": "eslint src/ test/",
-    "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
+    "test:cover": "set -uex; yarn -s test:cover:run ; yarn -s test:cover:report; yarn -s test:cover:check",
+    "test:cover:run": "nyc _mocha test/unit test/int",
+    "test:cover:report": "nyc report --report-dir test/output/coverage -r html",
+    "test:cover:check": "nyc check-coverage",
     "build": "set -uex; yarn run build:code; yarn run build:doc",
     "build:code": "babel -d lib/ src/",
     "build:doc": "set -uex; yarn run build:doc:html; yarn run build:doc:md",
     "build:doc:html": "jsdoc -c .jsdoc.json -t node_modules/@mhio/jsdoc-template/template -d doc/html src/",
     "build:doc:md": "jsdoc2md -c ./.jsdoc.json --module-index-format table --separators --files src/* > doc/API.md",
-    "watch": "nodemon -w src/ -w test/ -x",
+    "watch": "nodemon -w src/ -w test/ -i test/output -x",
     "docker:cass": "cd test/fixture/docker; docker-compose up -d",
     "docker:cass:logs": "cd test/fixture/docker; docker-compose logs --tail 100 -f",
     "docker:cass:down": "cd test/fixture/docker; docker-compose down",
-    "build:js": "babel -d lib/ src/",
     "release:test": "set -uex; yarn test; npm version prerelease; npm publish --access public --tag testing",
     "release:patch": "set -uex; git pull; rm -rf node_modules; yarn; yarn run test:coverage; yarn run test:lint; yarn run build; yarn run test:built; npm version patch; git push; npm publish --access public; git push --tags"
   },
@@ -71,6 +73,7 @@
     "lines": 94,
     "statements": 94,
     "functions": 90,
-    "branches": 90
+    "branches": 90,
+    "temp-directory": "test/output/.nyc_output"
   }
 }
