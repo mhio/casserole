@@ -11,6 +11,7 @@ describe('unit::mh::casserole::ModelStore', function(){
   })
 
   it('should add a model instance to the store', function () {
+    debug('yep')
     let ms = new ModelStore('ms')
     expect( ms.add({ name: 'test' }) ).to.be.ok
   })

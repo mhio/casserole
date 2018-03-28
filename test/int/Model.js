@@ -164,7 +164,7 @@ describe('int::mh::casserole::Model', function(){
     })
 
     it('should sync a new model on a new client in a new store', async function(){
-      let StoreThing = Model.generate(
+      Model.generate(
         'StoreThing',
         { id: { type: 'int', primary: true }, name: 'string' },
         { model_store: store, client: cli }

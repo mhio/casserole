@@ -113,7 +113,7 @@ export class CassType extends CassEntity {
   * @returns this
   */
   addField(field, datatype){
-    if ( datatype.startsWith('<') && !dataTypes[datatype] ) {
+    if ( datatype.startsWith('<') && !Paramaters.types[datatype] ) {
       throw new CassException(`No cassandra datatype "${datatype} available`)
     }
     this.fields[field] = { name: field, datatype: datatype }
