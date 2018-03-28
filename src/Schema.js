@@ -71,7 +71,6 @@ export class Schema {
   */
   constructor( config, options ){
     this.debug('new Schema with ', config)
-    if (!config) throw new CassException('Schema needs to be created with a config')
     this.config = config
     this.dates = true
     if ( options ){
@@ -101,8 +100,12 @@ export class Schema {
   }
 
   set config(config){
-    if (!config) throw new CassException('Schema config must be an object')
-    if (Object.keys(config).length === 0) throw new CassException('Schema config must have field definitions')
+    if (!config || typeof config !== 'object') {
+      throw new CassException('Schema config must be an object')
+    }
+    if (Object.keys(config).length === 0) {
+      throw new CassException('Schema config must have field definitions')
+    }
 
     // Validate
     forEach(config, ( field_def, field_name )=>{

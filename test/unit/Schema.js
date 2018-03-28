@@ -16,7 +16,7 @@ describe('unit::mh::casserole::Schema', function(){
   })
 
   it('should fail to create an empty Schema', function(){
-    expect( ()=> new Schema() ).to.throw(/needs/)
+    expect( ()=> new Schema() ).to.throw(/Schema config must be an object/)
   })
 
   it('should create a new Schema', function(){
@@ -51,7 +51,12 @@ describe('unit::mh::casserole::Schema', function(){
 
   it('should not allow a bad config', function(){
     let fn = ()=> new Schema(undefined)
-    expect( fn ).to.throw(/Schema needs to be created with a config/)
+    expect( fn ).to.throw(/Schema config must be an object/)
+  })
+
+  it('should not allow a bad config', function(){
+    let fn = ()=> new Schema('test')
+    expect( fn ).to.throw(/Schema config must be an object/)
   })
 
   it('should not allow an empty config', function(){
@@ -92,6 +97,17 @@ describe('unit::mh::casserole::Schema', function(){
     expect( schema.config ).to.eql({
       modified_at:  { type: 'timestamp' },
       created_at:   { type: 'timestamp' },
+      field2:       { type: 'text'}
+    })
+  })
+
+  it('should set the config for a Schema with soft delete', function(){
+    let schema = new Schema({
+      field1: { type: 'string'},
+    }, { dates: false, soft_delete: true })
+    schema.config = { field2: { type: 'text'} }
+    expect( schema.config ).to.eql({
+      deleted_at:  { type: 'timestamp' },
       field2:       { type: 'text'}
     })
   })
