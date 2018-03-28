@@ -14,6 +14,8 @@ import Query from './CassQuery_3_3'
 import CassTable from './CassTable'
 import Client from './Client'
 import Schema from './Schema'
+import ModelStore from './ModelStore'
+
 
 /**
   * Model for apps to work with
@@ -25,42 +27,52 @@ class Model {
     /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
 
-    // The main schema for the Model
+    this.model_store = new ModelStore()
+
+    /** The main schema for the Model */
     this.schema = {}
 
-    // Fields to hide from JSON outpu
+    /** Fields to hide from JSON outpu */
     this.hidden_fields = []
 
-    // JS name that would collide with the Model instance fields
+    /** JS name that would collide with the Model instance fields */
     this.reserved_fields = Paramaters.reserved_fields
     this.warning_fields = Paramaters.warning_fields
   }
 
-  // Name for the table
+  /** Name for the table */
   static get table_name(){ return this._table_name }
   static set table_name(value){ this._table_name = value }
 
-  // CassTable
+  /** CassTable */
   static get table(){ return this._table }
   static set table(value){ this._table = value }
 
-  // Store a cassandera client
-  static get client(){ return this._client }
+  /** Store a cassandera client */
+  static get client(){ return this._client || this.super() }
   static set client(value){ this._client = value }
 
-  // Store the schema
+  /** 
+  * @summary The default store for all generated Models 
+  * @description A custom store can be created and added when generating a new model.
+  * @type {ModelStore}
+  */
+  static get model_store(){ return this._model_store || this.super() }
+  static set model_store(value){ this._model_store = value }
+
+  /** Store the schema */
   static get schema(){ return this._schema }
   static set schema(value){ this._schema = value }
 
-  // Hidden fields in the schema (should this be in Schema?)
+  /** Hidden fields in the schema (should this be in Schema?) */
   static get hidden_fields(){ return this._hidden_fields }
   static set hidden_fields(value){ this._hidden_fields = value }
 
-  // Hidden fields in the schema (should this be in Schema?)
+  /** Hidden fields in the schema (should this be in Schema?) */
   static get primary_keys(){ return this.schema.primary_keys }
   //static set primary_keys(value){ this._primary_keys = value }
 
-  // Generate a new extended version of Model for a Schema
+  /** Generate a new extended version of Model for a Schema */
   static generate( name, schema, options = {} ){
     // Name the class via an object property
     const o = { [name]: class extends this {} }
@@ -78,9 +90,16 @@ class Model {
     })
     /* istanbul ignore else */
     if ( !NewModel.debug.enabled ) NewModel.debug = noop
-    if ( options.client && options.client instanceof Client === false ) throw new CassException('A Client instance must be attached')
+    
+    if ( options.client && options.client instanceof Client === false ) {
+      throw new CassException('A Client instance must be attached')
+    }
     NewModel.client = options.client
+
     if (options.hidden_fields) NewModel.hidden_fields = options.hidden_fields
+    if (options.model_store) NewModel.model_store = options.model_store
+
+    Model.store(name, NewModel)
     return NewModel
   }
 
@@ -101,6 +120,11 @@ class Model {
         }
       })
     })
+  }
+
+  /** Sync a table definition to the cassandra server */
+  static store(){
+    return this._model_store.add(this)
   }
 
   /** Sync a table definition to the cassandra server */
