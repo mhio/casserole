@@ -25,6 +25,8 @@
 <dd><p>Client for apps to interact with Cassandra</p></dd>
 <dt><a href="#Model">Model</a></dt>
 <dd><p>Model for apps to work with</p></dd>
+<dt><a href="#ModelStore">ModelStore</a></dt>
+<dd><p>A Model Storage area to make setup easier</p></dd>
 <dt><a href="#Paramaters">Paramaters</a></dt>
 <dd><p>Paramaters for other classes to import</p></dd>
 <dt><a href="#Schema">Schema</a></dt>
@@ -670,9 +672,14 @@ CDC = TRUE</p>
 **Kind**: global class  
 
 * [Client](#Client)
-    * [.connect()](#Client+connect)
+    * [.client](#Client+client) : <code>CassandraDriver.Client</code>
+    * [.keyspace](#Client+keyspace) : <code>String</code>
+    * [.model_store](#Client+model_store) : [<code>ModelStore</code>](#ModelStore)
+    * [.sync_models](#Client+sync_models)
+    * [.connect()](#Client+connect) ⇒ <code>Array</code>
     * [.keyspaceDrop()](#Client+keyspaceDrop) ⇒ <code>ResultSet</code>
     * [.keyspaceCreate()](#Client+keyspaceCreate) ⇒ <code>ResultSet</code>
+    * [.sync()](#Client+sync) ⇒ <code>ResultSet</code>
     * [.createTable(name, fields, primary_keys, fields)](#Client+createTable) ⇒ <code>ResultSet</code>
     * [.query(query, options)](#Client+query) ⇒ <code>ResultSet</code>
     * [.execute(query, params, options)](#Client+execute) ⇒ <code>ResultSet</code>
@@ -686,12 +693,50 @@ CDC = TRUE</p>
 
 * * *
 
+<a name="Client+client"></a>
+
+### client.client : <code>CassandraDriver.Client</code>
+<p>The Cassandra driver client</p>
+
+**Kind**: instance property of [<code>Client</code>](#Client)  
+
+* * *
+
+<a name="Client+keyspace"></a>
+
+### client.keyspace : <code>String</code>
+<p>The default keyspace</p>
+
+**Kind**: instance property of [<code>Client</code>](#Client)  
+
+* * *
+
+<a name="Client+model_store"></a>
+
+### client.model_store : [<code>ModelStore</code>](#ModelStore)
+<p>The model store for this client to lookup models with
+Defaults to <code>Model.model_store</code></p>
+
+**Kind**: instance property of [<code>Client</code>](#Client)  
+
+* * *
+
+<a name="Client+sync_models"></a>
+
+### client.sync_models
+<p>The model store for this client to lookup models</p>
+
+**Kind**: instance property of [<code>Client</code>](#Client)  
+
+* * *
+
 <a name="Client+connect"></a>
 
-### client.connect()
+### client.connect() ⇒ <code>Array</code>
 <p>Connect to the cassandra db</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>Array</code> - <p>Connect, Create and optional Sync elements</p>  
 
 * * *
 
@@ -709,6 +754,16 @@ CDC = TRUE</p>
 
 ### client.keyspaceCreate() ⇒ <code>ResultSet</code>
 <p>Create the default keyspace</p>
+
+**Kind**: instance method of [<code>Client</code>](#Client)  
+**Returns**: <code>ResultSet</code> - <p>Result of query</p>  
+
+* * *
+
+<a name="Client+sync"></a>
+
+### client.sync() ⇒ <code>ResultSet</code>
+<p>Synchronise all models to the default keyspace</p>
 
 **Kind**: instance method of [<code>Client</code>](#Client)  
 **Returns**: <code>ResultSet</code> - <p>Result of query</p>  
@@ -869,12 +924,24 @@ CDC = TRUE</p>
 * [Model](#Model)
     * [new Model(data, options)](#new_Model_new)
     * _instance_
+        * [.schema](#Model+schema)
+        * [.hidden_fields](#Model+hidden_fields)
+        * [.reserved_fields](#Model+reserved_fields)
         * [.buildPrimaryKeyWhere()](#Model+buildPrimaryKeyWhere)
         * [.execSave()](#Model+execSave)
         * [.execRemove()](#Model+execRemove)
         * [.toJSON()](#Model+toJSON)
     * _static_
+        * [.table_name](#Model.table_name)
+        * [.table](#Model.table)
+        * [.client](#Model.client)
+        * [.model_store](#Model.model_store) : [<code>ModelStore</code>](#ModelStore)
+        * [.schema](#Model.schema)
+        * [.hidden_fields](#Model.hidden_fields)
+        * [.primary_keys](#Model.primary_keys)
+        * [.generate()](#Model.generate)
         * [.applySchema()](#Model.applySchema)
+        * [.store()](#Model.store)
         * [.sync()](#Model.sync)
         * [.select()](#Model.select)
         * [.findOne()](#Model.findOne)
@@ -897,6 +964,33 @@ CDC = TRUE</p>
 | options | <code>Object</code> | <p>Metadata for the Model instance</p> |
 | options.new | <code>Object</code> | <p>Is this new or existing data</p> |
 
+
+* * *
+
+<a name="Model+schema"></a>
+
+### model.schema
+<p>The main schema for the Model</p>
+
+**Kind**: instance property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model+hidden_fields"></a>
+
+### model.hidden_fields
+<p>Fields to hide from JSON outpu</p>
+
+**Kind**: instance property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model+reserved_fields"></a>
+
+### model.reserved_fields
+<p>JS name that would collide with the Model instance fields</p>
+
+**Kind**: instance property of [<code>Model</code>](#Model)  
 
 * * *
 
@@ -936,10 +1030,92 @@ CDC = TRUE</p>
 
 * * *
 
+<a name="Model.table_name"></a>
+
+### Model.table_name
+<p>Name for the table</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.table"></a>
+
+### Model.table
+<p>CassTable</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.client"></a>
+
+### Model.client
+<p>Store a cassandera client</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.model_store"></a>
+
+### Model.model_store : [<code>ModelStore</code>](#ModelStore)
+<p>A custom store can be created and added when generating a new model.</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+**Summary**: <p>The default store for all generated Models</p>  
+
+* * *
+
+<a name="Model.schema"></a>
+
+### Model.schema
+<p>Store the schema</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.hidden_fields"></a>
+
+### Model.hidden_fields
+<p>Hidden fields in the schema (should this be in Schema?)</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.primary_keys"></a>
+
+### Model.primary_keys
+<p>Hidden fields in the schema (should this be in Schema?)</p>
+
+**Kind**: static property of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.generate"></a>
+
+### Model.generate()
+<p>Generate a new extended version of Model for a Schema</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
 <a name="Model.applySchema"></a>
 
 ### Model.applySchema()
 <p>Apply a Schema setup to this Model</p>
+
+**Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="Model.store"></a>
+
+### Model.store()
+<p>Sync a table definition to the cassandra server</p>
 
 **Kind**: static method of [<code>Model</code>](#Model)  
 
@@ -996,6 +1172,76 @@ CDC = TRUE</p>
 <p>Delete an instance of this model</p>
 
 **Kind**: static method of [<code>Model</code>](#Model)  
+
+* * *
+
+<a name="ModelStore"></a>
+
+## ModelStore
+<p>A Model Storage area to make setup easier</p>
+
+**Kind**: global class  
+
+* [ModelStore](#ModelStore)
+    * [new exports.ModelStore(label, options)](#new_ModelStore_new)
+    * _instance_
+        * [.add()](#ModelStore+add)
+        * [.get()](#ModelStore+get)
+        * [.sync()](#ModelStore+sync)
+    * _static_
+        * [.default_store](#ModelStore.default_store) : [<code>ModelStore</code>](#ModelStore)
+
+
+* * *
+
+<a name="new_ModelStore_new"></a>
+
+### new exports.ModelStore(label, options)
+<p>new ModelStore</p>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| label | <code>String</code> | <p>required         - Label for the store</p> |
+| options | <code>Object</code> | <p>Metadata for the Model instance</p> |
+| options.models | <code>Array</code> \| <code>Object</code> | <p>Collection of models to add</p> |
+
+
+* * *
+
+<a name="ModelStore+add"></a>
+
+### modelStore.add()
+<p>Add a model to the store</p>
+
+**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
+
+* * *
+
+<a name="ModelStore+get"></a>
+
+### modelStore.get()
+<p>Get a model by name</p>
+
+**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
+
+* * *
+
+<a name="ModelStore+sync"></a>
+
+### modelStore.sync()
+<p>Sync all table definitions to cassandra</p>
+
+**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
+
+* * *
+
+<a name="ModelStore.default_store"></a>
+
+### ModelStore.default_store : [<code>ModelStore</code>](#ModelStore)
+<p>A Module singleton default store</p>
+
+**Kind**: static property of [<code>ModelStore</code>](#ModelStore)  
 
 * * *
 

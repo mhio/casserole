@@ -6,6 +6,8 @@ import has from 'lodash/has'
 import CassKeyspace from './CassKeyspace'
 import CassTable from './CassTable'
 import Query from './CassQuery_3_3'
+import {CassException} from './CassExceptions'
+import {ModelStore} from './ModelStore'
 
 /**
  * Client for apps to interact with Cassandra
@@ -24,6 +26,8 @@ class Client {
 
     // Match cassdrivers function name
     this.prototype.shutdown = this.prototype.disconnect
+
+    this.default_client = undefined
   }
 
   /**
@@ -45,13 +49,16 @@ class Client {
       options.replication_factor || this.constructor.default_replication_factor
     
     this.model_store = 
-      options.model_store || require('./ModelStore').default_store
+      options.model_store || ModelStore.default_store
+    this.debug('client using model store', this.model_store.label)
 
     this.sync_models = ( has(options, 'sync') )
       ? Boolean(options.sync)
       : true
 
     this.setupClient()
+
+    if ( ! this.constructor.default_client ) this.constructor.default_client = this
   }
 
   /** The Cassandra driver client
@@ -70,7 +77,12 @@ class Client {
   * @type {ModelStore}
   */
   get model_store(){ return this._model_store }
-  set model_store(store){ return this._model_store = store }
+  set model_store(store){ 
+    if ( store instanceof ModelStore === false ) {
+      throw new CassException('Client requires an instance of ModelStore for `model_store`')
+    }
+    return this._model_store = store
+  }
 
   /** The model store for this client to lookup models */
   get sync_models(){ return this._sync_models }

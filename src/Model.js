@@ -49,7 +49,7 @@ class Model {
   static set table(value){ this._table = value }
 
   /** Store a cassandera client */
-  static get client(){ return this._client || super.client }
+  static get client(){ return this._client || super.client || Client.default_client }
   static set client(value){ this._client = value }
 
   /** 
@@ -79,6 +79,7 @@ class Model {
 
   /** Generate a new extended version of Model for a Schema */
   static generate( name, schema, options = {} ){
+    this.debug('Generating model "%s" with', name, schema)
     // Name the class via an object property
     const o = { [name]: class extends this {} }
     let NewModel = o[name]
@@ -97,7 +98,7 @@ class Model {
     })
 
     // Setup debug
-    NewModel.debug = debugr(`mh:casserole:Model[${name}]`)
+    NewModel.debug = debugr(`mhio:casserole:Model[${name}]`)
     /* istanbul ignore else */
     if ( !NewModel.debug.enabled ) NewModel.debug = noop
     
@@ -105,7 +106,7 @@ class Model {
       throw new CassException('A Client instance must be attached')
     }
     if (options.client) NewModel.client = options.client
-      
+
     if (options.hidden_fields) NewModel.hidden_fields = options.hidden_fields
     if (options.model_store) NewModel.model_store = options.model_store
 

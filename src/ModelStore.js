@@ -9,7 +9,7 @@ import {CassException} from './CassExceptions'
 /**
 * A Model Storage area to make setup easier
 */
-class ModelStore {
+export class ModelStore {
 
   static _classInit(){
     this.debug = debugr('mhio:casserole:ModelStore')
