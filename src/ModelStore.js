@@ -41,9 +41,11 @@ export class ModelStore {
   constructor(label, options){
     this._store = []
 
+    if (!label) throw new CassException('A ModelStore requires a label')
     this.label = label
 
     if ( options ) {
+      /* istanbul ignore else */
       if ( options.models ) forEach(options.models, model => this.add(model))
     }
   }
