@@ -1,12 +1,13 @@
 node_modules/
+src/
 
 # docco
 doc/html
-lib/
+casserol*.tgz
+yarn.lock
 
 # test output + coverage
-test/output
-casserol*.tgz
+test/
 
 # logs
 yarn-error.log
