@@ -1313,6 +1313,8 @@ Defaults to <code>Model.model_store</code></p>
     * _instance_
         * [.debug](#Schema+debug) : <code>function</code>
         * [.data_types](#Schema+data_types) : <code>Array</code>
+        * [.dates](#Schema+dates) : <code>Boolean</code>
+        * [.soft_delete](#Schema+soft_delete) : <code>Boolean</code>
         * [.config](#Schema+config) : <code>Object</code>
         * [.primary_keys](#Schema+primary_keys) : <code>Array</code>
         * [.column_types](#Schema+column_types) : <code>Array</code>
@@ -1351,6 +1353,24 @@ Defaults to <code>Model.model_store</code></p>
 
 ### schema.data_types : <code>Array</code>
 <p>Cassandra data types from datastax driver</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+dates"></a>
+
+### schema.dates : <code>Boolean</code>
+<p>Schema adds created/modified data handlers</p>
+
+**Kind**: instance property of [<code>Schema</code>](#Schema)  
+
+* * *
+
+<a name="Schema+soft_delete"></a>
+
+### schema.soft_delete : <code>Boolean</code>
+<p>Schema track deletes rathe than deleting data</p>
 
 **Kind**: instance property of [<code>Schema</code>](#Schema)  
 
