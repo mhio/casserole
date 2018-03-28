@@ -12,6 +12,8 @@ describe('int::mh::casserole::Model', function(){
 
   let client, schema, TestModel, testmodel
 
+  let simple_schema = { id: { type:'int', primary: true }}
+
   before('connect', async function(){
     client = new Client('casserole_int_test', { sync: false })
     await client.connect()
@@ -137,7 +139,23 @@ describe('int::mh::casserole::Model', function(){
     })
 
     after(function(){
-      return cli.disconnect()
+      cli.disconnect()
+    })
+
+    it('should get the default store', function(){
+      let Person = Model.generate('Person', simple_schema)
+      expect( Person.model_store ).to.equal( ModelStore.default_store )
+    })
+
+    it('should not add a dodgy model store', function(){
+      let fn = ()=> Model.generate('BadThing', simple_schema, { model_store: {} })
+      expect( fn ).to.throw(/must be an instance of ModelStore/)
+    })
+
+    it('should retrive a model store from the new Model', function(){
+      let store = new ModelStore('retrieve')
+      let BadThing = Model.generate('BadThing', simple_schema, { model_store: store })
+      expect( BadThing.model_store ).to.equal(store)
     })
 
     it('should sync a new model on a new client in a new store', async function(){
