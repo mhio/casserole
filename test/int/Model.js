@@ -158,6 +158,11 @@ describe('int::mh::casserole::Model', function(){
       expect( BadThing.model_store ).to.equal(store)
     })
 
+    it('should retrive a client the new Model', function(){
+      let BadThing = Model.generate('BadThing', simple_schema)
+      expect( BadThing.client ).to.equal( Client.default_client )
+    })
+
     it('should sync a new model on a new client in a new store', async function(){
       let StoreThing = Model.generate(
         'StoreThing',
