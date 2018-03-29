@@ -79,6 +79,19 @@ describe('unit::mh::casserole::CassTable', function(){
       expect( table.addField('aname', 'string') ).to.be.ok
     })
 
+    it('should add a nested to the table', function(){
+      expect( table.addField('aname', 'set<text>') ).to.be.ok
+    })
+
+    it('should add a nested to the table', function(){
+      expect( table.addField('aname', 'map<text>') ).to.be.ok
+    })
+
+    it('should fail to add a user defined type to the table', function(){
+      let fn = ()=> table.addField('aname', '<whatever>')
+      expect( fn ).to.throw(/User defined types are not supported/)
+    })
+
     it('should fail a field to the table', function(){
       expect( ()=> table.addField('aname', 'wakka') ).to.throw(/type/)
     })

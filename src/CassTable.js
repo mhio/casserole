@@ -165,7 +165,7 @@ class CassTable extends CassEntity {
 
   addField( field_name, field_def ){
     let type = (typeof field_def === 'string') ? field_def : field_def.type
-    if ( !this.data_types[type] ) throw new CassException(`No cassandra type "${type}" available`)
+    Paramaters.checkType(type)
     this.debug('adding field "%s" of type "%s" to table "%s"', field_name, type, this.table_name)
     this.fields[field_name] = { name: field_name, type: type }
     return this

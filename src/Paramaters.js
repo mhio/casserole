@@ -62,12 +62,27 @@ export class Paramaters {
     */
   static checkType(type_name){
     if ( ! type_name || ! type_name.toLowerCase ) {
-      throw new CassException('Cassandra types can on be supplied as strings')
+      throw new CassException('Cassandra types can only be supplied as strings')
     }
     let lower_type_name = type_name.toLowerCase()
+    let subtype_match = /^([a-z]+)?<([a-z]+)>$/.exec(lower_type_name)
+    if ( subtype_match ){
+      let [ _, type, subtype ] = subtype_match
+      //if ( ! [ 'map', 'set', 'list', undefined ].includes(type) ) {
+      if ( type === undefined || type === 'udt' || type === 'custom' ){
+        throw new CassException('User defined types are not supported')
+      }
+      if ( ! [ 'map', 'set', 'list' ].includes(type) ) {
+        throw new CassException(`Cassandra type "${type}" can not be used to house other types`)
+      }
+      type = Paramaters.checkType(type)
+      subtype = Paramaters.checkType(subtype)
+      return `${type}<${subtype}>`
+    }
     switch ( lower_type_name ) {
       case 'string': return 'text'
       case 'integer': return 'int'
+      case 'number': return 'double'
       case 'datetime': return 'timestamp'
       default:
         if (Paramaters.types[lower_type_name]) return lower_type_name

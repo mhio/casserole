@@ -31,7 +31,7 @@ describe('unit::mh::casserole::Paramaters', function(){
     })
 
     it('should be able to check a bad type', function(){
-      expect( ()=> Paramaters.checkType(undefined) ).to.throw(/Cassandra types can on be supplied as strings/)
+      expect( ()=> Paramaters.checkType(undefined) ).to.throw(/Cassandra types can only be supplied as strings/)
     })
 
     it('should be able to check a bad type', function(){
