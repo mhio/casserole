@@ -83,7 +83,6 @@ export class Paramaters {
       case 'string': return 'text'
       case 'integer': return 'int'
       case 'number': return 'double'
-      case 'datetime': return 'timestamp'
       default:
         if (Paramaters.types[lower_type_name]) return lower_type_name
         throw new CassException(`No cassandra type "${type_name}" found`)
