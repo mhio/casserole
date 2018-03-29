@@ -22,7 +22,7 @@ rules:
   no-redeclare: 2
   no-throw-literal: 2
   yoda: [ 2, "never" ]  
-  no-unused-vars: 2
+  no-unused-vars: ["error", { "varsIgnorePattern": "^_$" }]
   no-nested-ternary: 2
   
 #  array-bracket-spacing: [ 1, "always", { "singleValue": false } ]

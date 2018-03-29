@@ -15,6 +15,20 @@ describe('unit::mh::casserole::Schema', function(){
     expect( new Schema({ a: 'string' }) ).to.be.ok
   })
 
+  it('should create a new Schema with subtype', function(){
+    expect( new Schema({ a: 'list<text>' }) ).to.be.ok
+  })
+
+  it('should create a new Schema with subtype', function(){
+    expect( new Schema({ a: 'map<int>' }) ).to.be.ok
+  })
+
+  it('should create a new Schema with subtype', function(){
+    let fn = ()=> new Schema({ a: '<custype>' }, { types: { custype: 'firstname text, lastname text' } })
+    expect( fn ).to.throw(/User defined types are not supported/)
+  })
+
+
   it('should fail to create an empty Schema', function(){
     expect( ()=> new Schema() ).to.throw(/Schema config must be an object/)
   })

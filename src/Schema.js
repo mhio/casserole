@@ -115,7 +115,22 @@ export class Schema {
       if (!field_def.type) {
         throw new CassException(`Schema "type" must be defined for field "${field_name}"`)
       }
-      field_def.type = Paramaters.checkType(field_def.type)
+      let subtype_match = /^([a-z]+)?<([a-z]+)>$/.exec(field_def.type)
+      if ( subtype_match ) {
+        let [ _, type, subtype ] = subtype_match
+        if ( ! [ 'map', 'set', 'list', undefined ].includes(type) ) {
+          throw new CassException(`Schema type "${type}" can not be used to house other types`)
+        }
+        if ( type !== undefined ) {
+          Paramaters.checkType(type)
+          Paramaters.checkType(subtype)
+        } else {
+          // user defined, need definition in schema?
+          throw new CassException('User defined types are not supported')
+        }
+      } else {
+        field_def.type = Paramaters.checkType(field_def.type)  
+      }
       config[field_name] = field_def
     })
 
