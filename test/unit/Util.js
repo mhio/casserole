@@ -134,6 +134,57 @@ describe('unit::mh::casserole::Util', function(){
 
   })
 
+  describe('.compileObject', function () {
+    
+    it('should template a string with an object', function () {
+      const o = { s: 'a' }
+      let template = Util.compileObject('te{{s}}st')
+      expect( template(o) ).to.equal('teast')
+    })
+
+    it('should template a string with multiple object entries', function () {
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObject('te{{a}}st{{b}}')
+      expect( template(o) ).to.equal('teastb')
+    })
+
+    it('should template a string with param at start/end', function () {
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObject('{{a}}st{{b}}')
+      expect( template(o) ).to.equal('astb')
+    })
+
+    it('should template a string with param at start', function () {
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObject('{{a}}st{{b}}st')
+      expect( template(o) ).to.equal('astbst')
+    })
+
+    it('should template a string with missing first object entries', function () {
+      const o = { b:'b' }
+      let template = Util.compileObject('te{{a}}st{{b}}')
+      expect( template(o) ).to.equal('te{{a}}stb')
+      //expect( template(o) ).to.equal('testb')
+    })
+
+    it('should template a string with missing last object entries', function () {
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObject('te{{a}}st{{b}}srt{{c}}')
+      expect( template(o) ).to.equal('teastbsrt{{c}}')
+      //expect( template(o) ).to.equal('teastbsrt')
+    })
+
+    it('should template a string with missing middle object entries', function () {
+      const o = { a:'a', c:'c' }
+      let template = Util.compileObject('te{{a}}st{{b}}srt{{c}}')
+      expect( template(o) ).to.equal('teast{{b}}srtc')
+      //expect( template(o) ).to.equal('teastsrtc')
+    })
+
+
+  })
+
+
   describe('.templateObject', function () {
     
     it('should template a string with an object', function () {

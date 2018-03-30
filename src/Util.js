@@ -74,6 +74,37 @@ class Util {
     })
   }
 
+  /** 
+  * If you have a common template string that is replaced a
+  * lot, compile it first to remove some of the repeated string
+  * processing.
+  * @param {string} str - Template string to compile `a {{param}} replacer`
+  * @param {object} options - Options
+  * @param {RegExp} options.re - Regular Expression for the param tags to be replaced
+  * @returns {function} Templating function
+  */
+  static compileObject( str, options = {} ){
+    let re = options.re || /({{(\w+?)}})/  //Note the two capture groups.
+    let arr = str.split(re)
+    debug(arr)
+    let end = arr.length
+    let return_arr = new Array(arr.length)
+    let templateCompiledObject = function templateCompiledObject( params ){
+      //debug('string "%s"', templateObject.string, params)
+      for ( let i = 0; i < end; i+=3 ){
+        return_arr[i] = arr[i]
+        let p = params[arr[i+2]]
+        //debug('p', arr[i+1], arr[i+2], p)
+        if ( p === undefined ) p = arr[i+1] // Leave {{param}} in there
+        return_arr[i+1] = p // 1600k
+      }
+      //debug('return_arr', return_arr)
+      return return_arr.join('')
+    }
+    templateCompiledObject.string = str
+    return templateCompiledObject
+  }
+
   /** Template string withe deep objects. 
     * @description Support `one.two` and `one[1]` lodash `get` syntax to fetch nested properties. 
     * @param {String} str         - Template string
