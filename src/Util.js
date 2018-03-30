@@ -61,17 +61,17 @@ class Util {
     let end = arr.length
     let return_arr = new Array(arr.length)
     let templateCompiledArgs = function templateCompiledArgs( ...params ){
-      debug('templateCompiledArgs string "%s"', templateCompiledArgs.string, params)
+      //debug('templateCompiledArgs string "%s"', templateCompiledArgs.string, params)
       let j = 0
       for ( let i = 0; i < end; i+=3 ){
         return_arr[i] = arr[i]
         let p = params[j]
-        debug('templateCompiledArgs p', arr[i+1], arr[i+2], p)
+        //debug('templateCompiledArgs p', arr[i+1], arr[i+2], p)
         if ( p === undefined ) p = arr[i+1] // Leave {{param}} in there
         return_arr[i+1] = p // 1600k
         j++
       }
-      debug('templateCompiledArgs return_arr', return_arr)
+      //debug('templateCompiledArgs return_arr', return_arr)
       return return_arr.join('')
     }
     templateCompiledArgs.string = str
@@ -110,17 +110,17 @@ class Util {
     let end = arr.length
     let return_arr = new Array(arr.length)
     let templateCompiledArray = function templateCompiledArray( params ){
-      debug('templateCompiledArray string "%s"', templateCompiledArray.string, params)
+      //debug('templateCompiledArray string "%s"', templateCompiledArray.string, params)
       let j = 0
       for ( let i = 0; i < end; i+=3 ){
         return_arr[i] = arr[i]
         let p = params[j]
-        debug('templateCompiledArray p', arr[i+1], arr[i+2], p)
+        //debug('templateCompiledArray p', arr[i+1], arr[i+2], p)
         if ( p === undefined ) p = arr[i+1] // Leave {{param}} in there
         return_arr[i+1] = p // 1600k
         j++
       }
-      debug('templateCompiledArray return_arr', return_arr)
+      //debug('templateCompiledArray return_arr', return_arr)
       return return_arr.join('')
     }
     templateCompiledArray.string = str
