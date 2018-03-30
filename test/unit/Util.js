@@ -19,7 +19,7 @@ describe('unit::mh::casserole::Util', function(){
     h: true,
   }
 
-  describe('.valueToCqlMap', function () {
+  describe('.valueToCqlMap', function(){
     
     it('should turn an bool true into cql', function(){
       expect( Util.valueToCqlMap(true) ).to.equal('\'true\'')
@@ -58,125 +58,237 @@ describe('unit::mh::casserole::Util', function(){
 
   })
 
-  describe('.format', function () {
+  describe('.format', function(){
 
-    it('should format a string with one arg', function () {
+    it('should format a string with one arg', function(){
       expect( Util.format('te%sst', 'a') ).to.equal('teast')
     })
 
-    it('should format a string with two args', function () {
+    it('should format a string with two args', function(){
       expect( Util.format('te%sst%s', 'a', 'b') ).to.equal('teastb')
     })
 
   })
 
-  describe('.format2', function () {
+  describe('.format2', function(){
 
-    it('should format2 a empty string', function () {
+    it('should format2 a empty string', function(){
       expect( Util.format2('') ).to.equal('')
     })
 
-    it('should format2 a string with one arg', function () {
+    it('should format2 a string with one arg', function(){
       expect( Util.format2('te%sst', 'a') ).to.equal('teast')
     })
 
-    it('should format2 a string with two args', function () {
+    it('should format2 a string with two args', function(){
       expect( Util.format2('te%sst%s', 'a', 'b') ).to.equal('teastb')
     })
 
-    it('should format2 a string with two args', function () {
+    it('should format2 a string with two args', function(){
       expect( Util.format2('te%sst%s %s', 'a', 'b') ).to.equal('teastb %s')
     })
 
-    it('should format2 a string with two args', function () {
+    it('should format2 a string with two args', function(){
       expect( Util.format2('te%sst%%s %j %s', 'a', 'b') ).to.equal('teast%s %j b')
     })
 
-    it('should fail format2 with not enough arguments', function () {
+    it('should fail format2 with not enough arguments', function(){
       let fn = ()=> Util.format2('te%sst%s', 'a', 'b', 'c') 
       expect( fn ).to.throw(/Not enough arguments/)
     })
 
   })
 
-  describe('.templateArgs', function () {
+  describe('.templateArgs', function(){
   
-    it('should template a string with one arg', function () {
+    it('should template a string with one arg', function(){
       expect( Util.templateArgs('te{{s}}st', 'a') ).to.equal('teast')
     })
 
-    it('should template a string with two args', function () {
+    it('should template a string with two args', function(){
       expect( Util.templateArgs('te{{s}}st{{s}}', 'a', 'b') ).to.equal('teastb')
     })
 
-    it('should template a string with one args and one missing', function () {
+    it('should template a string with one args and one missing', function(){
       expect( Util.templateArgs('te{{s}}st{{s}}', 'a') ).to.equal('teast{{s}}')
     })
 
   })
 
-  describe('.templateArray', function () {
+  describe('.compileArgsTemplate', function(){
+    
+    it('should template a string with an object', function(){
+      let template = Util.compileArgsTemplate('te{{s}}st')
+      expect( template('a') ).to.equal('teast')
+    })
 
-    it('should template a string with an array', function () {
+    it('should template a string with multiple object entries', function(){
+      let template = Util.compileArgsTemplate('te{{a}}st{{b}}')
+      expect( template('a','b') ).to.equal('teastb')
+    })
+
+    it('should template a string with param at start/end', function(){
+      let template = Util.compileArgsTemplate('{{a}}st{{b}}')
+      expect( template('a','b') ).to.equal('astb')
+    })
+
+    it('should template a string with param at start', function(){
+      let template = Util.compileArgsTemplate('{{a}}st{{b}}st')
+      expect( template('a','b') ).to.equal('astbst')
+    })
+
+    it('should template a string with missing first object entries', function(){
+      let template = Util.compileArgsTemplate('te{{a}}st{{b}}')
+      expect( template('b') ).to.equal('tebst{{b}}')
+      //expect( template(o) ).to.equal('testb')
+    })
+
+    it('should template a string with missing last object entries', function(){
+      let template = Util.compileArgsTemplate('te{{a}}st{{b}}srt{{c}}')
+      expect( template('a','b') ).to.equal('teastbsrt{{c}}')
+      //expect( template(o) ).to.equal('teastbsrt')
+    })
+
+    it('should template a string with missing middle object entries', function(){
+      let template = Util.compileArgsTemplate('te{{a}}st{{b}}srt{{c}}')
+      expect( template('a','c') ).to.equal('teastcsrt{{c}}')
+      //expect( template(o) ).to.equal('teastsrtc')
+    })
+
+
+  })
+
+  describe('.templateArray', function(){
+
+    it('should template a string with an array', function(){
       const a = [ 'a' ]
       expect( Util.templateArray('te{{s}}st', a) ).to.equal('teast')
     })
 
-    it('should template a string with multiple array entries', function () {
+    it('should template a string with multiple array entries', function(){
       const a = [ 'a', 'b' ]
       expect( Util.templateArray('te{{s}}st{{s}}', a) ).to.equal('teastb')
     })
 
-    it('should template a string with a missing array entries', function () {
+    it('should template a string with a missing array entries', function(){
       const a = [ 'a' ]
       expect( Util.templateArray('te{{s}}st{{s}}', a) ).to.equal('teast{{s}}')
     })
 
   })
 
-  describe('.compileObject', function () {
+  describe('.compileArrayTemplate', function(){
     
-    it('should template a string with an object', function () {
-      const o = { s: 'a' }
-      let template = Util.compileObject('te{{s}}st')
+    it('should template a string with an object', function(){
+      const o = [ 'a' ]
+      let template = Util.compileArrayTemplate('te{{s}}st')
       expect( template(o) ).to.equal('teast')
     })
 
-    it('should template a string with multiple object entries', function () {
-      const o = { a:'a', b:'b' }
-      let template = Util.compileObject('te{{a}}st{{b}}')
+    it('should template a string with multiple object entries', function(){
+      const o = [ 'a', 'b' ]
+      let template = Util.compileArrayTemplate('te{{a}}st{{b}}')
       expect( template(o) ).to.equal('teastb')
     })
 
-    it('should template a string with param at start/end', function () {
-      const o = { a:'a', b:'b' }
-      let template = Util.compileObject('{{a}}st{{b}}')
+    it('should template a string with param at start/end', function(){
+      const o = [ 'a', 'b' ]
+      let template = Util.compileArrayTemplate('{{a}}st{{b}}')
       expect( template(o) ).to.equal('astb')
     })
 
-    it('should template a string with param at start', function () {
-      const o = { a:'a', b:'b' }
-      let template = Util.compileObject('{{a}}st{{b}}st')
+    it('should template a string with param at start', function(){
+      const o = [ 'a', 'b' ]
+      let template = Util.compileArrayTemplate('{{a}}st{{b}}st')
       expect( template(o) ).to.equal('astbst')
     })
 
-    it('should template a string with missing first object entries', function () {
-      const o = { b:'b' }
-      let template = Util.compileObject('te{{a}}st{{b}}')
-      expect( template(o) ).to.equal('te{{a}}stb')
+    it('should template a string with missing first object entries', function(){
+      const o = [ 'b' ]
+      let template = Util.compileArrayTemplate('te{{a}}st{{b}}')
+      expect( template(o) ).to.equal('tebst{{b}}')
       //expect( template(o) ).to.equal('testb')
     })
 
-    it('should template a string with missing last object entries', function () {
-      const o = { a:'a', b:'b' }
-      let template = Util.compileObject('te{{a}}st{{b}}srt{{c}}')
+    it('should template a string with missing last object entries', function(){
+      const o = [ 'a', 'b' ]
+      let template = Util.compileArrayTemplate('te{{a}}st{{b}}srt{{c}}')
       expect( template(o) ).to.equal('teastbsrt{{c}}')
       //expect( template(o) ).to.equal('teastbsrt')
     })
 
-    it('should template a string with missing middle object entries', function () {
+    it('should template a string with missing middle object entries', function(){
+      const o = [ 'a', 'c' ]
+      let template = Util.compileArrayTemplate('te{{1}}st{{2}}srt{{3}}')
+      expect( template(o) ).to.equal('teastcsrt{{3}}')
+      //expect( template(o) ).to.equal('teastsrtc')
+    })
+
+
+  })
+
+  describe('.templateObject', function(){
+    
+    it('should template a string with an object', function(){
+      const o = { s: 'a' }
+      expect( Util.templateObject('te{{s}}st', o) ).to.equal('teast')
+    })
+
+    it('should template a string with multiple object entries', function(){
+      const o = { a:'a', b:'b' }
+      expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('teastb')
+    })
+
+    it('should template a string with missing object entries', function(){
+      const o = { b:'b' }
+      expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('te{{a}}stb')
+    })
+
+  })
+
+  describe('.compileObjectTemplate', function(){
+    
+    it('should template a string with an object', function(){
+      const o = { s: 'a' }
+      let template = Util.compileObjectTemplate('te{{s}}st')
+      expect( template(o) ).to.equal('teast')
+    })
+
+    it('should template a string with multiple object entries', function(){
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObjectTemplate('te{{a}}st{{b}}')
+      expect( template(o) ).to.equal('teastb')
+    })
+
+    it('should template a string with param at start/end', function(){
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObjectTemplate('{{a}}st{{b}}')
+      expect( template(o) ).to.equal('astb')
+    })
+
+    it('should template a string with param at start', function(){
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObjectTemplate('{{a}}st{{b}}st')
+      expect( template(o) ).to.equal('astbst')
+    })
+
+    it('should template a string with missing first object entries', function(){
+      const o = { b:'b' }
+      let template = Util.compileObjectTemplate('te{{a}}st{{b}}')
+      expect( template(o) ).to.equal('te{{a}}stb')
+      //expect( template(o) ).to.equal('testb')
+    })
+
+    it('should template a string with missing last object entries', function(){
+      const o = { a:'a', b:'b' }
+      let template = Util.compileObjectTemplate('te{{a}}st{{b}}srt{{c}}')
+      expect( template(o) ).to.equal('teastbsrt{{c}}')
+      //expect( template(o) ).to.equal('teastbsrt')
+    })
+
+    it('should template a string with missing middle object entries', function(){
       const o = { a:'a', c:'c' }
-      let template = Util.compileObject('te{{a}}st{{b}}srt{{c}}')
+      let template = Util.compileObjectTemplate('te{{a}}st{{b}}srt{{c}}')
       expect( template(o) ).to.equal('teast{{b}}srtc')
       //expect( template(o) ).to.equal('teastsrtc')
     })
@@ -184,39 +296,19 @@ describe('unit::mh::casserole::Util', function(){
 
   })
 
-
-  describe('.templateObject', function () {
+  describe('.templateObjectDeep', function(){
     
-    it('should template a string with an object', function () {
-      const o = { s: 'a' }
-      expect( Util.templateObject('te{{s}}st', o) ).to.equal('teast')
-    })
-
-    it('should template a string with multiple object entries', function () {
-      const o = { a:'a', b:'b' }
-      expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('teastb')
-    })
-
-    it('should template a string with missing object entries', function () {
-      const o = { b:'b' }
-      expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('te{{a}}stb')
-    })
-
-  })
-
-  describe('.templateObjectDeep', function () {
-    
-    it('should template a string with a deep object', function () {
+    it('should template a string with a deep object', function(){
       const o = { a: { s: 'a' } }
       expect( Util.templateObjectDeep('te{{a.s}}st', o) ).to.equal('teast')
     })
 
-    it('should template a string with multiple deep object entries', function () {
+    it('should template a string with multiple deep object entries', function(){
       const o =  { a: { s: 'a' }, b: { s: 'b'} }
       expect( Util.templateObjectDeep('te{{a.s}}st{{b.s}}', o) ).to.equal('teastb')
     })
 
-    it('should template a string with a missing deep object entry', function () {
+    it('should template a string with a missing deep object entry', function(){
       const o =  { a: { a: 'a' }, b: { s: 'b'} }
       expect( Util.templateObjectDeep('te{{a.s}}st{{b.s}}', o) ).to.equal('te{{a.s}}stb')
     })
@@ -224,21 +316,21 @@ describe('unit::mh::casserole::Util', function(){
   })
 
 
-  describe('.template', function () {
+  describe('.template', function(){
 
-    it('should format a string with one arg', function () {
+    it('should format a string with one arg', function(){
       expect( Util.template('te{{s}}st', 'a') ).to.equal('teast')
     })
 
-    it('should format a string with two args', function () {
+    it('should format a string with two args', function(){
       expect( Util.template('te{{s}}st{{s}}', 'a', 'b') ).to.equal('teastb')
     })
 
-    it('should format a string with array', function () {
+    it('should format a string with array', function(){
       expect( Util.template('te{{s}}st{{s}}', [ 'a', 'b' ]) ).to.equal('teastb')
     })
 
-    it('should format a string with object', function () {
+    it('should format a string with object', function(){
       expect( Util.template('te{{a}}st{{b}}', {a:'a', b:'b'}) ).to.equal('teastb')
     })
 

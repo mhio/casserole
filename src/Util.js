@@ -45,6 +45,39 @@ class Util {
     })
   }
 
+  /** 
+  * If you have a common template string that is replaced a
+  * lot, compile it first to remove some of the repeated string
+  * processing.
+  * @param {string} str - Template string to compile `a {{param}} replacer`
+  * @param {object} options - Options
+  * @param {RegExp} options.re - Regular Expression for the param tags to be replaced
+  * @returns {function} Templating function
+  */
+  static compileArgsTemplate( str, options = {} ){
+    let re = options.re || /({{(\w+?)}})/  //Note the two capture groups.
+    let arr = str.split(re)
+    debug(arr)
+    let end = arr.length
+    let return_arr = new Array(arr.length)
+    let templateCompiledArgs = function templateCompiledArgs( ...params ){
+      debug('templateCompiledArgs string "%s"', templateCompiledArgs.string, params)
+      let j = 0
+      for ( let i = 0; i < end; i+=3 ){
+        return_arr[i] = arr[i]
+        let p = params[j]
+        debug('templateCompiledArgs p', arr[i+1], arr[i+2], p)
+        if ( p === undefined ) p = arr[i+1] // Leave {{param}} in there
+        return_arr[i+1] = p // 1600k
+        j++
+      }
+      debug('templateCompiledArgs return_arr', return_arr)
+      return return_arr.join('')
+    }
+    templateCompiledArgs.string = str
+    return templateCompiledArgs
+  }
+
   /** Template a string with an array of params
     * @param {String} str    - Template string
     * @param {Array} params  - Array of params for template string
@@ -55,20 +88,7 @@ class Util {
     return str.replace(/{{([\w.]+)}}/g, found => {
       const str = params[current]
       current++
-      if ( str === undefined ) return found
-      return str
-    })
-  }
-
-  /** Template a string with an object of named args
-    * @description Plain string param names  only `{{whatever}}` or `{{what_ever}}`
-    * @param {String} str     - Template string
-    * @param {Object} params  - Key/Value pairs matching template param names
-    * @returns {String}       - String with template params replaced
-    */
-  static templateObject(str, params){
-    return str.replace(/{{(\w+)}}/g, (found, name)=> {
-      let str = params[name]
+      if ( str === null ) return ''
       if ( str === undefined ) return found
       return str
     })
@@ -83,7 +103,55 @@ class Util {
   * @param {RegExp} options.re - Regular Expression for the param tags to be replaced
   * @returns {function} Templating function
   */
-  static compileObject( str, options = {} ){
+  static compileArrayTemplate( str, options = {} ){
+    let re = options.re || /({{(\w+?)}})/  //Note the two capture groups.
+    let arr = str.split(re)
+    debug(arr)
+    let end = arr.length
+    let return_arr = new Array(arr.length)
+    let templateCompiledArray = function templateCompiledArray( params ){
+      debug('templateCompiledArray string "%s"', templateCompiledArray.string, params)
+      let j = 0
+      for ( let i = 0; i < end; i+=3 ){
+        return_arr[i] = arr[i]
+        let p = params[j]
+        debug('templateCompiledArray p', arr[i+1], arr[i+2], p)
+        if ( p === undefined ) p = arr[i+1] // Leave {{param}} in there
+        return_arr[i+1] = p // 1600k
+        j++
+      }
+      debug('templateCompiledArray return_arr', return_arr)
+      return return_arr.join('')
+    }
+    templateCompiledArray.string = str
+    return templateCompiledArray
+  }
+
+  /** Template a string with an object of named args
+    * @description Plain string param names  only `{{whatever}}` or `{{what_ever}}`
+    * @param {String} str     - Template string
+    * @param {Object} params  - Key/Value pairs matching template param names
+    * @returns {String}       - String with template params replaced
+    */
+  static templateObject(str, params){
+    return str.replace(/{{(\w+)}}/g, (found, name)=> {
+      let str = params[name]
+      if ( str === null ) return ''
+      if ( str === undefined ) return found
+      return str
+    })
+  }
+
+  /** 
+  * If you have a common template string that is replaced a
+  * lot, compile it first to remove some of the repeated string
+  * processing.
+  * @param {string} str - Template string to compile `a {{param}} replacer`
+  * @param {object} options - Options
+  * @param {RegExp} options.re - Regular Expression for the param tags to be replaced
+  * @returns {function} Templating function
+  */
+  static compileObjectTemplate( str, options = {} ){
     let re = options.re || /({{(\w+?)}})/  //Note the two capture groups.
     let arr = str.split(re)
     debug(arr)

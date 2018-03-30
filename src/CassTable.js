@@ -9,7 +9,7 @@ import {CassException} from './CassExceptions'
 import Util from './Util'
 import CassEntity from './CassEntity'
 
-const template = Util.template
+const template = Util.templateArgs
 
 /*
   ```
@@ -45,11 +45,14 @@ class CassTable extends CassEntity {
       '{{column_definition}}, ' +
       'PRIMARY KEY ({{primary_keys}}) )'+
       '{{options}};'
+    this.create_str_template = Util.compileArgsTemplate(this.create_str)
 
     this.create_options_cql     = ' WITH{{table_options}}'
     this.create_opt_order_cql   = ' CLUSTERING ORDER BY ( "{{order_by}}" {{order}} )'
     this.create_opt_compact_cql = ' COMPACT STORAGE'
         
+    this.drop_str = 'DROP TABLE {{keyspace_prefix}}"{{name}}"{{exists_clause}};'
+    this.drop_str_template = Util.compileArgsTemplate(this.drop_str)
   }
 
   static toCqlDrop( name, options = {} ){
@@ -60,8 +63,7 @@ class CassTable extends CassEntity {
       ? `"${options.keyspace}".`
       : ''
 
-    return template(
-      'DROP TABLE {{keyspace_prefix}}"{{name}}"{{exists_clause}};',
+    return this.drop_str_template(
       keyspace_prefix, name, exists_clause
     )
   }
@@ -129,8 +131,7 @@ class CassTable extends CassEntity {
     if ( query_options )  options_cql += this.withOptions(query_options)
     if ( options_cql !== '' ) options_cql = template(this.create_options_cql, options_cql)
 
-    return template(
-      this.create_str,
+    return this.create_str_template(
       exists_clause,
       keyspace_prefix,
       name,
