@@ -4,19 +4,32 @@ import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import noop from 'lodash/noop'
 
-const debug = debugr('mhio:casserole:Util')
+const _debug = debugr('mhio:casserole:Util')
+let debug = (_debug.enabled) ? _debug : noop
 
 /**
  * Utility class, templating and CQL maps
  */
 class Util {
 
-  static initClass(){
-    this.debug = debug
+  static _initClass(){
+    this.debug = _debug
     /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
     this.format = util.format
   }
+
+  static enableDebug(){
+    debug.enabled = true
+    debug = _debug
+  }
+
+  static disableDebug(){
+    debug.enabled = false
+    debug = noop
+  }
+
+
 
   /** Generic entry function to each type of template function 
     * @param {String} str       - Template string
@@ -146,6 +159,9 @@ class Util {
   * If you have a common template string that is replaced a
   * lot, compile it first to remove some of the repeated string
   * processing.
+  * When supplying your own template paramater regular expression, `{ re: /({{(\w+?)}})/ }`
+  * there must be two capture groups. The first for the entire tag, the second for the "word"
+  * to be looked up in the eventual template paramaters object.
   * @param {string} str - Template string to compile `a {{param}} replacer`
   * @param {object} options - Options
   * @param {RegExp} options.re - Regular Expression for the param tags to be replaced
@@ -156,7 +172,7 @@ class Util {
     let arr = str.split(re)
     debug(arr)
     let end = arr.length
-    let return_arr = new Array(arr.length)
+    let return_arr = new Array(end)
     let templateCompiledObject = function templateCompiledObject( params ){
       //debug('string "%s"', templateObject.string, params)
       for ( let i = 0; i < end; i+=3 ){
@@ -304,6 +320,6 @@ class Util {
   }
 
 }
-Util.initClass()
+Util._initClass()
 
 export default Util
