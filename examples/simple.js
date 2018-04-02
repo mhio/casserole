@@ -3,10 +3,11 @@ const { Client, Model } = require('../')
 
 let client = new Client('my_keyspace') 
 
-let MyModel = Model.generate(
-  'MyModel',
-  { id: { type:'uuid', primary: true }, name: 'string', count: 'integer' }
-)
+let MyModel = Model.generate('MyModel', {
+  id: { type:'uuid', primary: true },
+  name: 'string',
+  count: 'integer',
+})
 
 async function go(){
   await client.connect() // Connect to Cassandra and sync all Models (in the default ModelStore)
