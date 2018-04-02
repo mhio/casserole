@@ -134,7 +134,7 @@ class CassTable extends CassEntity {
 
     return `CREATE TABLE ${exists_clause}${keyspace_prefix}"${name}" (` +
            ` ${fields_list.join(', ')}, ` +
-           `PRIMARY KEY (${primary_keys.join(', ')}) `+
+           `PRIMARY KEY (${primary_keys.join(', ')}) ` +
            `)${options_cql};`
     // return this.create_str_template(
     //   exists_clause,
