@@ -37,7 +37,7 @@ DROP KEYSPACE [IF EXISTS] keyspace_name
 class CassKeyspace extends CassEntity {
 
   static classInit(){
-    this.debugInit('mhio:casserole:CassKeyspace')
+    this._debugInit('mhio:casserole:CassKeyspace')
 
     // Each class covers create/drop/alter for noun
     this.noun = 'KEYSPACE'

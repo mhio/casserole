@@ -30,7 +30,7 @@ const template = Util.templateArgs
 class CassTable extends CassEntity {
 
   static classInit(){
-    this.debugInit('mhio:casserole:CassTable')
+    this._debugInit('mhio:casserole:CassTable')
 
     // Each class covers create/drop/alter for noun
     this.noun = 'TABLE'

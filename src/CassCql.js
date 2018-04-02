@@ -18,12 +18,21 @@ class CassCql {
 
   }
 
-  static debugInit(name){
-    this.debug = debugr(name)
+  static _debugInit(name){
+    this._debug = debugr(name)
     /* istanbul ignore else */
-    if (!this.debug.enabled) this.debug = noop 
+    this.debug = (this._debug.enabled) ? this._debug : noop 
     this.prototype.debug = this.debug
   }
+  static debugEnable(){
+    this._debug.enabled = true
+    this.debug = this._debug
+  }
+  static debugDisable(){
+    this._debug.enabled = false
+    this.debug = noop
+  }
+
 
   /** 
    * Create an options string, 
