@@ -63,9 +63,10 @@ class CassTable extends CassEntity {
       ? `"${options.keyspace}".`
       : ''
 
-    return this.drop_str_template(
-      keyspace_prefix, name, exists_clause
-    )
+    return `DROP TABLE ${keyspace_prefix}"${name}"${exists_clause};`
+    //return this.drop_str_template(
+    //  keyspace_prefix, name, exists_clause
+    //)
   }
 
   static toCqlAlter( name, changes ){ // eslint-disable-line no-unused-vars
@@ -131,14 +132,18 @@ class CassTable extends CassEntity {
     if ( query_options )  options_cql += this.withOptions(query_options)
     if ( options_cql !== '' ) options_cql = template(this.create_options_cql, options_cql)
 
-    return this.create_str_template(
-      exists_clause,
-      keyspace_prefix,
-      name,
-      fields_list.join(', '),
-      primary_keys.join(', '),
-      options_cql
-    )
+    return `CREATE TABLE ${exists_clause}${keyspace_prefix}"${name}" (` +
+           ` ${fields_list.join(', ')}, ` +
+           `PRIMARY KEY (${primary_keys.join(', ')}) `+
+           `)${options_cql};`
+    // return this.create_str_template(
+    //   exists_clause,
+    //   keyspace_prefix,
+    //   name,
+    //   fields_list.join(', '),
+    //   primary_keys.join(', '),
+    //   options_cql
+    // )
   }
 
   /**
