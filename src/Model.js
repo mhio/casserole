@@ -133,7 +133,7 @@ class Model {
     })
   }
 
-  /** Sync a table definition to the cassandra server */
+  /** Store this model instance in the configured model store */
   static store(){
     this.debug('Adding model to store')
     return this._model_store.add(this)
