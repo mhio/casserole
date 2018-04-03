@@ -57,7 +57,7 @@ export class CassType extends CassEntity {
   */
   static toCqlDrop( name, options = {} ){
     let exists_clause = (options.if_not_exists || options.exists)
-      ? this.create_exists_str
+      ? `${this.drop_exists_cql} `
       : ''
     let keyspace_prefix = (options.keyspace)
       ? `${options.keyspace}.`
@@ -86,14 +86,15 @@ export class CassType extends CassEntity {
     if (!name) throw new CassException('Name required to create type')
     if (!fields) throw new CassException('Fields required to create type')
     let exists_clause = (options.if_not_exists || options.exists) 
-      ? this.create_exists_str
+      ? `${this.create_exists_cql} `
       : ''
     let keyspace_prefix = (options.keyspace)
       ? `${options.keyspace}.`
       : ''
     let fields_list = map(fields, (field, field_name) => {
       if ( typeof field === 'string') return `${field_name} ${field}`
-      return `${field.name} ${field.datatype}`
+      if (field.name) field_name = field.name
+      return `${field_name} ${field.type}`
     })
     return Util.template(this.create_cql,
       exists_clause,
@@ -120,10 +121,10 @@ export class CassType extends CassEntity {
   * @returns this
   */
   addField(field, datatype){
-    if ( datatype.startsWith('<') && !Paramaters.types[datatype] ) {
-      throw new CassException(`No cassandra datatype "${datatype} available`)
+    if ( !datatype.startsWith('<') && !Paramaters.types[datatype] ) {
+      throw new CassException(`No cassandra datatype "${datatype}" available`)
     }
-    this.fields[field] = { name: field, datatype: datatype }
+    this.fields[field] = { name: field, type: datatype }
     return this
   }
 
