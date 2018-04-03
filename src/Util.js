@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import noop from 'lodash/noop'
 
 const _debug = debugr('mhio:casserole:Util')
+/* istanbul ignore if */
 let debug = (_debug.enabled) ? _debug : noop
 
 /**
@@ -13,23 +14,12 @@ let debug = (_debug.enabled) ? _debug : noop
 class Util {
 
   static _initClass(){
-    this.debug = _debug
+    //this.debug = _debug
     /* istanbul ignore else */
-    if (!this.debug.enabled) this.debug = noop
+    //if (!this.debug.enabled) this.debug = noop
+    
     this.format = util.format
   }
-
-  static enableDebug(){
-    debug.enabled = true
-    debug = _debug
-  }
-
-  static disableDebug(){
-    debug.enabled = false
-    debug = noop
-  }
-
-
 
   /** Generic entry function to each type of template function 
     * @param {String} str       - Template string
@@ -247,76 +237,6 @@ class Util {
         if (Array.isArray(value)) return Util.arrayToCqlMap(value)
         return Util.objectToCqlMap(value)
     }
-  }
-
-
-  /*
-  format2 based on node format, kind of pointless, only quicker on really short strings.
-  Regex based template replacing is generally the better solution.
-
-  https://github.com/nodejs/node/blob/bc23681aa2fc49df6e7cd134dfa0a782d8a471a0/lib/util.js#L179
-
-  Copyright Node.js contributors. All rights reserved.
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to
-  deal in the Software without restriction, including without limitation the
-  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-  sell copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-  IN THE SOFTWARE.
-  */
-  static format2(f){
-    var i, tempStr
-    //if (typeof f !== 'string') return ''
-    //if (arguments.length === 1) return f
-
-    var str = ''
-    var a = 1
-    var arglen = arguments.length
-    var lastPos = 0
-    for (i = 0; i < f.length - 1; i++) {
-      if (f.charCodeAt(i) === 37) { // '%'
-        const nextChar = f.charCodeAt(++i)
-        if (a !== arglen) {
-          switch (nextChar) {
-            case 115: // 's'
-              tempStr = String(arguments[a++])
-              break
-            case 37: // '%'
-              str += f.slice(lastPos, i)
-              lastPos = i + 1
-              continue
-            default: // any other character is not a correct placeholder
-              continue
-          }
-          if (lastPos !== i - 1)
-            str += f.slice(lastPos, i - 1)
-          str += tempStr
-          lastPos = i + 1
-        } else if (nextChar === 37) {
-          str += f.slice(lastPos, i)
-          lastPos = i + 1
-        }
-      }
-    }
-    if (lastPos === 0)
-      str = f
-    else if (lastPos < f.length)
-      str += f.slice(lastPos)
-
-    if (a < arguments.length) throw new Error('Not enough arguments applied')
-    return str
   }
 
 }

@@ -70,35 +70,6 @@ describe('unit::mh::casserole::Util', function(){
 
   })
 
-  describe('.format2', function(){
-
-    it('should format2 a empty string', function(){
-      expect( Util.format2('') ).to.equal('')
-    })
-
-    it('should format2 a string with one arg', function(){
-      expect( Util.format2('te%sst', 'a') ).to.equal('teast')
-    })
-
-    it('should format2 a string with two args', function(){
-      expect( Util.format2('te%sst%s', 'a', 'b') ).to.equal('teastb')
-    })
-
-    it('should format2 a string with two args', function(){
-      expect( Util.format2('te%sst%s %s', 'a', 'b') ).to.equal('teastb %s')
-    })
-
-    it('should format2 a string with two args', function(){
-      expect( Util.format2('te%sst%%s %j %s', 'a', 'b') ).to.equal('teast%s %j b')
-    })
-
-    it('should fail format2 with not enough arguments', function(){
-      let fn = ()=> Util.format2('te%sst%s', 'a', 'b', 'c') 
-      expect( fn ).to.throw(/Not enough arguments/)
-    })
-
-  })
-
   describe('.templateArgs', function(){
   
     it('should template a string with one arg', function(){
@@ -175,6 +146,16 @@ describe('unit::mh::casserole::Util', function(){
       expect( Util.templateArray('te{{s}}st{{s}}', a) ).to.equal('teast{{s}}')
     })
 
+    it('should replace null with blank string', function(){
+      const a = [ null ]
+      expect( Util.templateArray('te{{s}}st', a) ).to.equal('test')
+    })
+
+    it('should leave template for undefined', function(){
+      const a = [ undefined ]
+      expect( Util.templateArray('te{{s}}st', a) ).to.equal('te{{s}}st')
+    })
+
   })
 
   describe('.compileArrayTemplate', function(){
@@ -243,6 +224,17 @@ describe('unit::mh::casserole::Util', function(){
       const o = { b:'b' }
       expect( Util.templateObject('te{{a}}st{{b}}', o) ).to.equal('te{{a}}stb')
     })
+
+    it('should replace null with blank string', function(){
+      const o = { s: null }
+      expect( Util.templateObject('te{{s}}st', o) ).to.equal('test')
+    })
+
+    it('should leave template for undefined', function(){
+      const o = { s: undefined }
+      expect( Util.templateObject('te{{s}}st', o) ).to.equal('te{{s}}st')
+    })
+
 
   })
 
