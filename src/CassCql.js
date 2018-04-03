@@ -8,7 +8,7 @@ import Util from './Util'
   */
 class CassCql {
 
-  static classInit(){
+  static _classInit(){
 
     // Each class covers create/drop/alter for noun
     this.noun = '__NOUN__'
@@ -20,17 +20,19 @@ class CassCql {
 
   static _debugInit(name){
     this._debug = debugr(name)
-    /* istanbul ignore else */
+    /* istanbul ignore next */
     this.debug = (this._debug.enabled) ? this._debug : noop 
     this.prototype.debug = this.debug
   }
   static debugEnable(){
     this._debug.enabled = true
     this.debug = this._debug
+    return true
   }
   static debugDisable(){
     this._debug.enabled = false
     this.debug = noop
+    return true
   }
 
 
@@ -51,6 +53,6 @@ class CassCql {
   }
 
 }
-CassCql.classInit()
+CassCql._classInit()
 
 export default CassCql
