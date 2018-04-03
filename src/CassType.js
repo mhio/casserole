@@ -36,7 +36,7 @@ export class CassType extends CassEntity {
   * @property {string} create_fields_cql - CQL setup a field in CREATE
   */
   static _classInit(){
-    this.debugInit('mhio:casserole:CassType')
+    this._debugInit('mhio:casserole:CassType')
 
     // Each class covers create/drop/alter for noun
     this.noun = 'TYPE'
@@ -44,9 +44,9 @@ export class CassType extends CassEntity {
     this.drop_cql = 'DROP TYPE {{exists_clause}}{{keyspace_prefix}}"{{name}}";'
 
     this.create_cql = 
-      'CREATE TYPE {{exists_clause}}{{keyspace_prefix}}"{{name}}" ('+
+      'CREATE TYPE {{exists_clause}}{{keyspace_prefix}}"{{name}}" ( '+
       '{{fields}}'+
-      ');'
+      ' );'
 
     this.create_fields_cql = '{{field_name}} {{cql_datatype}}'
   }
@@ -56,10 +56,14 @@ export class CassType extends CassEntity {
   * @params {String} name - Name of the TYPE to drop
   */
   static toCqlDrop( name, options = {} ){
-    let exists_clause = (options.q_if_not_exists)
+    let exists_clause = (options.if_not_exists || options.exists)
       ? this.create_exists_str
       : ''
-    return Util.template('DROP TYPE {{exists_clause}} {{name}};', name, exists_clause)
+    let keyspace_prefix = (options.keyspace)
+      ? `${options.keyspace}.`
+      : ''
+    return `DROP TYPE ${exists_clause}${keyspace_prefix}"${name}";`
+    //return Util.template('DROP TYPE {{exists_clause}} {{name}};', name, exists_clause)
   }
 
   /**
@@ -67,7 +71,7 @@ export class CassType extends CassEntity {
   * @params {String} name - Name of the TYPE to drop
   */
   static toCqlAlter( name, changes, options = {} ){ // eslint-disable-line no-unused-vars
-    throw new Error('nope')
+    throw new Error('No TYPE alter available')
   }
 
   /**
@@ -79,13 +83,16 @@ export class CassType extends CassEntity {
   * @params {String} options.keyspace - Set the keyspace to use
   */
   static toCqlCreate( name, fields, options = {} ){
+    if (!name) throw new CassException('Name required to create type')
+    if (!fields) throw new CassException('Fields required to create type')
     let exists_clause = (options.if_not_exists || options.exists) 
       ? this.create_exists_str
       : ''
     let keyspace_prefix = (options.keyspace)
       ? `${options.keyspace}.`
       : ''
-    let fields_list = map(fields, field => {
+    let fields_list = map(fields, (field, field_name) => {
+      if ( typeof field === 'string') return `${field_name} ${field}`
       return `${field.name} ${field.datatype}`
     })
     return Util.template(this.create_cql,
@@ -121,15 +128,15 @@ export class CassType extends CassEntity {
   }
 
   toCqlCreate(){
-    return this.constructor.toCreateCql(this.type_name, this.fields)
+    return this.constructor.toCqlCreate(this.type_name, this.fields)
   }
 
-  toCqlAlter(){
-    throw new Error('nope')
+  toCqlAlter(fields){
+    return this.constructor.toCqlAlter(this.type_name, fields)
   }
 
   toCqlDrop(){
-    return this.constructor.toCreateCql(this.type_name, this.fields)
+    return this.constructor.toCqlDrop(this.type_name)
   }
 
 }
