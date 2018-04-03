@@ -1,10 +1,15 @@
 node_modules/
 src/
+casserol*.tgz
+yarn.lock
+.babelrc
+.eslintignore
+.eslintrc.yaml
+.jsdoc.json
+
 
 # docco
 doc/html
-casserol*.tgz
-yarn.lock
 
 # test output + coverage
 test/
