@@ -1115,7 +1115,7 @@ Defaults to <code>Model.model_store</code></p>
 <a name="Model.store"></a>
 
 ### Model.store()
-<p>Sync a table definition to the cassandra server</p>
+<p>Store this model instance in the configured model store</p>
 
 **Kind**: static method of [<code>Model</code>](#Model)  
 
@@ -1472,8 +1472,11 @@ Defaults to <code>Model.model_store</code></p>
 * [Util](#Util)
     * [.template(str)](#Util.template) ⇒ <code>String</code>
     * [.templateArgs(str, ...params)](#Util.templateArgs) ⇒ <code>String</code>
+    * [.compileArgsTemplate(str, options)](#Util.compileArgsTemplate) ⇒ <code>function</code>
     * [.templateArray(str, params)](#Util.templateArray) ⇒ <code>String</code>
+    * [.compileArrayTemplate(str, options)](#Util.compileArrayTemplate) ⇒ <code>function</code>
     * [.templateObject(str, params)](#Util.templateObject) ⇒ <code>String</code>
+    * [.compileObjectTemplate(str, options)](#Util.compileObjectTemplate) ⇒ <code>function</code>
     * [.templateObjectDeep(str, params_deep)](#Util.templateObjectDeep) ⇒ <code>String</code>
     * [.objectToCqlMap(obj)](#Util.objectToCqlMap) ⇒ <code>String</code>
     * [.arrayToCqlMap(arr)](#Util.arrayToCqlMap) ⇒ <code>String</code>
@@ -1518,6 +1521,25 @@ Defaults to <code>Model.model_store</code></p>
 
 * * *
 
+<a name="Util.compileArgsTemplate"></a>
+
+### Util.compileArgsTemplate(str, options) ⇒ <code>function</code>
+<p>If you have a common template string that is replaced a
+lot, compile it first to remove some of the repeated string
+processing.</p>
+
+**Kind**: static method of [<code>Util</code>](#Util)  
+**Returns**: <code>function</code> - <p>Templating function</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | <p>Template string to compile <code>a {{param}} replacer</code></p> |
+| options | <code>object</code> | <p>Options</p> |
+| options.re | <code>RegExp</code> | <p>Regular Expression for the param tags to be replaced</p> |
+
+
+* * *
+
 <a name="Util.templateArray"></a>
 
 ### Util.templateArray(str, params) ⇒ <code>String</code>
@@ -1536,6 +1558,25 @@ Defaults to <code>Model.model_store</code></p>
 
 * * *
 
+<a name="Util.compileArrayTemplate"></a>
+
+### Util.compileArrayTemplate(str, options) ⇒ <code>function</code>
+<p>If you have a common template string that is replaced a
+lot, compile it first to remove some of the repeated string
+processing.</p>
+
+**Kind**: static method of [<code>Util</code>](#Util)  
+**Returns**: <code>function</code> - <p>Templating function</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | <p>Template string to compile <code>a {{param}} replacer</code></p> |
+| options | <code>object</code> | <p>Options</p> |
+| options.re | <code>RegExp</code> | <p>Regular Expression for the param tags to be replaced</p> |
+
+
+* * *
+
 <a name="Util.templateObject"></a>
 
 ### Util.templateObject(str, params) ⇒ <code>String</code>
@@ -1550,6 +1591,28 @@ Defaults to <code>Model.model_store</code></p>
 | --- | --- | --- |
 | str | <code>String</code> | <p>Template string</p> |
 | params | <code>Object</code> | <p>Key/Value pairs matching template param names</p> |
+
+
+* * *
+
+<a name="Util.compileObjectTemplate"></a>
+
+### Util.compileObjectTemplate(str, options) ⇒ <code>function</code>
+<p>If you have a common template string that is replaced a
+lot, compile it first to remove some of the repeated string
+processing.
+When supplying your own template paramater regular expression, <code>{ re: /({{(\w+?)}})/ }</code>
+there must be two capture groups. The first for the entire tag, the second for the &quot;word&quot;
+to be looked up in the eventual template paramaters object.</p>
+
+**Kind**: static method of [<code>Util</code>](#Util)  
+**Returns**: <code>function</code> - <p>Templating function</p>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | <p>Template string to compile <code>a {{param}} replacer</code></p> |
+| options | <code>object</code> | <p>Options</p> |
+| options.re | <code>RegExp</code> | <p>Regular Expression for the param tags to be replaced</p> |
 
 
 * * *
