@@ -16,7 +16,7 @@
     "test:cover:report": "nyc report --report-dir test/output/coverage -r html",
     "test:cover:check": "nyc check-coverage",
     "build": "set -uex; yarn run build:code; yarn run build:doc",
-    "build:code": "rm lib/* && babel -d lib/ src/",
+    "build:code": "rm -f lib/* && babel -d lib/ src/",
     "build:doc": "set -uex; yarn run build:doc:html; yarn run build:doc:md",
     "build:doc:html": "jsdoc -c .jsdoc.json -t node_modules/@mhio/jsdoc-template/template -d doc/html src/",
     "build:doc:md": "jsdoc2md -c ./.jsdoc.json --module-index-format table --separators --files src/* > doc/API.md",
