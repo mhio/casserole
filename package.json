@@ -1,6 +1,6 @@
 {
   "name": "casserole",
-  "version": "0.4.0-1",
+  "version": "0.4.0-2",
   "description": "Cassandra JS Object Mapper. Build models and queries from JS objects. (WIP)",
   "main": "index.js",
   "scripts": {
