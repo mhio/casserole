@@ -255,7 +255,7 @@ CDC = TRUE</p>
 
 <a name="CassQuery_3_3"></a>
 
-## CassQuery_3_3 ⇐ [<code>CassQuery</code>](#CassQuery)
+## CassQuery\_3\_3 ⇐ [<code>CassQuery</code>](#CassQuery)
 <p>Creates CQL 3.3 compatible queries</p>
 
 **Kind**: global class  
@@ -269,16 +269,16 @@ CDC = TRUE</p>
     * [.delete(table, where)](#CassQuery_3_3+delete) ⇒ [<code>CassQuery</code>](#CassQuery)
     * [.values()](#CassQuery_3_3+values)
     * [.set()](#CassQuery_3_3+set)
-    * [.whereObject(clause)](#CassQuery_3_3+whereObject) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
-    * [.whereString(field)](#CassQuery_3_3+whereString) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
-    * [.where(param)](#CassQuery_3_3+where) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+    * [.whereObject(clause)](#CassQuery_3_3+whereObject) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
+    * [.whereString(field)](#CassQuery_3_3+whereString) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
+    * [.where(param)](#CassQuery_3_3+where) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
 
 
 * * *
 
 <a name="new_CassQuery_3_3_new"></a>
 
-### new CassQuery_3_3(type, options)
+### new CassQuery\_3\_3(type, options)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -299,7 +299,7 @@ CDC = TRUE</p>
 <p>Build a select query </p>
 <pre class="prettyprint source"><code>select(table_name, columns_array, where_fields)</code></pre>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -316,7 +316,7 @@ CDC = TRUE</p>
 <p>Build an insert query </p>
 <pre class="prettyprint source"><code>insert(table_name, fields_values)</code></pre>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -332,7 +332,7 @@ CDC = TRUE</p>
 <p>Build an update query </p>
 <pre class="prettyprint source"><code>update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })</code></pre>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -349,7 +349,7 @@ CDC = TRUE</p>
 <p>Build a delete query </p>
 <pre class="prettyprint source"><code>delete(table_name, { id: 'equals_some_id' })</code></pre>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -364,7 +364,7 @@ CDC = TRUE</p>
 ### cassQuery_3_3.values()
 <p>INSERT values</p>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 * * *
 
@@ -373,16 +373,16 @@ CDC = TRUE</p>
 ### cassQuery_3_3.set()
 <p>UPDATE set</p>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 * * *
 
 <a name="CassQuery_3_3+whereObject"></a>
 
-### cassQuery_3_3.whereObject(clause) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+### cassQuery_3_3.whereObject(clause) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
 <p>WHERE from an object</p>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -393,10 +393,10 @@ CDC = TRUE</p>
 
 <a name="CassQuery_3_3+whereString"></a>
 
-### cassQuery_3_3.whereString(field) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+### cassQuery_3_3.whereString(field) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
 <p>WHERE from a string</p>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -407,11 +407,11 @@ CDC = TRUE</p>
 
 <a name="CassQuery_3_3+where"></a>
 
-### cassQuery_3_3.where(param) ⇒ [<code>CassQuery_3_3</code>](#CassQuery_3_3)
+### cassQuery_3_3.where(param) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
 <p>Supply a string to start setting up a chain for a field. 
              Supply an object to setup a simple <code>field = value</code> clause.</p>
 
-**Kind**: instance method of [<code>CassQuery_3_3</code>](#CassQuery_3_3)  
+**Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 **Summary**: <p>Setup a WHERE clause</p>  
 
 | Param | Type | Description |
@@ -616,7 +616,7 @@ CDC = TRUE</p>
 
 <a name="CassType._classInit"></a>
 
-### CassType._classInit()
+### CassType.\_classInit()
 **Kind**: static method of [<code>CassType</code>](#CassType)  
 **Properties**
 
@@ -713,7 +713,7 @@ CDC = TRUE</p>
 
 <a name="Client+model_store"></a>
 
-### client.model_store : [<code>ModelStore</code>](#ModelStore)
+### client.model\_store : [<code>ModelStore</code>](#ModelStore)
 <p>The model store for this client to lookup models with
 Defaults to <code>Model.model_store</code></p>
 
@@ -723,7 +723,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Client+sync_models"></a>
 
-### client.sync_models
+### client.sync\_models
 <p>The model store for this client to lookup models</p>
 
 **Kind**: instance property of [<code>Client</code>](#Client)  
@@ -978,7 +978,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model+hidden_fields"></a>
 
-### model.hidden_fields
+### model.hidden\_fields
 <p>Fields to hide from JSON outpu</p>
 
 **Kind**: instance property of [<code>Model</code>](#Model)  
@@ -987,7 +987,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model+reserved_fields"></a>
 
-### model.reserved_fields
+### model.reserved\_fields
 <p>JS name that would collide with the Model instance fields</p>
 
 **Kind**: instance property of [<code>Model</code>](#Model)  
@@ -1032,7 +1032,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model.table_name"></a>
 
-### Model.table_name
+### Model.table\_name
 <p>Name for the table</p>
 
 **Kind**: static property of [<code>Model</code>](#Model)  
@@ -1059,7 +1059,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model.model_store"></a>
 
-### Model.model_store : [<code>ModelStore</code>](#ModelStore)
+### Model.model\_store : [<code>ModelStore</code>](#ModelStore)
 <p>A custom store can be created and added when generating a new model.</p>
 
 **Kind**: static property of [<code>Model</code>](#Model)  
@@ -1078,7 +1078,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model.hidden_fields"></a>
 
-### Model.hidden_fields
+### Model.hidden\_fields
 <p>Hidden fields in the schema (should this be in Schema?)</p>
 
 **Kind**: static property of [<code>Model</code>](#Model)  
@@ -1087,7 +1087,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Model.primary_keys"></a>
 
-### Model.primary_keys
+### Model.primary\_keys
 <p>Hidden fields in the schema (should this be in Schema?)</p>
 
 **Kind**: static property of [<code>Model</code>](#Model)  
@@ -1238,7 +1238,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="ModelStore.default_store"></a>
 
-### ModelStore.default_store : [<code>ModelStore</code>](#ModelStore)
+### ModelStore.default\_store : [<code>ModelStore</code>](#ModelStore)
 <p>A Module singleton default store</p>
 
 **Kind**: static property of [<code>ModelStore</code>](#ModelStore)  
@@ -1261,7 +1261,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Paramaters._classInit"></a>
 
-### Paramaters._classInit()
+### Paramaters.\_classInit()
 **Kind**: static method of [<code>Paramaters</code>](#Paramaters)  
 **Properties**
 
@@ -1351,7 +1351,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema+data_types"></a>
 
-### schema.data_types : <code>Array</code>
+### schema.data\_types : <code>Array</code>
 <p>Cassandra data types from datastax driver</p>
 
 **Kind**: instance property of [<code>Schema</code>](#Schema)  
@@ -1369,7 +1369,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema+soft_delete"></a>
 
-### schema.soft_delete : <code>Boolean</code>
+### schema.soft\_delete : <code>Boolean</code>
 <p>Schema track deletes rathe than deleting data</p>
 
 **Kind**: instance property of [<code>Schema</code>](#Schema)  
@@ -1387,7 +1387,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema+primary_keys"></a>
 
-### schema.primary_keys : <code>Array</code>
+### schema.primary\_keys : <code>Array</code>
 <p>All primary keys for the schema</p>
 
 **Kind**: instance property of [<code>Schema</code>](#Schema)  
@@ -1396,7 +1396,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema+column_types"></a>
 
-### schema.column_types : <code>Array</code>
+### schema.column\_types : <code>Array</code>
 <p>All columns in an array</p>
 
 **Kind**: instance property of [<code>Schema</code>](#Schema)  
@@ -1437,7 +1437,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema.reserved_fields"></a>
 
-### Schema.reserved_fields : <code>Array</code>
+### Schema.reserved\_fields : <code>Array</code>
 <p>Model field names that are not allowed</p>
 
 **Kind**: static property of [<code>Schema</code>](#Schema)  
@@ -1446,7 +1446,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema.warning_fields"></a>
 
-### Schema.warning_fields : <code>Array</code>
+### Schema.warning\_fields : <code>Array</code>
 <p>Model field names that generate a warning</p>
 
 **Kind**: static property of [<code>Schema</code>](#Schema)  
@@ -1455,7 +1455,7 @@ Defaults to <code>Model.model_store</code></p>
 
 <a name="Schema.data_types"></a>
 
-### Schema.data_types : <code>Array</code>
+### Schema.data\_types : <code>Array</code>
 <p>Cassandra data types from datastax driver</p>
 
 **Kind**: static property of [<code>Schema</code>](#Schema)  
