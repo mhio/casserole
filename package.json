@@ -76,6 +76,6 @@
     "statements": 94,
     "functions": 90,
     "branches": 90,
-    "temp-directory": "test/output/.nyc_output"
+    "temp-dir": "test/output/.nyc_output"
   }
 }
