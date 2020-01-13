@@ -31,9 +31,9 @@ describe('unit::mh::casserole::Client', function(){
     expect(new Client('akeyspace', {hosts: ['10.1.1.1']}).hosts).to.eql([ '10.1.1.1' ])
   })
 
-  it('should fail to run a non query', function () {
+  it('should fail to run a non query', async function () {
     let client = new Client()
-    return client.query({}).should.be.rejectedWith(/Client query requires a Query object/)
+    return expect( client.query({}) ).to.be.rejectedWith(/Client query requires a Query object/)
   })
 
 })
