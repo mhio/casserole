@@ -38,7 +38,7 @@ class Client {
   constructor( keyspace, options = {} ){
     this._keyspace = keyspace
 
-    // We need an array of hosts to connect to, defualt to localhost
+    // We need an array of hosts to connect to, default to localhost
     this.hosts = options.hosts
     if (!this.hosts) this.hosts = [ '127.0.0.1' ]
     
