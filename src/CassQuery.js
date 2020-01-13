@@ -7,12 +7,15 @@ import Paramaters from './Paramaters'
   */
 class CassQuery extends CassCql {
 
-  static classInit(){
+  /**
+   * Static class initialisations, run at require time
+   */
+  static _initialiseClass(){
     // Cassandra driver Types
     this.types = Paramaters.types
   }
 
 }
-CassQuery.classInit()
+CassQuery._initialiseClass()
 
 export default CassQuery

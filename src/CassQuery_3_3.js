@@ -12,7 +12,10 @@ import {QueryException} from './CassExceptions'
   */
 class CassQuery_3_3 extends CassQuery {
 
-  static classInit(){
+  /**
+   * Static class initialisations, run at require time
+   */
+  static _initialiseClass(){
     this.debug = debugr('mhio:casserole:CassQuery_3_3')
     /* istanbul ignore else */
     if (!this.debug.enabled) this.debug = noop
@@ -31,6 +34,14 @@ class CassQuery_3_3 extends CassQuery {
   }
 
   //static read( table, query, options = {} ){
+  /**
+   * 
+   * @param {string} table     - Table name
+   * @param {array} columns    - Columns array
+   * @param {object} where     - CQL Where
+   * @param {object} options   - CQL Options
+   * @returns {CassQuery_3_3}    - New instance of CassQuery_3_3 for `select`
+   */
   static select( table, columns, where, options = {} ){
     this.debug('select from %s', table, columns, where)
     options.table = table
@@ -41,6 +52,13 @@ class CassQuery_3_3 extends CassQuery {
   }
 
   //static create( table, values, options = {} ){
+  /**
+   * 
+   * @param {string} table
+   * @param {*} values 
+   * @param {*} options 
+   * @returns {CassQuery_3_3} - New instance of CassQuery_3_3 for `insert`
+   */
   static insert( table, values, options = {} ){
     this.debug('insert %s values', table, values, options)
     options.table = table
@@ -49,6 +67,14 @@ class CassQuery_3_3 extends CassQuery {
     return new this('insert', options)
   }
 
+  /**
+   * 
+   * @param {string} table
+   * @param {*} setvalues 
+   * @param {*} where 
+   * @param {*} options 
+   * @returns {CassQuery_3_3} - New instance of CassQuery_3_3 for `update`
+   */
   static update( table, setvalues, where, options = {} ){
     this.debug('update %s where ', table, setvalues, where, options)
     options.table = table
@@ -67,13 +93,13 @@ class CassQuery_3_3 extends CassQuery {
   }
 
   /**
-   * @param {String} type - select, insert, update, delete
-   * @param {Object} options
-   * @param {Object} options.table    - Table to act upon
-   * @param {Object} options.columns  - Columns to return, for select
-   * @param {Object} options.values   - Values to update, insert
-   * @param {Object} options.set      - See values
-   * @param {Object} options.where    - Limit operation to these values
+   * @param {string} type - select, insert, update, delete
+   * @param {object} options
+   * @param {object} options.table    - Table to act upon
+   * @param {object} options.columns  - Columns to return, for select
+   * @param {object} options.values   - Values to update, insert
+   * @param {object} options.set      - See values
+   * @param {object} options.where    - Limit operation to these values
    */
   constructor( type, options = {} ){
     super()
@@ -372,8 +398,7 @@ class CassQuery_3_3 extends CassQuery {
     return this.query
   }
 
-
 }
-CassQuery_3_3.classInit()
+CassQuery_3_3._initialiseClass()
 
 export default CassQuery_3_3

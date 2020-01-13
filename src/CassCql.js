@@ -8,7 +8,10 @@ import Util from './Util'
   */
 class CassCql {
 
-  static _classInit(){
+  /**
+   * Static class initialisations, run at require time
+   */
+  static _initialiseClass(){
 
     // Each class covers create/drop/alter for noun
     this.noun = '__NOUN__'
@@ -54,6 +57,6 @@ class CassCql {
   }
 
 }
-CassCql._classInit()
+CassCql._initialiseClass()
 
 export default CassCql
