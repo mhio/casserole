@@ -24,7 +24,9 @@ export class ModelStore {
   * A Module singleton default store
   * @type ModelStore
   */
-  static get default_store(){ return this._default_store }
+  static get default_store(){
+    return this._default_store
+  }
   static set default_store(val){ 
     if ( val instanceof ModelStore === false ) {
       throw new CassException('Store must be an instance of ModelStore')
@@ -66,6 +68,7 @@ export class ModelStore {
   /** Sync all table definitions to cassandra */
   async sync(client){
     this.debug('Sync all models in store "%s":', this.label, this._store.map(s => s.name))
+    // Check why this delay is here, it smells...
     return Promise.mapSeries(this._store, model => model.sync(client).delay(100))
   }
 
