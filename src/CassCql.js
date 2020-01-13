@@ -46,10 +46,11 @@ class CassCql {
    * CDC = TRUE
    */
   static withOptions(object){
-    return reduce(object, (res, val, key) => {
-      res.push(` ${key} = ${this.valueToCqlMap(val)}`)
+    const str = reduce(object, (res, val, key) => {
+      res.push(`${key} = ${this.valueToCqlMap(val)}`)
       return res
-    }, []).join(' AND')
+    }, []).join(' AND ')
+    return ` ${str}`
   }
 
 }
