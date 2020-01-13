@@ -765,6 +765,16 @@
   resolved "https://registry.npmjs.org/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
+"@types/long@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/@types/long/-/long-4.0.0.tgz#719551d2352d301ac8b81db732acb6bdc28dbdef"
+  integrity sha512-1w52Nyx4Gq47uuu0EVcsHBxZFJgurQ+rTKS3qMHxR1GY2T8c2AJYd6vZoZ9q1rupaDjU0yT+Jc2XTyXkjeMA+Q==
+
+"@types/node@>=4":
+  version "13.1.6"
+  resolved "https://registry.npmjs.org/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
+  integrity sha512-Jg1F+bmxcpENHP23sVKkNuU3uaxPnsBMW0cLjleiikFKomJQbsn0Cqk2yDvQArqzZN6ABfBkZ0To7pQ8sLdWDg==
+
 acorn-jsx@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.1.0.tgz#294adb71b57398b0680015f0a38c563ee1db5384"
@@ -774,6 +784,11 @@ acorn@^7.1.0:
   version "7.1.0"
   resolved "https://registry.npmjs.org/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
   integrity sha512-kL5CuoXA/dgxlBbVrflsflzQ3PAas7RYZB52NOm/6839iVYJgKMJ3cQJD+t2i5+qFa8h3MDpEOJiS64E8JLnSQ==
+
+adm-zip@^0.4.13:
+  version "0.4.13"
+  resolved "https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.13.tgz#597e2f8cc3672151e1307d3e95cddbc75672314a"
+  integrity sha512-fERNJX8sOXfel6qCBCMPvZLzENBEhZTzKqg6vrOW5pvoEaQuJhRU4ndTAh6lHOxn1I6jnz2NHra56ZODM751uw==
 
 aggregate-error@^3.0.0:
   version "3.0.1"
@@ -1112,11 +1127,14 @@ caniuse-lite@^1.0.30001017:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001020.tgz#3f04c1737500ffda78be9beb0b5c1e2070e15926"
   integrity sha512-yWIvwA68wRHKanAVS1GjN8vajAv7MBFshullKCeq/eKpK7pJBVDgFFEqvgWTkcP2+wIDeQGYFRXECjKZnLkUjA==
 
-cassandra-driver@^3.3.0:
-  version "3.6.0"
-  resolved "https://registry.npmjs.org/cassandra-driver/-/cassandra-driver-3.6.0.tgz#a9fb78ca6fcc1f5bf3f3258efb6cc683a9c3f558"
-  integrity sha512-CkN3V+oPaF5RvakUjD3uUjEm8f6U8S0aT1+YqeQsVT3UDpPT2K8SOdNDEHA1KjamakHch6zkDgHph1xWyqBGGw==
+cassandra-driver@4.3.1:
+  version "4.3.1"
+  resolved "https://registry.npmjs.org/cassandra-driver/-/cassandra-driver-4.3.1.tgz#3998730c702aff3545f691118d3eebdb9347cd11"
+  integrity sha512-4Yuf9UkmwidiXKdAb4AgkC92CcUhP4hNUNaMNnKMGA3MRMQj2ZCEL6BR0/PrMPkYGC5faMPHJ4YzWAu3FFvM6g==
   dependencies:
+    "@types/long" "^4.0.0"
+    "@types/node" ">=4"
+    adm-zip "^0.4.13"
     long "^2.2.0"
 
 catharsis@^0.8.11:
@@ -1591,7 +1609,7 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0:
   resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-1.1.0.tgz#e2a82cea84ff246ad6fb57f9bde5b46621459ec2"
   integrity sha512-8y9YjtM1JBJU/A9Kc+SbaOV4y29sSWckBwMHa+FGtVj5gN/sbnKDf6xJUl+8g7FAij9LVaP8C24DUiH/f/2Z9A==
 
-eslint@6.8.0:
+eslint@^6.8.0:
   version "6.8.0"
   resolved "https://registry.npmjs.org/eslint/-/eslint-6.8.0.tgz#62262d6729739f9275723824302fb227c8c93ffb"
   integrity sha512-K+Iayyo2LtyYhDSYwz5D5QdWw0hCacNzyq1Y821Xna2xSJj7cijoLLYmLxTQgcgZ9mC61nryMy9S7GRbYpI5Ig==

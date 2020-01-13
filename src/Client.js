@@ -52,6 +52,9 @@ class Client {
       options.model_store || ModelStore.default_store
     this.debug('client using model store', this.model_store.label)
 
+    this.localDataCenter = 
+      options.localDataCenter || 'datacenter1'
+
     this.sync_models = ( has(options, 'sync') )
       ? Boolean(options.sync)
       : true
@@ -91,7 +94,8 @@ class Client {
   setupClient(){
     this._client = new cassandra.Client({
       contactPoints: this.hosts, //array of hosts to connect to 
-      //keyspace: this.keyspace || this.constructor.default_keyspace
+      // keyspace: this.keyspace || this.constructor.default_keyspace,
+      localDataCenter: this.localDataCenter,
     })
     /* istanbul ignore next */
     this._client.on('hostUp', host => {

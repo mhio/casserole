@@ -58,12 +58,12 @@ class Util {
   * @returns {function} Templating function
   */
   static compileArgsTemplate( str, options = {} ){
-    let re = options.re || /({{(\w+?)}})/  //Note the two capture groups.
-    let arr = str.split(re)
-    debug(arr)
-    let end = arr.length
-    let return_arr = new Array(arr.length)
-    let templateCompiledArgs = function templateCompiledArgs( ...params ){
+    const re = options.re || /({{(\w+?)}})/  // Note the two capture groups.
+    const arr = str.split(re)
+    debug('compileArgsTemplate generate fn for', arr)
+    const end = arr.length
+    const return_arr = new Array(arr.length)
+    const templateCompiledArgs = function templateCompiledArgs( ...params ){
       //debug('templateCompiledArgs string "%s"', templateCompiledArgs.string, params)
       let j = 0
       for ( let i = 0; i < end; i+=3 ){

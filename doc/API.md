@@ -5,12 +5,8 @@
 <dd><p>Base class for other CQL implementations to extend</p></dd>
 <dt><a href="#CassEntity">CassEntity</a> ⇐ <code><a href="#CassCql">CassCql</a></code></dt>
 <dd><p>Base class for CQL entities to extend</p></dd>
-<dt><a href="#CassException">CassException</a> ⇐ <code>Exception</code></dt>
-<dd><p>Extended Error classes for Casserole</p></dd>
 <dt><a href="#CassKeyspace">CassKeyspace</a> ⇐ <code><a href="#CassEntity">CassEntity</a></code></dt>
 <dd><p>Manage a Cassandra Keyspace</p></dd>
-<dt><a href="#CassMap">CassMap</a></dt>
-<dd><p>Base class for other CQL Map implementations to extend</p></dd>
 <dt><a href="#CassQuery">CassQuery</a> ⇐ <code><a href="#CassCql">CassCql</a></code></dt>
 <dd><p>Base class for versioned Query implementations to extend</p></dd>
 <dt><a href="#CassQuery_3_3">CassQuery_3_3</a> ⇐ <code><a href="#CassQuery">CassQuery</a></code></dt>
@@ -19,18 +15,12 @@
 <dd></dd>
 <dt><a href="#CassTable">CassTable</a> ⇐ <code><a href="#CassEntity">CassEntity</a></code></dt>
 <dd><p>Covers all operations to a table, like CREATE and ALTER</p></dd>
-<dt><a href="#CassType">CassType</a></dt>
-<dd><p>Manage Custom Cassandra Types</p></dd>
 <dt><a href="#Client">Client</a></dt>
 <dd><p>Client for apps to interact with Cassandra</p></dd>
 <dt><a href="#Model">Model</a></dt>
 <dd><p>Model for apps to work with</p></dd>
-<dt><a href="#ModelStore">ModelStore</a></dt>
-<dd><p>A Model Storage area to make setup easier</p></dd>
 <dt><a href="#Paramaters">Paramaters</a></dt>
 <dd><p>Paramaters for other classes to import</p></dd>
-<dt><a href="#Schema">Schema</a></dt>
-<dd><p>Schema for apps to build into Models</p></dd>
 <dt><a href="#Util">Util</a></dt>
 <dd><p>Utility class, templating and CQL maps</p></dd>
 </dl>
@@ -54,8 +44,10 @@
 <a name="CassCql.withOptions"></a>
 
 ### CassCql.withOptions()
-<p>Create an options string, </p>
-<pre class="prettyprint source"><code>whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`</code></pre><p>ID = 'uppercase'
+<p>Create an options string,</p>
+<pre class="prettyprint source"><code>whatever = { 'some' : 'cqlvalues' } AND other = 'cqlValue'`
+</code></pre>
+<p>ID = 'uppercase'
 CDC = TRUE</p>
 
 **Kind**: static method of [<code>CassCql</code>](#CassCql)  
@@ -72,29 +64,6 @@ CDC = TRUE</p>
 
 * * *
 
-<a name="CassException"></a>
-
-## CassException ⇐ <code>Exception</code>
-<p>Extended Error classes for Casserole</p>
-
-**Kind**: global class  
-**Extends**: <code>Exception</code>  
-
-* * *
-
-<a name="new_CassException_new"></a>
-
-### new exports.CassException(message, metadata)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| message | <code>String</code> | <p>Standard Error message</p> |
-| metadata | <code>Object</code> | <p>-</p> |
-| metadata.details | <code>Object</code> | <p>Store more error details for the humans                                   Single level objects are ok and should be presented to                                    the user as such.</p> |
-
-
-* * *
-
 <a name="CassKeyspace"></a>
 
 ## CassKeyspace ⇐ [<code>CassEntity</code>](#CassEntity)
@@ -102,144 +71,6 @@ CDC = TRUE</p>
 
 **Kind**: global class  
 **Extends**: [<code>CassEntity</code>](#CassEntity)  
-
-* * *
-
-<a name="CassMap"></a>
-
-## CassMap
-<p>Base class for other CQL Map implementations to extend</p>
-
-**Kind**: global class  
-
-* [CassMap](#CassMap)
-    * [new exports.CassMap(data, options)](#new_CassMap_new)
-    * _instance_
-        * [.name](#CassMap+name) : <code>String</code>
-        * [.data](#CassMap+data) : <code>Object</code>
-        * [.toCqlMap()](#CassMap+toCqlMap) ⇒ <code>String</code>
-        * [.toCqlWith()](#CassMap+toCqlWith) ⇒ <code>String</code>
-        * [.get(Name)](#CassMap+get) ⇒
-        * [.set()](#CassMap+set)
-        * [.add()](#CassMap+add)
-        * [.delete()](#CassMap+delete)
-    * _static_
-        * [.template](#CassMap.template) : <code>function</code>
-        * [.toCqlMap](#CassMap.toCqlMap) : <code>function</code>
-
-
-* * *
-
-<a name="new_CassMap_new"></a>
-
-### new exports.CassMap(data, options)
-<p>new CassMap</p>
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>Object</code> | <p>JS Data to build the map from</p> |
-| options | <code>Object</code> |  |
-| options.name | <code>String</code> | <p>Name of the map data</p> |
-
-
-* * *
-
-<a name="CassMap+name"></a>
-
-### cassMap.name : <code>String</code>
-<p>The name of the CQL Map, usually a paramater name before the Map data</p>
-
-**Kind**: instance property of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap+data"></a>
-
-### cassMap.data : <code>Object</code>
-<p>Data is where the map is stored</p>
-
-**Kind**: instance property of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap+toCqlMap"></a>
-
-### cassMap.toCqlMap() ⇒ <code>String</code>
-<p>Convert data to a CQL Map</p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-**Returns**: <code>String</code> - <p>Data as a CQL Map</p>  
-
-* * *
-
-<a name="CassMap+toCqlWith"></a>
-
-### cassMap.toCqlWith() ⇒ <code>String</code>
-<p>Convert to CQL with <code>name = {}</code></p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-**Returns**: <code>String</code> - <p>Name = data as a CQL Map</p>  
-
-* * *
-
-<a name="CassMap+get"></a>
-
-### cassMap.get(Name) ⇒
-<p>Get map data for a field</p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-**Returns**: <p>Field definition</p>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| Name | <code>String</code> | <p>of field to retrieve</p> |
-
-
-* * *
-
-<a name="CassMap+set"></a>
-
-### cassMap.set()
-<p>Set map data</p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap+add"></a>
-
-### cassMap.add()
-<p>Add new data</p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap+delete"></a>
-
-### cassMap.delete()
-<p>Delete map data</p>
-
-**Kind**: instance method of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap.template"></a>
-
-### CassMap.template : <code>function</code>
-<p>Template string parsing and replacing</p>
-
-**Kind**: static property of [<code>CassMap</code>](#CassMap)  
-
-* * *
-
-<a name="CassMap.toCqlMap"></a>
-
-### CassMap.toCqlMap : <code>function</code>
-<p>Map values to a CQL Map</p>
-
-**Kind**: static property of [<code>CassMap</code>](#CassMap)  
 
 * * *
 
@@ -296,8 +127,9 @@ CDC = TRUE</p>
 <a name="CassQuery_3_3+select"></a>
 
 ### cassQuery_3_3.select(table, columns, where) ⇒ [<code>CassQuery</code>](#CassQuery)
-<p>Build a select query </p>
-<pre class="prettyprint source"><code>select(table_name, columns_array, where_fields)</code></pre>
+<p>Build a select query</p>
+<pre class="prettyprint source"><code>select(table_name, columns_array, where_fields)
+</code></pre>
 
 **Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
@@ -313,8 +145,9 @@ CDC = TRUE</p>
 <a name="CassQuery_3_3+insert"></a>
 
 ### cassQuery_3_3.insert(table, values) ⇒ [<code>CassQuery</code>](#CassQuery)
-<p>Build an insert query </p>
-<pre class="prettyprint source"><code>insert(table_name, fields_values)</code></pre>
+<p>Build an insert query</p>
+<pre class="prettyprint source"><code>insert(table_name, fields_values)
+</code></pre>
 
 **Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
@@ -329,8 +162,9 @@ CDC = TRUE</p>
 <a name="CassQuery_3_3+update"></a>
 
 ### cassQuery_3_3.update(table, set, where) ⇒ [<code>CassQuery</code>](#CassQuery)
-<p>Build an update query </p>
-<pre class="prettyprint source"><code>update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })</code></pre>
+<p>Build an update query</p>
+<pre class="prettyprint source"><code>update('table_name', { column: 'new_value' }, { id: 'equals_some_id' })
+</code></pre>
 
 **Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
@@ -346,8 +180,9 @@ CDC = TRUE</p>
 <a name="CassQuery_3_3+delete"></a>
 
 ### cassQuery_3_3.delete(table, where) ⇒ [<code>CassQuery</code>](#CassQuery)
-<p>Build a delete query </p>
-<pre class="prettyprint source"><code>delete(table_name, { id: 'equals_some_id' })</code></pre>
+<p>Build a delete query</p>
+<pre class="prettyprint source"><code>delete(table_name, { id: 'equals_some_id' })
+</code></pre>
 
 **Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 
@@ -408,8 +243,8 @@ CDC = TRUE</p>
 <a name="CassQuery_3_3+where"></a>
 
 ### cassQuery_3_3.where(param) ⇒ [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)
-<p>Supply a string to start setting up a chain for a field. 
-             Supply an object to setup a simple <code>field = value</code> clause.</p>
+<p>Supply a string to start setting up a chain for a field.
+Supply an object to setup a simple <code>field = value</code> clause.</p>
 
 **Kind**: instance method of [<code>CassQuery\_3\_3</code>](#CassQuery_3_3)  
 **Summary**: <p>Setup a WHERE clause</p>  
@@ -430,6 +265,10 @@ CDC = TRUE</p>
 
 * [CassReplicationStrategy](#CassReplicationStrategy) ⇐ [<code>CassMap</code>](#CassMap)
     * [new CassReplicationStrategy(replication_class, data)](#new_CassReplicationStrategy_new)
+    * [.CassMap](#CassMap)
+        * [new exports.CassMap(data, options)](#new_CassReplicationStrategyCassMap_new)
+    * [.CassMap](#CassMap)
+        * [new exports.CassMap(data, options)](#new_CassReplicationStrategyCassReplicationStrategyCassMap_new)
     * [.name](#CassMap+name) : <code>String</code>
     * [.data](#CassMap+data) : <code>Object</code>
     * [.toCqlMap()](#CassMap+toCqlMap) ⇒ <code>String</code>
@@ -445,12 +284,7 @@ CDC = TRUE</p>
 <a name="new_CassReplicationStrategy_new"></a>
 
 ### new CassReplicationStrategy(replication_class, data)
-<ul>
-<li><a href="https://cassandra.apache.org/doc/latest/architecture/dynamo.html#replication-strategy">Architecture</a><ul>
-<li><a href="https://docs.datastax.com/en/cassandra/3.0/cassandra/operations/opsChangeKSStrategy.html">Alerting replication strategy</a></li>
-</ul>
-</li>
-</ul>
+<p>new CassReplicationStrategy</p>
 
 
 | Param | Type | Description |
@@ -461,12 +295,61 @@ CDC = TRUE</p>
 
 * * *
 
+<a name="CassMap"></a>
+
+### cassReplicationStrategy.CassMap
+<p>Base class for other CQL Map implementations to extend</p>
+
+**Kind**: instance class of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="new_CassReplicationStrategyCassMap_new"></a>
+
+#### new exports.CassMap(data, options)
+<p>new CassMap</p>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Object</code> | <p>JS Data to build the map from</p> |
+| options | <code>Object</code> |  |
+| options.name | <code>String</code> | <p>Name of the map data</p> |
+
+
+* * *
+
+<a name="CassMap"></a>
+
+### cassReplicationStrategy.CassMap
+<p>Base class for other CQL Map implementations to extend</p>
+
+**Kind**: instance class of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+
+* * *
+
+<a name="new_CassReplicationStrategyCassReplicationStrategyCassMap_new"></a>
+
+#### new exports.CassMap(data, options)
+<p>new CassMap</p>
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Object</code> | <p>JS Data to build the map from</p> |
+| options | <code>Object</code> |  |
+| options.name | <code>String</code> | <p>Name of the map data</p> |
+
+
+* * *
+
 <a name="CassMap+name"></a>
 
 ### cassReplicationStrategy.name : <code>String</code>
 <p>The name of the CQL Map, usually a paramater name before the Map data</p>
 
 **Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>name</code>](#CassMap+name)  
 
 * * *
 
@@ -476,6 +359,7 @@ CDC = TRUE</p>
 <p>Data is where the map is stored</p>
 
 **Kind**: instance property of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>data</code>](#CassMap+data)  
 
 * * *
 
@@ -485,6 +369,7 @@ CDC = TRUE</p>
 <p>Convert data to a CQL Map</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>toCqlMap</code>](#CassMap+toCqlMap)  
 **Returns**: <code>String</code> - <p>Data as a CQL Map</p>  
 
 * * *
@@ -495,6 +380,7 @@ CDC = TRUE</p>
 <p>Convert to CQL with <code>name = {}</code></p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>toCqlWith</code>](#CassMap+toCqlWith)  
 **Returns**: <code>String</code> - <p>Name = data as a CQL Map</p>  
 
 * * *
@@ -505,6 +391,7 @@ CDC = TRUE</p>
 <p>Get map data for a field</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>get</code>](#CassMap+get)  
 **Returns**: <p>Field definition</p>  
 
 | Param | Type | Description |
@@ -520,6 +407,7 @@ CDC = TRUE</p>
 <p>Set map data</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>set</code>](#CassMap+set)  
 
 * * *
 
@@ -529,6 +417,7 @@ CDC = TRUE</p>
 <p>Add new data</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>add</code>](#CassMap+add)  
 
 * * *
 
@@ -538,6 +427,7 @@ CDC = TRUE</p>
 <p>Delete map data</p>
 
 **Kind**: instance method of [<code>CassReplicationStrategy</code>](#CassReplicationStrategy)  
+**Overrides**: [<code>delete</code>](#CassMap+delete)  
 
 * * *
 
@@ -567,100 +457,6 @@ CDC = TRUE</p>
 | options.replication | <code>object</code> | <p>Replication options for the table</p> |
 | options.durable | <code>Boolean</code> | <p>Turn Durable on/off</p> |
 
-
-* * *
-
-<a name="CassType"></a>
-
-## CassType
-<p>Manage Custom Cassandra Types</p>
-
-**Kind**: global class  
-
-* [CassType](#CassType)
-    * [new exports.CassType(name, fields)](#new_CassType_new)
-    * _instance_
-        * [.addField()](#CassType+addField) ⇒
-    * _static_
-        * [._classInit()](#CassType._classInit)
-        * [.toCqlDrop()](#CassType.toCqlDrop)
-        * [.toCqlAlter()](#CassType.toCqlAlter)
-        * [.toCqlCreate()](#CassType.toCqlCreate)
-
-
-* * *
-
-<a name="new_CassType_new"></a>
-
-### new exports.CassType(name, fields)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | <p>Name of Type</p> |
-| fields | <code>Object</code> | <p>Field definitions for Type</p> |
-
-
-* * *
-
-<a name="CassType+addField"></a>
-
-### cassType.addField() ⇒
-<p>Add a field to the Type</p>
-
-**Kind**: instance method of [<code>CassType</code>](#CassType)  
-**Returns**: <p>this</p>  
-**Params**: <code>String</code> field       - Name of the field to add  
-**Params**: <code>Object</code> fields      - Definitions of the field to add  
-
-* * *
-
-<a name="CassType._classInit"></a>
-
-### CassType.\_classInit()
-**Kind**: static method of [<code>CassType</code>](#CassType)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| noun | <code>string</code> | <p>Set a generic prefix var, so users can subclass in the                                    their app (see [ClassDebug.extend](ClassDebug.extend))</p> |
-| drop_cql | <code>string</code> | <p>CQL to DROP a TYPE</p> |
-| create_cql | <code>string</code> | <p>CQL to CREATE a TYPE</p> |
-| create_fields_cql | <code>string</code> | <p>CQL setup a field in CREATE</p> |
-
-
-* * *
-
-<a name="CassType.toCqlDrop"></a>
-
-### CassType.toCqlDrop()
-<p>Create a CQL <code>DROP TYPE</code> string</p>
-
-**Kind**: static method of [<code>CassType</code>](#CassType)  
-**Params**: <code>String</code> name - Name of the TYPE to drop  
-
-* * *
-
-<a name="CassType.toCqlAlter"></a>
-
-### CassType.toCqlAlter()
-<p>Create a CQL <code>ALTER TYPE</code> string</p>
-
-**Kind**: static method of [<code>CassType</code>](#CassType)  
-**Params**: <code>String</code> name - Name of the TYPE to drop  
-
-* * *
-
-<a name="CassType.toCqlCreate"></a>
-
-### CassType.toCqlCreate()
-<p>Create a CQL <code>CREATE TYPE</code> string</p>
-
-**Kind**: static method of [<code>CassType</code>](#CassType)  
-**Params**: <code>String</code> name             - Name of the TYPE to create  
-**Params**: <code>Object</code> fields           - Field definitions to add to the TYPE  
-**Params**: <code>Object</code> options          - Options to pass to CQL  
-**Params**: <code>Boolean</code> options.exists  - Add exists clause  
-**Params**: <code>String</code> options.keyspace - Set the keyspace to use  
 
 * * *
 
@@ -1175,76 +971,6 @@ Defaults to <code>Model.model_store</code></p>
 
 * * *
 
-<a name="ModelStore"></a>
-
-## ModelStore
-<p>A Model Storage area to make setup easier</p>
-
-**Kind**: global class  
-
-* [ModelStore](#ModelStore)
-    * [new exports.ModelStore(label, options)](#new_ModelStore_new)
-    * _instance_
-        * [.add()](#ModelStore+add)
-        * [.get()](#ModelStore+get)
-        * [.sync()](#ModelStore+sync)
-    * _static_
-        * [.default_store](#ModelStore.default_store) : [<code>ModelStore</code>](#ModelStore)
-
-
-* * *
-
-<a name="new_ModelStore_new"></a>
-
-### new exports.ModelStore(label, options)
-<p>new ModelStore</p>
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| label | <code>String</code> | <p>required         - Label for the store</p> |
-| options | <code>Object</code> | <p>Metadata for the Model instance</p> |
-| options.models | <code>Array</code> \| <code>Object</code> | <p>Collection of models to add</p> |
-
-
-* * *
-
-<a name="ModelStore+add"></a>
-
-### modelStore.add()
-<p>Add a model to the store</p>
-
-**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
-
-* * *
-
-<a name="ModelStore+get"></a>
-
-### modelStore.get()
-<p>Get a model by name</p>
-
-**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
-
-* * *
-
-<a name="ModelStore+sync"></a>
-
-### modelStore.sync()
-<p>Sync all table definitions to cassandra</p>
-
-**Kind**: instance method of [<code>ModelStore</code>](#ModelStore)  
-
-* * *
-
-<a name="ModelStore.default_store"></a>
-
-### ModelStore.default\_store : [<code>ModelStore</code>](#ModelStore)
-<p>A Module singleton default store</p>
-
-**Kind**: static property of [<code>ModelStore</code>](#ModelStore)  
-
-* * *
-
 <a name="Paramaters"></a>
 
 ## Paramaters
@@ -1298,167 +1024,6 @@ Defaults to <code>Model.model_store</code></p>
 | --- | --- | --- |
 | type_name | <code>String</code> | <p>Name of the data type to check</p> |
 
-
-* * *
-
-<a name="Schema"></a>
-
-## Schema
-<p>Schema for apps to build into Models</p>
-
-**Kind**: global class  
-
-* [Schema](#Schema)
-    * [new exports.Schema(config)](#new_Schema_new)
-    * _instance_
-        * [.debug](#Schema+debug) : <code>function</code>
-        * [.data_types](#Schema+data_types) : <code>Array</code>
-        * [.dates](#Schema+dates) : <code>Boolean</code>
-        * [.soft_delete](#Schema+soft_delete) : <code>Boolean</code>
-        * [.config](#Schema+config) : <code>Object</code>
-        * [.primary_keys](#Schema+primary_keys) : <code>Array</code>
-        * [.column_types](#Schema+column_types) : <code>Array</code>
-        * [.columns](#Schema+columns) : <code>Object</code>
-        * [.forEach(fn)](#Schema+forEach)
-    * _static_
-        * [.debug](#Schema.debug) : <code>function</code>
-        * [.reserved_fields](#Schema.reserved_fields) : <code>Array</code>
-        * [.warning_fields](#Schema.warning_fields) : <code>Array</code>
-        * [.data_types](#Schema.data_types) : <code>Array</code>
-
-
-* * *
-
-<a name="new_Schema_new"></a>
-
-### new exports.Schema(config)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> | <p>The Schema config object <code>{ field: { type: 'x' }</code></p> |
-
-
-* * *
-
-<a name="Schema+debug"></a>
-
-### schema.debug : <code>function</code>
-<p>A <code>debug</code> instance for the class instance</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+data_types"></a>
-
-### schema.data\_types : <code>Array</code>
-<p>Cassandra data types from datastax driver</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+dates"></a>
-
-### schema.dates : <code>Boolean</code>
-<p>Schema adds created/modified data handlers</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+soft_delete"></a>
-
-### schema.soft\_delete : <code>Boolean</code>
-<p>Schema track deletes rathe than deleting data</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+config"></a>
-
-### schema.config : <code>Object</code>
-<p>The schemas config object</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+primary_keys"></a>
-
-### schema.primary\_keys : <code>Array</code>
-<p>All primary keys for the schema</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+column_types"></a>
-
-### schema.column\_types : <code>Array</code>
-<p>All columns in an array</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+columns"></a>
-
-### schema.columns : <code>Object</code>
-<p>All columns types, keyed by name</p>
-
-**Kind**: instance property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema+forEach"></a>
-
-### schema.forEach(fn)
-<p>Run a function for each schema config item</p>
-
-**Kind**: instance method of [<code>Schema</code>](#Schema)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | <p>The function to run</p> |
-
-
-* * *
-
-<a name="Schema.debug"></a>
-
-### Schema.debug : <code>function</code>
-<p>A <code>debug</code> instance for the class</p>
-
-**Kind**: static property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema.reserved_fields"></a>
-
-### Schema.reserved\_fields : <code>Array</code>
-<p>Model field names that are not allowed</p>
-
-**Kind**: static property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema.warning_fields"></a>
-
-### Schema.warning\_fields : <code>Array</code>
-<p>Model field names that generate a warning</p>
-
-**Kind**: static property of [<code>Schema</code>](#Schema)  
-
-* * *
-
-<a name="Schema.data_types"></a>
-
-### Schema.data\_types : <code>Array</code>
-<p>Cassandra data types from datastax driver</p>
-
-**Kind**: static property of [<code>Schema</code>](#Schema)  
 
 * * *
 
