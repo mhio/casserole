@@ -67,7 +67,7 @@
   "dependencies": {
     "@mhio/exception": "~0.2.1",
     "bluebird": "^3.5.0",
-    "cassandra-driver": "4.3.1",
+    "cassandra-driver": "4.4.0",
     "lodash": "^4.17.5",
     "pluralize": "~8.0.0"
   },
